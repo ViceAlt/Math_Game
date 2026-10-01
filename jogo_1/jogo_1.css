@@ -26,6 +26,23 @@ body {
     --Bg-color: #f0f0f0;
 }
 
+.barra-progresso-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background-color: #e0e0e0;
+    z-index: 1000;
+}
+
+.barra-progresso {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease-out;
+}
+
 .mesa {
     position: fixed;
     bottom: 0;

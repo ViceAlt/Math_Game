@@ -4,33 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="description" content="Jogo de Frações com Pizza - Math Game">
+    <title>Frações com Pizza | Math Game</title>
     <link rel="stylesheet" href="jogo_1.css">
 </head>
 
 <body>
+    <header class="barra-progresso-container">
+        <div class="barra-progresso" id="barra-progresso"></div>
+    </header>
     <div class="mesa"></div>
     <div class="pizzas-area" id="pizzasArea"></div>
     <div>
-            <a href="../Initi_Page/index.html"><button>Sair</button></a>
+        <button id="btn-sair-jogo" onclick="voltarPaginaAnterior()">Sair</button>
     </div>
     <div class="flex-box">
         <div class="pergunta_div">
             <text>Deixe a pizza na fração equivalente a:</text>
             <div class="fracao_div">
-                <p class="pergunta">
+                <p class="pergunta" id="pergunta-texto">
                     1/2
                 </p>
             </div>
             <div class="button_position">
-                <button class="confirmar" onclick="onDecay()">Confirmar</button>
+                <button class="confirmar" id="btn-confirmar" onclick="onDecay()">Confirmar</button>
             </div>
         </div>
         <div class="button_position">
-            <button class="dica">Dica</button>
+            <button class="dica" id="btn-dica">Dica</button>
         </div>
     </div>
-    <button>Desfazer</button>
+    <button id="btn-desfazer" onclick="desfazerUltimaFatia()">Desfazer</button>
     <script src="jogo_1.js"></script>
 </body>
 </html>
