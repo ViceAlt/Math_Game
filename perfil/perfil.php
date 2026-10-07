@@ -5,7 +5,7 @@ $logado  = $usuario !== null;
 
 // Perfil requer login – redireciona visitantes
 if (!$logado) {
-    header('Location: login.php?redirect=perfil.php');
+    header('Location: ../login/login.php?redirect=../perfil/perfil.php');
     exit;
 }
 ?>
@@ -16,17 +16,17 @@ if (!$logado) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Perfil do usuário - Math Game">
     <title>Perfil | Math Game</title>
-    <link rel="stylesheet" href="Initi_Page/index.css">
+    <link rel="stylesheet" href="perfil.css">
 </head>
 <body>
 
     <nav class="sidebar" aria-label="Navegação principal">
         <ul>
-            <li><a href="home.php"><button type="button" id="nav-home">Home</button></a></li>
-            <li><a href="conteudos.php"><button type="button" id="nav-conteudos">Conteúdos</button></a></li>
-            <li><a href="jogos.php"><button type="button" id="nav-jogos">Jogos</button></a></li>
+            <li><a href="../home/home.php"><button type="button" id="nav-home">Home</button></a></li>
+            <li><a href="../conteudos/conteudos.php"><button type="button" id="nav-conteudos">Conteúdos</button></a></li>
+            <li><a href="../jogos/jogos.php"><button type="button" id="nav-jogos">Jogos</button></a></li>
             <li><a href="perfil.php" aria-current="page"><button type="button" id="nav-perfil">Perfil</button></a></li>
-            <li><a href="configuracoes.php"><button type="button" id="nav-configuracoes">Configurações</button></a></li>
+            <li><a href="../configuracoes/configuracoes.php"><button type="button" id="nav-configuracoes">Configurações</button></a></li>
         </ul>
     </nav>
 

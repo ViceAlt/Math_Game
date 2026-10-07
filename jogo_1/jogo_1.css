@@ -1,9 +1,4 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+/* jogo_1.css - Duolingo Style */
 @font-face {
     font-family: 'padrao';
     src: url('../fonts/inria-sans.regular.otf') format('opentype');
@@ -11,176 +6,278 @@
     font-style: normal;
 }
 
+:root {
+    --duo-green: #58cc02;
+    --duo-green-shadow: #46a302;
+    --duo-blue: #1cb0f6;
+    --duo-blue-shadow: #1899d6;
+    --duo-yellow: #ffc800;
+    --duo-yellow-shadow: #e5b200;
+    --duo-orange: #ff9600;
+    --duo-orange-shadow: #e58700;
+    --duo-red: #ff4b4b;
+    --duo-red-shadow: #ea2b2b;
+    
+    --bg-main: #f7f7f7;
+    --bg-card: #ffffff;
+    --text-main: #3c3c3c;
+    --text-muted: #777777;
+    --border-color: #e5e5e5;
+    --border-dark: #cecece;
+    
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+}
+
+body.tema-escuro {
+    --bg-main: #131f24;
+    --bg-card: #202f36;
+    --text-main: #f1f1f1;
+    --text-muted: #8496a0;
+    --border-color: #37464f;
+    --border-dark: #4b5d67;
+}
+
+body.daltonismo-protanopia { filter: contrast(1.1) saturate(0.9); }
+body.daltonismo-deuteranopia { filter: contrast(1.1) hue-rotate(10deg); }
+body.daltonismo-tritanopia { filter: contrast(1.1) hue-rotate(-10deg); }
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'padrao', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 body {
     width: 100vw;
-    /* 100% da largura da tela */
     height: 100vh;
-    /* 100% da altura da tela */
     overflow: hidden;
-    /* Segura a rolagem */
-    font-family: 'padrao', sans-serif;
-    /* Fonte geral da página */
+    background-color: var(--bg-main);
+    color: var(--text-main);
 }
 
-:root {
-    --Bg-color: #f0f0f0;
-}
-
+/* Progress Header Bar */
 .barra-progresso-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 15px;
-    background-color: #e0e0e0;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    height: 16px;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
     z-index: 1000;
 }
 
 .barra-progresso {
     height: 100%;
     width: 0%;
-    background-color: #4CAF50;
+    background-color: var(--duo-green);
+    border-radius: 10px;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
     transition: width 0.3s ease-out;
 }
 
 .mesa {
     position: fixed;
     bottom: 0;
-    height: 65%;
+    height: 100%;
     width: 100%;
-    background-color: #f0f0f0;
+    background-color: var(--bg-main);
     z-index: -1;
 }
 
+/* Exit Button (Top Left) */
+#btn-sair-jogo {
+    position: fixed;
+    top: 12px;
+    left: 25px;
+    background-color: var(--duo-red);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0.5rem 1.25rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    border-bottom: 4px solid var(--duo-red-shadow);
+    box-shadow: 0 4px 0 var(--duo-red-shadow);
+    cursor: pointer;
+    z-index: 1001;
+    transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+#btn-sair-jogo:hover {
+    filter: brightness(1.08);
+}
+
+#btn-sair-jogo:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 transparent;
+}
+
+/* Undo Button (Top Left next to exit) */
+#btn-desfazer {
+    position: fixed;
+    top: 12px;
+    left: 110px;
+    background-color: var(--bg-card);
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0.5rem 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    border-bottom: 4px solid var(--border-dark);
+    box-shadow: 0 4px 0 var(--border-color);
+    cursor: pointer;
+    z-index: 1001;
+    transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+#btn-desfazer:hover {
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--text-main);
+}
+
+body.tema-escuro #btn-desfazer:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+#btn-desfazer:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 transparent;
+}
+
+/* Question Box Card */
 .pergunta_div {
     position: fixed;
-    top: 120px;
-    /* Gruda no topo da tela */
-    right: 20px;
-    /* Gruda na lateral direita */
-    width: 300px;
-    /* Largura da DIV */
-    height: 420px;
-    /* Altura da DIV */
-    background-color: blue;
-    /* Cor de fundo da DIV */
-    border-radius: 10px;
-    /* Curvatura da borda da DIV */
-    border: 3px solid Black;
-    /* Cor e grossura da borda da DIV */
+    top: 100px;
+    right: 40px;
+    width: 320px;
+    height: 440px;
+    background-color: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-bottom: 6px solid var(--border-dark);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 0 var(--border-color);
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    font-size: 25px;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 700;
     text-align: center;
-    /* Alinha o texto no centro da DIV */
-    padding: 20px;
-    padding-top: 30px;
-    /* Margem interna da DIV */
+    padding: 2rem 1.5rem;
+    color: var(--text-main);
 }
 
 .fracao_div {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    background-color: white;
-    margin-top: 20px;
-    margin-left: 50px;
-    width: 150px;
+    background-color: rgba(28, 176, 246, 0.1);
+    border: 2px solid var(--duo-blue);
+    border-bottom: 4px solid var(--duo-blue-shadow);
+    border-radius: var(--radius-md);
+    width: 180px;
     height: 110px;
-    text-align: center;
-    border-radius: 15px;
-    border: 2px solid black;
-    cursor: default;
+    margin: 1rem 0;
+    box-shadow: 0 4px 0 rgba(28, 176, 246, 0.15);
 }
 
 .pergunta {
-    font-size: 30px;
-    transition: transform 0.3s ease;
-
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--duo-blue);
+    transition: transform 0.2s ease;
 }
 
 .pergunta:hover {
-    transform: scale(1.50);
+    transform: scale(1.15);
 }
 
 .button_position {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .confirmar {
-    position: absolute;
-    bottom: 20px;
-    width: 240px;
-    height: 40px;
-    border-radius: 15px;
-    border: 2px solid black;
+    width: 100%;
+    height: 48px;
+    border-radius: var(--radius-md);
+    border: none;
+    border-bottom: 4px solid var(--duo-green-shadow);
+    box-shadow: 0 4px 0 var(--duo-green-shadow);
     text-align: center;
-    font-size: 20px;
-    font-family: 'padrao', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
     cursor: pointer;
-    background-color: white;
-
+    background-color: var(--duo-green);
+    color: #ffffff;
+    transition: filter 0.15s ease, transform 0.1s ease;
 }
 
 .confirmar:hover {
-    background-color: blue;
+    filter: brightness(1.08);
 }
 
-.flex-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+.confirmar:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 transparent;
 }
 
+/* Hint Button */
 .dica {
-    position: absolute;
-    right: 50px;
-    top: 570px;
-    width: 240px;
-    height: 40px;
-    border-radius: 15px;
-    border: 2px solid black;
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    width: 320px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    border: none;
+    border-bottom: 4px solid var(--duo-yellow-shadow);
+    box-shadow: 0 4px 0 var(--duo-yellow-shadow);
     text-align: center;
-    font-size: 20px;
-    font-family: 'padrao', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
     cursor: pointer;
-    background-color: white;
-
-}
-
-.sair {
-    position: absolute;
-    right: 50px;
-    bottom: 570px;
-    width: 240px;
-    height: 40px;
-    border-radius: 15px;
-    border: 2px solid black;
-    text-align: center;
-    font-size: 20px;
-    font-family: 'padrao', sans-serif;
-    cursor: pointer;
-    background-color: white;
-
+    background-color: var(--duo-yellow);
+    color: #ffffff;
+    transition: filter 0.15s ease, transform 0.1s ease;
 }
 
 .dica:hover {
-    background-color: blue;
+    filter: brightness(1.08);
 }
 
-/* Área Visual da Pizza */
+.dica:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 transparent;
+}
+
+/* Pizza Visual Area */
 .pizzas-area {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
-    margin-top: 17%;
+    margin-top: 100px;
+    margin-right: 360px;
     min-height: 280px;
     align-items: center;
 }
@@ -189,7 +286,7 @@ body {
     position: relative;
     width: 420px;
     height: 420px;
-    filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.12));
 }
 
 svg.pizza {
@@ -198,19 +295,23 @@ svg.pizza {
     overflow: visible;
 }
 
-/* O grupo .slice agrupa borda, queijo e peperonis */
+/* Plate Adaptation in Dark Mode */
+body.tema-escuro .pizza circle:first-child {
+    fill: #273742;
+    stroke: #37464f;
+}
+
 .slice {
     cursor: pointer;
-    transition: opacity 0.25s ease, transform 0.2s ease;
+    transition: opacity 0.25s ease, transform 0.2s ease, filter 0.2s ease;
     transform-origin: 130px 130px;
 }
 
 .slice:hover {
-    filter: brightness(1.08);
-    transform: scale(1.03);
+    filter: brightness(1.12);
+    transform: scale(1.04);
 }
 
-/* Quando devorado, todo o grupo (incluindo a borda) desaparece */
 .slice.eaten {
     opacity: 0;
     pointer-events: none;

@@ -40,7 +40,7 @@ try {
     // Indexa por fase_id para facilitar o consumo no JS
     $progresso = [];
     foreach ($rows as $row) {
-        $progresso[$row['fase_id']] = [
+        $item = [
             'pontuacao_max' => (int)  $row['pontuacao_max'],
             'estrelas'      => (int)  $row['estrelas'],
             'desbloqueado'  => (bool) $row['desbloqueado'],
@@ -48,6 +48,9 @@ try {
             'ano_letivo'    => (int)  $row['ano_letivo'],
             'numero_fase'   => (int)  $row['numero_fase'],
         ];
+        $progresso[$row['fase_id']] = $item;
+        $chaveStr = "ano_{$row['ano_letivo']}_fase_{$row['numero_fase']}";
+        $progresso[$chaveStr] = $item;
     }
 
     echo json_encode(['ok' => true, 'progresso' => $progresso]);

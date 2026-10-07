@@ -27,7 +27,7 @@ function request($url, $method = 'GET', $data = []) {
         ]
     ];
     $context  = stream_context_create($options);
-    $result = file_get_contents("http://localhost/GitHub/Math_Game/" . $url, false, $context);
+    $result = file_get_contents("http://localhost/Math_Game/" . $url, false, $context);
     
     // extrai http code
     preg_match('{HTTP\/\S*\s(\d{3})}', $http_response_header[0], $match);

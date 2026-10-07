@@ -14,9 +14,9 @@ async function handleCadastro(e) {
     limparErros();
 
     const username = document.getElementById('cadastro-username').value.trim();
-    const email    = document.getElementById('cadastro-email').value.trim();
-    const senha    = document.getElementById('cadastro-senha').value;
-    const redirect = document.getElementById('redirect-url').value || 'home.php';
+    const email = document.getElementById('cadastro-email').value.trim();
+    const senha = document.getElementById('cadastro-senha').value;
+    const redirect = document.getElementById('redirect-url').value || '../home/home.php';
 
     // Disable button to prevent double submit
     const btnSubmit = document.getElementById('btn-cadastrar');
@@ -24,7 +24,7 @@ async function handleCadastro(e) {
     btnSubmit.textContent = 'Criando conta...';
 
     try {
-        const resposta = await fetch('api/auth/register.php', {
+        const resposta = await fetch('../api/auth/register.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, senha })
@@ -38,8 +38,8 @@ async function handleCadastro(e) {
             if (data.erros) {
                 // Erros de validação
                 if (data.erros.username) exibirErro('erro-username', data.erros.username);
-                if (data.erros.email)    exibirErro('erro-email', data.erros.email);
-                if (data.erros.senha)    exibirErro('erro-senha', data.erros.senha);
+                if (data.erros.email) exibirErro('erro-email', data.erros.email);
+                if (data.erros.senha) exibirErro('erro-senha', data.erros.senha);
             } else if (data.erro) {
                 exibirErro('erro-geral', data.erro);
             } else {

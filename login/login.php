@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (!empty($_SESSION['usuario'])) {
-    header('Location: home.php');
+    header('Location: ../home/home.php');
     exit;
 }
-$redirect = htmlspecialchars($_GET['redirect'] ?? 'home.php');
+$redirect = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,7 +13,7 @@ $redirect = htmlspecialchars($_GET['redirect'] ?? 'home.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Acesse sua conta na plataforma Math Game">
     <title>Login | Math Game</title>
-    <link rel="stylesheet" href="Initi_Page/index.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
@@ -46,7 +46,7 @@ $redirect = htmlspecialchars($_GET['redirect'] ?? 'home.php');
             <button type="submit" id="btn-entrar">Entrar</button>
         </form>
 
-        <p>Não tem uma conta? <a href="cadastro.php" id="link-ir-cadastro">Crie uma agora</a></p>
+        <p>Não tem uma conta? <a href="../cadastro/cadastro.php" id="link-ir-cadastro">Crie uma agora</a></p>
     </main>
 
     <script src="login.js"></script>

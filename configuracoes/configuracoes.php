@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Configurações de acessibilidade e aparência - Math Game">
     <title>Configurações | Math Game</title>
-    <link rel="stylesheet" href="Initi_Page/index.css">
+    <link rel="stylesheet" href="configuracoes.css">
 </head>
 <body>
 
     <nav class="sidebar" aria-label="Navegação principal">
         <ul>
-            <li><a href="home.php"><button type="button" id="nav-home">Home</button></a></li>
-            <li><a href="conteudos.php"><button type="button" id="nav-conteudos">Conteúdos</button></a></li>
-            <li><a href="jogos.php"><button type="button" id="nav-jogos">Jogos</button></a></li>
+            <li><a href="../home/home.php"><button type="button" id="nav-home">Home</button></a></li>
+            <li><a href="../conteudos/conteudos.php"><button type="button" id="nav-conteudos">Conteúdos</button></a></li>
+            <li><a href="../jogos/jogos.php"><button type="button" id="nav-jogos">Jogos</button></a></li>
             <li><button type="button" id="nav-perfil" onclick="navegarPerfil()">Perfil</button></li>
             <li><a href="configuracoes.php" aria-current="page"><button type="button" id="nav-configuracoes">Configurações</button></a></li>
         </ul>
@@ -53,8 +53,8 @@
             <h2 id="modal-login-titulo">Acesso restrito</h2>
             <p>Faça login para ver seu perfil.</p>
             <footer>
-                <a href="login.php"><button type="button" id="btn-ir-login">Fazer Login</button></a>
-                <a href="cadastro.php"><button type="button" id="btn-ir-cadastro">Criar Conta</button></a>
+                <a href="../login/login.php"><button type="button" id="btn-ir-login">Fazer Login</button></a>
+                <a href="../cadastro/cadastro.php"><button type="button" id="btn-ir-cadastro">Criar Conta</button></a>
                 <button type="button" id="btn-cancelar-login" onclick="fecharModalLogin()">Agora não</button>
             </footer>
         </article>

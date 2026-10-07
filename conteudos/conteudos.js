@@ -175,14 +175,14 @@ function iniciarFase() {
     localStorage.setItem('mg_params_jogo', JSON.stringify(params));
 
     fecharModalFase();
-    window.location.href = 'jogo_1/jogo_1.html';
+    window.location.href = '../jogo_1/jogo_1.html';
 }
 
 // ─── Modal de Login ───────────────────────────────────────────────────────────
 
 function navegarPerfil() {
     if (LOGADO) {
-        window.location.href = 'perfil.php';
+        window.location.href = '../perfil/perfil.php';
     } else {
         document.getElementById('modal-login-sugestao').showModal();
     }

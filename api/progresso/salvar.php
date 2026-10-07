@@ -67,6 +67,11 @@ try {
         $stmt->execute([$fase['ano_letivo'], $fase['numero_fase'] + 1]);
         $proxima = $stmt->fetch();
 
+        if (!$proxima && $fase['numero_fase'] >= 3) {
+            $stmt->execute([$fase['ano_letivo'] + 1, 1]);
+            $proxima = $stmt->fetch();
+        }
+
         if ($proxima) {
             $pdo->prepare(
                 'INSERT IGNORE INTO progresso_usuario (usuario_id, fase_id, desbloqueado)

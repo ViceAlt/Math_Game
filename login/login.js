@@ -15,14 +15,14 @@ async function handleLogin(e) {
 
     const username = document.getElementById('login-username').value.trim();
     const senha    = document.getElementById('login-senha').value;
-    const redirect = document.getElementById('redirect-url').value || 'home.php';
+    const redirect = document.getElementById('redirect-url').value || '../home/home.php';
 
     const btnSubmit = document.getElementById('btn-entrar');
     btnSubmit.disabled = true;
     btnSubmit.textContent = 'Entrando...';
 
     try {
-        const resposta = await fetch('api/auth/login.php', {
+        const resposta = await fetch('../api/auth/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, senha })

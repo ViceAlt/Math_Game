@@ -2,10 +2,10 @@
 session_start();
 // Se já logado, redireciona para home
 if (!empty($_SESSION['usuario'])) {
-    header('Location: home.php');
+    header('Location: ../home/home.php');
     exit;
 }
-$redirect = htmlspecialchars($_GET['redirect'] ?? 'home.php');
+$redirect = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -14,7 +14,7 @@ $redirect = htmlspecialchars($_GET['redirect'] ?? 'home.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Crie sua conta na plataforma Math Game">
     <title>Cadastro | Math Game</title>
-    <link rel="stylesheet" href="Initi_Page/index.css">
+    <link rel="stylesheet" href="cadastro.css">
 </head>
 <body>
 
@@ -56,7 +56,7 @@ $redirect = htmlspecialchars($_GET['redirect'] ?? 'home.php');
             <button type="submit" id="btn-cadastrar">Criar Conta</button>
         </form>
 
-        <p>Já tem uma conta? <a href="login.php" id="link-ir-login">Faça login</a></p>
+        <p>Já tem uma conta? <a href="../login/login.php" id="link-ir-login">Faça login</a></p>
     </main>
 
     <script src="cadastro.js"></script>

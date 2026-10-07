@@ -72,7 +72,15 @@ const FRACOES = {
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
+aplicarPreferenciasVisuais();
 iniciarJogo();
+
+function aplicarPreferenciasVisuais() {
+    const tema = localStorage.getItem('mg_tema');
+    const daltonismo = localStorage.getItem('mg_daltonismo');
+    if (tema === 'escuro') document.body.classList.add('tema-escuro');
+    if (daltonismo) document.body.classList.add(`daltonismo-${daltonismo}`);
+}
 
 function randomSort(arr) {
     return [...arr].sort(() => Math.random() - 0.5);
@@ -139,9 +147,9 @@ function atualizarUI() {
 function voltarPaginaAnterior() {
     const params = lerParams();
     if (params.modo === 'trilha') {
-        window.location.href = '../conteudos.php';
+        window.location.href = '../conteudos/conteudos.php';
     } else {
-        window.location.href = '../jogos.php';
+        window.location.href = '../jogos/jogos.php';
     }
 }
 

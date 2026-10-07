@@ -50,13 +50,13 @@ function calcularEstatisticas() {
 
 async function fazerLogout() {
     try {
-        await fetch('api/auth/logout.php', { method: 'POST' });
+        await fetch('../api/auth/logout.php', { method: 'POST' });
         localStorage.removeItem('mg_usuario');
         localStorage.removeItem('mg_progresso');
-        window.location.href = 'home.php';
+        window.location.href = '../home/home.php';
     } catch(e) {
         console.error('Erro ao fazer logout', e);
-        window.location.href = 'home.php';
+        window.location.href = '../home/home.php';
     }
 }
 

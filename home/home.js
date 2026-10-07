@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function carregarProgressoTrilhaHome() {
     try {
-        const res = await fetch('api/progresso/obter.php');
+        const res = await fetch('../api/progresso/obter.php');
         const data = await res.json();
         
         if (data.ok && data.progresso) {
@@ -62,7 +62,7 @@ async function carregarProgressoTrilhaHome() {
 
 function navegarPerfil() {
     if (LOGADO) {
-        window.location.href = 'perfil.php';
+        window.location.href = '../perfil/perfil.php';
     } else {
         abrirModal();
     }

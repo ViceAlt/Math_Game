@@ -54,14 +54,14 @@ function iniciarJogoLivre(jogoId) {
     // Registra último jogo acessado
     localStorage.setItem('mg_ultimo_jogo', `Jogo ${jogoId} (modo livre)`);
 
-    window.location.href = 'jogo_1/jogo_1.html';
+    window.location.href = '../jogo_1/jogo_1.html';
 }
 
 // ─── Navegação de Perfil ──────────────────────────────────────────────────────
 
 function navegarPerfil() {
     if (LOGADO) {
-        window.location.href = 'perfil.php';
+        window.location.href = '../perfil/perfil.php';
     } else {
         document.getElementById('modal-login-sugestao').showModal();
     }

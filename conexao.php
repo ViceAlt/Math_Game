@@ -5,7 +5,7 @@
  * Não exibe mensagens – lança exceção em caso de falha.
  */
 
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 define('DB_PORT', '3308');
 define('DB_NAME', 'math_game');
 define('DB_USER', 'root');
