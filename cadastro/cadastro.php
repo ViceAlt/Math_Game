@@ -1,11 +1,14 @@
 <?php
-session_start();
+require_once __DIR__ . '/../includes/sessao.php';
+require_once __DIR__ . '/../includes/csrf.php';
+sessao_iniciar();
 // Se já logado, redireciona para home
 if (!empty($_SESSION['usuario'])) {
     header('Location: ../home/home.php');
     exit;
 }
-$redirect = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
+$redirect  = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
+$csrfToken = csrf_gerar();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -14,7 +17,9 @@ $redirect = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Crie sua conta na plataforma Math Game">
     <title>Cadastro | Math Game</title>
+    <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="cadastro.css">
+    <script src="../tema.js"></script>
 </head>
 <body>
 
@@ -23,6 +28,7 @@ $redirect = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
 
         <form id="form-cadastro" novalidate aria-label="Formulário de cadastro">
             <input type="hidden" id="redirect-url" value="<?= $redirect ?>">
+            <input type="hidden" id="csrf-token" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>">
 
             <div class="form-group">
                 <label for="cadastro-username">Nome de usuário</label>
@@ -45,9 +51,9 @@ $redirect = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
             <div class="form-group">
                 <label for="cadastro-senha">Senha</label>
                 <input type="password" id="cadastro-senha" name="senha"
-                       autocomplete="new-password" required minlength="6"
+                       autocomplete="new-password" required minlength="8"
                        aria-required="true" aria-describedby="erro-senha"
-                       placeholder="Mínimo 6 caracteres">
+                       placeholder="Mínimo 8 caracteres">
                 <span class="erro" id="erro-senha" role="alert" aria-live="polite"></span>
             </div>
 

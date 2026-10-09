@@ -78,8 +78,10 @@ iniciarJogo();
 function aplicarPreferenciasVisuais() {
     const tema = localStorage.getItem('mg_tema');
     const daltonismo = localStorage.getItem('mg_daltonismo');
+    const tonalidade = localStorage.getItem('mg_tonalidade');
     if (tema === 'escuro') document.body.classList.add('tema-escuro');
     if (daltonismo) document.body.classList.add(`daltonismo-${daltonismo}`);
+    if (tonalidade && tonalidade !== 'padrao') document.body.classList.add(`tonalidade-${tonalidade}`);
 }
 
 function randomSort(arr) {

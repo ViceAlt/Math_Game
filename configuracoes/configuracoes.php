@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Configurações de acessibilidade e aparência - Math Game">
     <title>Configurações | Math Game</title>
+    <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="configuracoes.css">
+    <script src="../tema.js"></script>
 </head>
 <body>
 
@@ -30,6 +32,129 @@
                 <input type="checkbox" role="switch" id="toggle-tema"
                        aria-labelledby="label-tema"
                        onchange="alternarTema(this.checked)">
+            </div>
+
+            <div class="tonalidade-separador"></div>
+            <h3 id="titulo-tonalidade" class="tonalidade-titulo">Tonalidade</h3>
+            <p class="tonalidade-desc">Escolha a combinação de cores do site</p>
+
+            <div class="tonalidade-grid" role="radiogroup" aria-labelledby="titulo-tonalidade">
+
+                <!-- Padrão (Azul + Verde) -->
+                <button type="button" class="tonalidade-card" id="ton-padrao"
+                        role="radio" aria-checked="true" aria-label="Tonalidade Padrão"
+                        onclick="selecionarTonalidade('padrao')">
+                    <div class="mini-page mp-padrao">
+                        <div class="mp-sidebar">
+                            <div class="mp-nav-item"></div>
+                            <div class="mp-nav-item mp-nav-active"></div>
+                            <div class="mp-nav-item"></div>
+                        </div>
+                        <div class="mp-content">
+                            <div class="mp-header"></div>
+                            <div class="mp-cards">
+                                <div class="mp-card"></div>
+                                <div class="mp-card"></div>
+                            </div>
+                            <div class="mp-btn-primary"></div>
+                            <div class="mp-btn-secondary"></div>
+                        </div>
+                    </div>
+                    <span class="tonalidade-nome">Padrão</span>
+                </button>
+
+                <!-- Sunset (Laranja + Coral) -->
+                <button type="button" class="tonalidade-card" id="ton-sunset"
+                        role="radio" aria-checked="false" aria-label="Tonalidade Sunset"
+                        onclick="selecionarTonalidade('sunset')">
+                    <div class="mini-page mp-sunset">
+                        <div class="mp-sidebar">
+                            <div class="mp-nav-item"></div>
+                            <div class="mp-nav-item mp-nav-active"></div>
+                            <div class="mp-nav-item"></div>
+                        </div>
+                        <div class="mp-content">
+                            <div class="mp-header"></div>
+                            <div class="mp-cards">
+                                <div class="mp-card"></div>
+                                <div class="mp-card"></div>
+                            </div>
+                            <div class="mp-btn-primary"></div>
+                            <div class="mp-btn-secondary"></div>
+                        </div>
+                    </div>
+                    <span class="tonalidade-nome">Sunset</span>
+                </button>
+
+                <!-- Ocean (Teal + Menta) -->
+                <button type="button" class="tonalidade-card" id="ton-ocean"
+                        role="radio" aria-checked="false" aria-label="Tonalidade Ocean"
+                        onclick="selecionarTonalidade('ocean')">
+                    <div class="mini-page mp-ocean">
+                        <div class="mp-sidebar">
+                            <div class="mp-nav-item"></div>
+                            <div class="mp-nav-item mp-nav-active"></div>
+                            <div class="mp-nav-item"></div>
+                        </div>
+                        <div class="mp-content">
+                            <div class="mp-header"></div>
+                            <div class="mp-cards">
+                                <div class="mp-card"></div>
+                                <div class="mp-card"></div>
+                            </div>
+                            <div class="mp-btn-primary"></div>
+                            <div class="mp-btn-secondary"></div>
+                        </div>
+                    </div>
+                    <span class="tonalidade-nome">Ocean</span>
+                </button>
+
+                <!-- Earth (Âmbar + Terracota) -->
+                <button type="button" class="tonalidade-card" id="ton-earth"
+                        role="radio" aria-checked="false" aria-label="Tonalidade Earth"
+                        onclick="selecionarTonalidade('earth')">
+                    <div class="mini-page mp-earth">
+                        <div class="mp-sidebar">
+                            <div class="mp-nav-item"></div>
+                            <div class="mp-nav-item mp-nav-active"></div>
+                            <div class="mp-nav-item"></div>
+                        </div>
+                        <div class="mp-content">
+                            <div class="mp-header"></div>
+                            <div class="mp-cards">
+                                <div class="mp-card"></div>
+                                <div class="mp-card"></div>
+                            </div>
+                            <div class="mp-btn-primary"></div>
+                            <div class="mp-btn-secondary"></div>
+                        </div>
+                    </div>
+                    <span class="tonalidade-nome">Earth</span>
+                </button>
+
+                <!-- Berry (Cereja + Rosa quente) -->
+                <button type="button" class="tonalidade-card" id="ton-berry"
+                        role="radio" aria-checked="false" aria-label="Tonalidade Berry"
+                        onclick="selecionarTonalidade('berry')">
+                    <div class="mini-page mp-berry">
+                        <div class="mp-sidebar">
+                            <div class="mp-nav-item"></div>
+                            <div class="mp-nav-item mp-nav-active"></div>
+                            <div class="mp-nav-item"></div>
+                        </div>
+                        <div class="mp-content">
+                            <div class="mp-header"></div>
+                            <div class="mp-cards">
+                                <div class="mp-card"></div>
+                                <div class="mp-card"></div>
+                            </div>
+                            <div class="mp-btn-primary"></div>
+                            <div class="mp-btn-secondary"></div>
+                        </div>
+                    </div>
+                    <span class="tonalidade-nome">Berry</span>
+                </button>
+
             </div>
         </section>
 

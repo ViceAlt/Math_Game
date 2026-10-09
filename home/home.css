@@ -17,7 +17,7 @@
     --duo-orange-shadow: #e58700;
     --duo-red: #ff4b4b;
     --duo-red-shadow: #ea2b2b;
-    
+
     --bg-main: #f7f7f7;
     --bg-card: #ffffff;
     --text-main: #3c3c3c;
@@ -25,7 +25,7 @@
     --border-color: #e5e5e5;
     --border-dark: #cecece;
     --sidebar-width: 250px;
-    
+
     --radius-sm: 12px;
     --radius-md: 16px;
     --radius-lg: 20px;
@@ -40,9 +40,46 @@ body.tema-escuro {
     --border-dark: #4b5d67;
 }
 
-body.daltonismo-protanopia { filter: contrast(1.1) saturate(0.9); }
-body.daltonismo-deuteranopia { filter: contrast(1.1) hue-rotate(10deg); }
-body.daltonismo-tritanopia { filter: contrast(1.1) hue-rotate(-10deg); }
+body.daltonismo-protanopia {
+    filter: contrast(1.1) saturate(0.9);
+}
+
+body.daltonismo-deuteranopia {
+    filter: contrast(1.1) hue-rotate(10deg);
+}
+
+body.daltonismo-tritanopia {
+    filter: contrast(1.1) hue-rotate(-10deg);
+}
+
+/* ─── Tonalidades ─────────────────────────────────────────────────────────── */
+body.tonalidade-sunset {
+    --duo-blue: #ff6b35;
+    --duo-blue-shadow: #e05520;
+    --duo-green: #e8475f;
+    --duo-green-shadow: #c93549;
+}
+
+body.tonalidade-ocean {
+    --duo-blue: #0096c7;
+    --duo-blue-shadow: #0077b6;
+    --duo-green: #06d6a0;
+    --duo-green-shadow: #05b384;
+}
+
+body.tonalidade-earth {
+    --duo-blue: #d4a03c;
+    --duo-blue-shadow: #b8872e;
+    --duo-green: #c45e3a;
+    --duo-green-shadow: #a44d2e;
+}
+
+body.tonalidade-berry {
+    --duo-blue: #e63981;
+    --duo-blue-shadow: #c0145c;
+    --duo-green: #7a285f;
+    --duo-green-shadow: #67164c;
+}
 
 * {
     box-sizing: border-box;
@@ -66,7 +103,7 @@ body {
     padding: 2rem 1rem;
     position: fixed;
     height: 100vh;
-    box-shadow: 2px 0 0 rgba(0,0,0,0.02);
+    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.02);
 }
 
 .sidebar ul {
@@ -142,7 +179,10 @@ h3 {
 }
 
 /* Cards & Sections */
-.perfil-resumo, .ultimo-jogo, .card-jogar, .progresso-trilha {
+.perfil-resumo,
+.ultimo-jogo,
+.card-jogar,
+.progresso-trilha {
     background: var(--bg-card);
     border: 2px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -281,18 +321,23 @@ dialog footer button {
     box-shadow: 0 4px 0 var(--duo-green-shadow);
 }
 
-#btn-fechar-modal, #btn-cancelar-login {
+#btn-fechar-modal,
+#btn-cancelar-login {
     background: transparent;
     color: var(--text-muted);
     border: 2px solid var(--border-color);
     border-bottom: 4px solid var(--border-dark);
 }
 
-#btn-ir-login:hover, #btn-ir-cadastro:hover {
+#btn-ir-login:hover,
+#btn-ir-cadastro:hover {
     filter: brightness(1.05);
 }
 
-#btn-ir-login:active, #btn-ir-cadastro:active, #btn-fechar-modal:active, #btn-cancelar-login:active {
+#btn-ir-login:active,
+#btn-ir-cadastro:active,
+#btn-fechar-modal:active,
+#btn-cancelar-login:active {
     transform: translateY(4px);
     box-shadow: 0 0 0 transparent;
 }

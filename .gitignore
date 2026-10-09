@@ -1,0 +1,4 @@
+/vendor/
+.env
+scratch/
+scratch_check_db.php

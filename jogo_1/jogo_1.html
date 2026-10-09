@@ -6,35 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jogo de Frações com Pizza - Math Game">
     <title>Frações com Pizza | Math Game</title>
+    <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="jogo_1.css">
+    <script src="../tema.js"></script>
 </head>
 
 <body>
-    <header class="barra-progresso-container">
-        <div class="barra-progresso" id="barra-progresso"></div>
-    </header>
-    <div class="mesa"></div>
-    <div class="pizzas-area" id="pizzasArea"></div>
-    <div>
+    <!-- Top bar: Exit + Progress -->
+    <header class="top-bar">
         <button id="btn-sair-jogo" onclick="voltarPaginaAnterior()">Sair</button>
-    </div>
-    <div class="flex-box">
-        <div class="pergunta_div">
-            <text>Deixe a pizza na fração equivalente a:</text>
-            <div class="fracao_div">
-                <p class="pergunta" id="pergunta-texto">
-                    1/2
-                </p>
+        <div class="barra-progresso-container">
+            <div class="barra-progresso" id="barra-progresso"></div>
+        </div>
+    </header>
+
+    <!-- Main game layout -->
+    <main class="game-layout">
+        <!-- Left/Center: Wooden table with pizza + undo -->
+        <section class="mesa-madeira">
+            <div class="pizzas-area" id="pizzasArea"></div>
+            <button id="btn-desfazer" onclick="desfazerUltimaFatia()">Desfazer</button>
+        </section>
+
+        <!-- Right sidebar: Question + Hint -->
+        <aside class="sidebar">
+            <div class="pergunta_div">
+                <text>Deixe a pizza na fração equivalente a:</text>
+                <div class="fracao_div">
+                    <p class="pergunta" id="pergunta-texto">
+                        1/2
+                    </p>
+                </div>
+                <div class="button_position">
+                    <button class="confirmar" id="btn-confirmar" onclick="onDecay()">Confirmar</button>
+                </div>
             </div>
             <div class="button_position">
-                <button class="confirmar" id="btn-confirmar" onclick="onDecay()">Confirmar</button>
+                <button class="dica" id="btn-dica">Dica</button>
             </div>
-        </div>
-        <div class="button_position">
-            <button class="dica" id="btn-dica">Dica</button>
-        </div>
-    </div>
-    <button id="btn-desfazer" onclick="desfazerUltimaFatia()">Desfazer</button>
+        </aside>
+    </main>
+
     <script src="jogo_1.js"></script>
 </body>
+
 </html>

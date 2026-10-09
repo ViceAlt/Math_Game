@@ -16,7 +16,9 @@ $logado = $usuario !== null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Plataforma de jogos de Matemática para o Ensino Fundamental 2">
     <title>Home | Math Game</title>
+    <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="home.css">
+    <script src="../tema.js"></script>
 </head>
 
 <body>

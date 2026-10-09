@@ -2,15 +2,17 @@
 /**
  * api/auth/register.php
  * POST – Cadastro de novo usuário.
- * Usa password_hash(PASSWORD_BCRYPT) para armazenar a senha com segurança.
+ * Usa password_hash(PASSWORD_BCRYPT) com custo 12.
+ * Validação de senha: mínimo 8 e máximo 72 bytes.
  */
 
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['ok' => false, 'erro' => 'Método não permitido.']);
@@ -18,24 +20,41 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 require_once __DIR__ . '/../../conexao.php';
+require_once __DIR__ . '/../../includes/senha.php';
+require_once __DIR__ . '/../../includes/csrf.php';
+require_once __DIR__ . '/../../includes/sessao.php';
+
+sessao_iniciar();
 
 $input = json_decode(file_get_contents('php://input'), true);
 
-$username = trim($input['username'] ?? '');
-$email    = trim($input['email']    ?? '');
-$senha    = $input['senha']          ?? '';
+$username  = trim($input['username'] ?? '');
+$email     = strtolower(trim($input['email'] ?? ''));
+$senha     = $input['senha'] ?? '';           // Sem trim() na senha (intencional)
+$csrfToken = $input['csrf_token'] ?? '';
 
-// ── Validação ────────────────────────────────────────────────────────────────
+// ── Validação de CSRF ─────────────────────────────────────────────────────────
+if (!csrf_validar($csrfToken)) {
+    http_response_code(403);
+    echo json_encode(['ok' => false, 'erro' => 'Requisição inválida. Recarregue a página.']);
+    exit;
+}
+
+// ── Validação dos campos ──────────────────────────────────────────────────────
 $erros = [];
 
 if (strlen($username) < 3 || strlen($username) > 50) {
     $erros['username'] = 'O nome de usuário deve ter entre 3 e 50 caracteres.';
 }
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $erros['email'] = 'Informe um e-mail válido.';
 }
-if (strlen($senha) < 6) {
-    $erros['senha'] = 'A senha deve ter pelo menos 6 caracteres.';
+
+// Validação de senha usando a função centralizada em includes/senha.php
+$erroSenha = validar_forca_senha($senha);
+if ($erroSenha !== null) {
+    $erros['senha'] = $erroSenha;
 }
 
 if (!empty($erros)) {
@@ -44,11 +63,11 @@ if (!empty($erros)) {
     exit;
 }
 
-// ── Persistência ─────────────────────────────────────────────────────────────
+// ── Persistência ──────────────────────────────────────────────────────────────
 try {
     $pdo = getDB();
 
-    // Verifica duplicidade
+    // Verifica duplicidade (email ou username)
     $stmt = $pdo->prepare('SELECT id FROM usuarios WHERE username = ? OR email = ? LIMIT 1');
     $stmt->execute([$username, $email]);
     $existente = $stmt->fetch();
@@ -59,8 +78,8 @@ try {
         exit;
     }
 
-    // Hash seguro com bcrypt (custo 12)
-    $senhaHash = password_hash($senha, PASSWORD_BCRYPT, ['cost' => 12]);
+    // Hash seguro com bcrypt (custo 12) — nunca armazena senha em texto puro
+    $senhaHash = gerar_hash_senha($senha);
 
     $stmt = $pdo->prepare(
         'INSERT INTO usuarios (username, email, senha_hash, criado_em) VALUES (?, ?, ?, NOW())'
@@ -68,14 +87,15 @@ try {
     $stmt->execute([$username, $email, $senhaHash]);
     $novoId = (int) $pdo->lastInsertId();
 
-    // Inicia sessão automaticamente após cadastro
-    session_start();
+    // Inicia sessão automaticamente após cadastro com regeneração de ID
+    session_regenerate_id(true);
     $_SESSION['usuario'] = [
         'id'        => $novoId,
         'username'  => $username,
         'email'     => $email,
         'foto_url'  => null,
     ];
+    $_SESSION['logado_em'] = time();
 
     http_response_code(201);
     echo json_encode([
@@ -83,7 +103,8 @@ try {
         'usuario' => $_SESSION['usuario'],
     ]);
 
-} catch (PDOException $e) {
+} catch (\PDOException $e) {
+    error_log('[Math Game] Erro ao cadastrar usuário: ' . $e->getMessage());
     http_response_code(500);
     echo json_encode(['ok' => false, 'erro' => 'Erro interno ao cadastrar usuário.']);
 }

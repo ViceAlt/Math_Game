@@ -17,7 +17,7 @@
     --duo-orange-shadow: #e58700;
     --duo-red: #ff4b4b;
     --duo-red-shadow: #ea2b2b;
-    
+
     --bg-main: #f7f7f7;
     --bg-card: #ffffff;
     --text-main: #3c3c3c;
@@ -25,7 +25,7 @@
     --border-color: #e5e5e5;
     --border-dark: #cecece;
     --sidebar-width: 250px;
-    
+
     --radius-sm: 12px;
     --radius-md: 16px;
     --radius-lg: 20px;
@@ -40,9 +40,17 @@ body.tema-escuro {
     --border-dark: #4b5d67;
 }
 
-body.daltonismo-protanopia { filter: contrast(1.1) saturate(0.9); }
-body.daltonismo-deuteranopia { filter: contrast(1.1) hue-rotate(10deg); }
-body.daltonismo-tritanopia { filter: contrast(1.1) hue-rotate(-10deg); }
+body.daltonismo-protanopia {
+    filter: contrast(1.1) saturate(0.9);
+}
+
+body.daltonismo-deuteranopia {
+    filter: contrast(1.1) hue-rotate(10deg);
+}
+
+body.daltonismo-tritanopia {
+    filter: contrast(1.1) hue-rotate(-10deg);
+}
 
 * {
     box-sizing: border-box;
@@ -181,7 +189,7 @@ input[type="checkbox"][role="switch"]::before {
     height: 22px;
     background: white;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -282,4 +290,311 @@ dialog footer button {
     color: var(--text-muted);
     border: 2px solid var(--border-color);
     border-bottom: 4px solid var(--border-dark);
+}
+
+/* ─── Tonalidade System ───────────────────────────────────────────────────── */
+
+/* Sunset: Laranja vibrante + Coral quente */
+body.tonalidade-sunset {
+    --duo-blue: #ff6b35;
+    --duo-blue-shadow: #e05520;
+    --duo-green: #e8475f;
+    --duo-green-shadow: #c93549;
+}
+
+/* Ocean: Teal profundo + Menta viva */
+body.tonalidade-ocean {
+    --duo-blue: #0096c7;
+    --duo-blue-shadow: #0077b6;
+    --duo-green: #06d6a0;
+    --duo-green-shadow: #05b384;
+}
+
+/* Earth: Âmbar dourado + Terracota */
+body.tonalidade-earth {
+    --duo-blue: #d4a03c;
+    --duo-blue-shadow: #b8872e;
+    --duo-green: #c45e3a;
+    --duo-green-shadow: #a44d2e;
+}
+
+/* Berry: Cereja vibrante + Rubi quente (sem tons violeta/magenta) */
+body.tonalidade-berry {
+
+    --duo-blue: #e63981;
+    --duo-blue-shadow: #c0145c;
+    --duo-green: #7a285f;
+    --duo-green-shadow: #67164c;
+}
+
+/* ─── Tonalidade UI (Configurações) ───────────────────────────────────────── */
+
+.tonalidade-separador {
+    width: 100%;
+    height: 2px;
+    background: var(--border-color);
+    margin: 1.5rem 0 1.25rem;
+}
+
+.tonalidade-titulo {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.35rem;
+}
+
+.tonalidade-desc {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+
+.tonalidade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+}
+
+/* Tonalidade Card (button) */
+.tonalidade-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem;
+    background: var(--bg-main);
+    border: 2px solid var(--border-color);
+    border-bottom: 4px solid var(--border-dark);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tonalidade-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-muted);
+}
+
+.tonalidade-card:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+.tonalidade-card[aria-checked="true"] {
+    border-color: var(--duo-blue);
+    border-bottom: 4px solid var(--duo-blue-shadow);
+    box-shadow: 0 4px 0 var(--duo-blue-shadow);
+    background: var(--bg-card);
+}
+
+.tonalidade-nome {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+}
+
+.tonalidade-card[aria-checked="true"] .tonalidade-nome {
+    color: var(--duo-blue);
+}
+
+/* ─── Mini Page Illustration ──────────────────────────────────────────────── */
+
+.mini-page {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    border: 1px solid var(--border-color);
+}
+
+/* Mini-page sidebar */
+.mp-sidebar {
+    width: 28%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 4px;
+    border-right: 1px solid var(--border-color);
+}
+
+/* Default light mode colors for mini pages */
+.mini-page {
+    background: #f7f7f7;
+}
+
+.mp-sidebar {
+    background: #ffffff;
+}
+
+.mp-nav-item {
+    height: 6px;
+    border-radius: 3px;
+    background: #e5e5e5;
+}
+
+.mp-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+}
+
+.mp-header {
+    height: 6px;
+    width: 60%;
+    border-radius: 3px;
+    background: #3c3c3c;
+}
+
+.mp-cards {
+    display: flex;
+    gap: 3px;
+    flex: 1;
+}
+
+.mp-card {
+    flex: 1;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    background: #ffffff;
+}
+
+.mp-btn-primary,
+.mp-btn-secondary {
+    height: 6px;
+    border-radius: 3px;
+}
+
+/* Dark mode: darken all mini pages to match */
+body.tema-escuro .mini-page {
+    background: #131f24;
+}
+
+body.tema-escuro .mp-sidebar {
+    background: #202f36;
+}
+
+body.tema-escuro .mp-nav-item {
+    background: #37464f;
+}
+
+body.tema-escuro .mp-header {
+    background: #f1f1f1;
+}
+
+body.tema-escuro .mp-card {
+    border-color: #37464f;
+    background: #202f36;
+}
+
+/* ─── Per-tonality mini-page accent colors ────────────────────────────────── */
+
+/* Padrão (Azul + Verde) */
+.mp-padrao .mp-nav-active {
+    background: #1cb0f6;
+}
+
+.mp-padrao .mp-btn-primary {
+    background: #58cc02;
+}
+
+.mp-padrao .mp-btn-secondary {
+    background: #1cb0f6;
+}
+
+.mp-padrao .mp-card:first-child {
+    border-color: #58cc02;
+}
+
+.mp-padrao .mp-card:last-child {
+    border-color: #1cb0f6;
+}
+
+/* Sunset (Laranja + Coral) */
+.mp-sunset .mp-nav-active {
+    background: #ff6b35;
+}
+
+.mp-sunset .mp-btn-primary {
+    background: #e8475f;
+}
+
+.mp-sunset .mp-btn-secondary {
+    background: #ff6b35;
+}
+
+.mp-sunset .mp-card:first-child {
+    border-color: #e8475f;
+}
+
+.mp-sunset .mp-card:last-child {
+    border-color: #ff6b35;
+}
+
+/* Ocean (Teal + Menta) */
+.mp-ocean .mp-nav-active {
+    background: #0096c7;
+}
+
+.mp-ocean .mp-btn-primary {
+    background: #06d6a0;
+}
+
+.mp-ocean .mp-btn-secondary {
+    background: #0096c7;
+}
+
+.mp-ocean .mp-card:first-child {
+    border-color: #06d6a0;
+}
+
+.mp-ocean .mp-card:last-child {
+    border-color: #0096c7;
+}
+
+/* Earth (Âmbar + Terracota) */
+.mp-earth .mp-nav-active {
+    background: #d4a03c;
+}
+
+.mp-earth .mp-btn-primary {
+    background: #c45e3a;
+}
+
+.mp-earth .mp-btn-secondary {
+    background: #d4a03c;
+}
+
+.mp-earth .mp-card:first-child {
+    border-color: #c45e3a;
+}
+
+.mp-earth .mp-card:last-child {
+    border-color: #d4a03c;
+}
+
+/* Berry (Cereja + Rubi) */
+.mp-berry .mp-nav-active {
+    background: #e63981;
+}
+
+.mp-berry .mp-btn-primary {
+    background: #7a285f;
+}
+
+.mp-berry .mp-btn-secondary {
+    background: #e63981;
+}
+
+.mp-berry .mp-card:first-child {
+    border-color: #7a285f;
+}
+
+.mp-berry .mp-card:last-child {
+    border-color: #e63981;
 }

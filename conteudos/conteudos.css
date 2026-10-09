@@ -19,7 +19,7 @@
     --duo-red-shadow: #ea2b2b;
     --duo-purple: #ce82ff;
     --duo-purple-shadow: #a559d6;
-    
+
     --bg-main: #f7f7f7;
     --bg-card: #ffffff;
     --text-main: #3c3c3c;
@@ -27,7 +27,7 @@
     --border-color: #e5e5e5;
     --border-dark: #cecece;
     --sidebar-width: 250px;
-    
+
     --radius-sm: 12px;
     --radius-md: 16px;
     --radius-lg: 20px;
@@ -42,9 +42,46 @@ body.tema-escuro {
     --border-dark: #4b5d67;
 }
 
-body.daltonismo-protanopia { filter: contrast(1.1) saturate(0.9); }
-body.daltonismo-deuteranopia { filter: contrast(1.1) hue-rotate(10deg); }
-body.daltonismo-tritanopia { filter: contrast(1.1) hue-rotate(-10deg); }
+body.daltonismo-protanopia {
+    filter: contrast(1.1) saturate(0.9);
+}
+
+body.daltonismo-deuteranopia {
+    filter: contrast(1.1) hue-rotate(10deg);
+}
+
+body.daltonismo-tritanopia {
+    filter: contrast(1.1) hue-rotate(-10deg);
+}
+
+/* ─── Tonalidades ─────────────────────────────────────────────────────────── */
+body.tonalidade-sunset {
+    --duo-blue: #ff6b35;
+    --duo-blue-shadow: #e05520;
+    --duo-green: #e8475f;
+    --duo-green-shadow: #c93549;
+}
+
+body.tonalidade-ocean {
+    --duo-blue: #0096c7;
+    --duo-blue-shadow: #0077b6;
+    --duo-green: #06d6a0;
+    --duo-green-shadow: #05b384;
+}
+
+body.tonalidade-earth {
+    --duo-blue: #d4a03c;
+    --duo-blue-shadow: #b8872e;
+    --duo-green: #c45e3a;
+    --duo-green-shadow: #a44d2e;
+}
+
+body.tonalidade-berry {
+    --duo-blue: #e63981;
+    --duo-blue-shadow: #c0145c;
+    --duo-green: #7a285f;
+    --duo-green-shadow: #67164c;
+}
 
 * {
     box-sizing: border-box;
@@ -136,7 +173,8 @@ h1 {
     flex-wrap: wrap;
 }
 
-.btn-ano, .btn-dificuldade {
+.btn-ano,
+.btn-dificuldade {
     padding: 0.75rem 1.25rem;
     border: 2px solid var(--border-color);
     border-bottom: 4px solid var(--border-dark);
@@ -151,12 +189,14 @@ h1 {
     transition: transform 0.1s ease, background 0.15s ease, color 0.15s ease;
 }
 
-.btn-ano:hover, .btn-dificuldade:hover {
+.btn-ano:hover,
+.btn-dificuldade:hover {
     background: rgba(0, 0, 0, 0.03);
     color: var(--text-main);
 }
 
-.btn-ano[aria-pressed="true"], .btn-dificuldade[aria-pressed="true"] {
+.btn-ano[aria-pressed="true"],
+.btn-dificuldade[aria-pressed="true"] {
     background: var(--duo-blue);
     color: #ffffff;
     border-color: var(--duo-blue);
@@ -164,7 +204,8 @@ h1 {
     box-shadow: 0 4px 0 var(--duo-blue-shadow);
 }
 
-.btn-ano:active, .btn-dificuldade:active {
+.btn-ano:active,
+.btn-dificuldade:active {
     transform: translateY(3px);
     border-bottom-width: 1px;
 }
@@ -302,7 +343,8 @@ dialog footer {
     gap: 0.75rem;
 }
 
-dialog footer button, #btn-jogar-fase {
+dialog footer button,
+#btn-jogar-fase {
     width: 100%;
     padding: 0.9rem 1.25rem;
     border-radius: var(--radius-md);
@@ -314,7 +356,8 @@ dialog footer button, #btn-jogar-fase {
     transition: transform 0.1s ease, filter 0.15s ease;
 }
 
-#btn-jogar-fase, #btn-ir-cadastro {
+#btn-jogar-fase,
+#btn-ir-cadastro {
     background: var(--duo-green);
     color: white;
     border: none;
@@ -337,11 +380,16 @@ dialog footer button, #btn-jogar-fase {
     border-bottom: 4px solid var(--border-dark);
 }
 
-#btn-jogar-fase:hover, #btn-ir-login:hover, #btn-ir-cadastro:hover {
+#btn-jogar-fase:hover,
+#btn-ir-login:hover,
+#btn-ir-cadastro:hover {
     filter: brightness(1.05);
 }
 
-#btn-jogar-fase:active, #btn-ir-login:active, #btn-ir-cadastro:active, #btn-cancelar-login:active {
+#btn-jogar-fase:active,
+#btn-ir-login:active,
+#btn-ir-cadastro:active,
+#btn-cancelar-login:active {
     transform: translateY(4px);
     box-shadow: 0 0 0 transparent;
 }

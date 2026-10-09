@@ -16,7 +16,9 @@ $logado  = $usuario !== null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Conteúdos e trilha de fases por ano letivo - Math Game">
     <title>Conteúdos | Math Game</title>
+    <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="conteudos.css">
+    <script src="../tema.js"></script>
 </head>
 
 <body>

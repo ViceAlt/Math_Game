@@ -1,0 +1,137 @@
+/* ==========================================================================
+   SISTEMA CENTRAL DE CORES E TEMAS - MATH GAME
+   ==========================================================================
+   Neste arquivo você pode alterar facilmente as cores de qualquer tema.
+   
+   COMO FUNCIONA:
+   - O site usa duas cores principais:
+       1) --duo-blue / --duo-blue-shadow   -> Cor de destaque primária (navegação, foco, cards ativos)
+       2) --duo-green / --duo-green-shadow -> Cor de destaque secundária (botões de ação, jogar, confirmação)
+   - Cada tema (Sunset, Ocean, Earth, Berry) altera essas duas variáveis.
+   - Os fundos permanecem BRANCOS (modo claro) ou PRETOS/GRAFITE (modo escuro)
+     para todas as tonalidades, conforme configurado na seção "MODO ESCURO".
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TEMA PADRÃO (Azul Céu + Verde Limão)
+   -------------------------------------------------------------------------- */
+:root {
+   /* [PADRÃO] Cor de Destaque 1: Azul Céu */
+   --duo-blue: #1cb0f6;
+   --duo-blue-shadow: #1899d6;
+
+   /* [PADRÃO] Cor de Destaque 2: Verde Limão */
+   --duo-green: #58cc02;
+   --duo-green-shadow: #46a302;
+
+   /* Cores de Apoio fixas */
+   --duo-yellow: #ffc800;
+   --duo-yellow-shadow: #e5b200;
+   --duo-orange: #ff9600;
+   --duo-orange-shadow: #e58700;
+   --duo-red: #ff4b4b;
+   --duo-red-shadow: #ea2b2b;
+
+   /* Fundos e Textos (Modo Claro Padrão) */
+   --bg-main: #f7f7f7;
+   --bg-card: #ffffff;
+   --text-main: #3c3c3c;
+   --text-muted: #777777;
+   --border-color: #e5e5e5;
+   --border-dark: #cecece;
+   --sidebar-width: 250px;
+
+   /* Raios de borda */
+   --radius-sm: 12px;
+   --radius-md: 16px;
+   --radius-lg: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   2. TEMA SUNSET (Laranja Vibrante + Coral Quente)
+   Substitui o Azul por Laranja e o Verde por Coral
+   -------------------------------------------------------------------------- */
+body.tonalidade-sunset,
+html.tonalidade-sunset {
+   /* [SUNSET] Cor de Destaque 1: Laranja Vibrante */
+   --duo-blue: #ff6b35;
+   --duo-blue-shadow: #e05520;
+
+   /* [SUNSET] Cor de Destaque 2: Coral Quente */
+   --duo-green: #e8475f;
+   --duo-green-shadow: #c93549;
+}
+
+/* --------------------------------------------------------------------------
+   3. TEMA OCEAN (Teal / Azul Petróleo + Menta Fresca)
+   Substitui o Azul por Teal e o Verde por Menta
+   -------------------------------------------------------------------------- */
+body.tonalidade-ocean,
+html.tonalidade-ocean {
+   /* [OCEAN] Cor de Destaque 1: Teal / Azul Petróleo */
+   --duo-blue: #0096c7;
+   --duo-blue-shadow: #0077b6;
+
+   /* [OCEAN] Cor de Destaque 2: Menta Fresca */
+   --duo-green: #06d6a0;
+   --duo-green-shadow: #05b384;
+}
+
+/* --------------------------------------------------------------------------
+   4. TEMA EARTH (Âmbar Dourado + Terracota Terra)
+   Substitui o Azul por Âmbar e o Verde por Terracota
+   -------------------------------------------------------------------------- */
+body.tonalidade-earth,
+html.tonalidade-earth {
+   /* [EARTH] Cor de Destaque 1: Âmbar Dourado */
+   --duo-blue: #d4a03c;
+   --duo-blue-shadow: #b8872e;
+
+   /* [EARTH] Cor de Destaque 2: Terracota */
+   --duo-green: #c45e3a;
+   --duo-green-shadow: #a44d2e;
+}
+
+/* --------------------------------------------------------------------------
+   5. TEMA BERRY (Cereja Carmim + Rubi Escarlate)
+   Substitui o Azul por Cereja e o Verde por Rubi (sem tons violeta/magenta)
+   -------------------------------------------------------------------------- */
+body.tonalidade-berry,
+html.tonalidade-berry {
+   /* [BERRY] Cor de Destaque 1: Cereja Carmim */
+   --duo-blue: #e63946;
+   --duo-blue-shadow: #c52d38;
+
+   /* [BERRY] Cor de Destaque 2: Rubi Escarlate */
+   --duo-green: #d90429;
+   --duo-green-shadow: #b30021;
+}
+
+/* --------------------------------------------------------------------------
+   MODO ESCURO (Aplicável a TODOS os temas acima)
+   Os fundos ficam pretos/escuros mantendo as cores de destaque da tonalidade
+   -------------------------------------------------------------------------- */
+body.tema-escuro,
+html.tema-escuro {
+   --bg-main: #131f24;
+   --bg-card: #202f36;
+   --text-main: #f1f1f1;
+   --text-muted: #8496a0;
+   --border-color: #37464f;
+   --border-dark: #4b5d67;
+}
+
+/* --------------------------------------------------------------------------
+   MODOS DE DALTONISMO (Acessibilidade)
+   -------------------------------------------------------------------------- */
+body.daltonismo-protanopia {
+   filter: contrast(1.1) saturate(0.9);
+}
+
+body.daltonismo-deuteranopia {
+   filter: contrast(1.1) hue-rotate(10deg);
+}
+
+body.daltonismo-tritanopia {
+   filter: contrast(1.1) hue-rotate(-10deg);
+}

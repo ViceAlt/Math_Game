@@ -17,7 +17,7 @@
     --duo-orange-shadow: #e58700;
     --duo-red: #ff4b4b;
     --duo-red-shadow: #ea2b2b;
-    
+
     --bg-main: #f7f7f7;
     --bg-card: #ffffff;
     --text-main: #3c3c3c;
@@ -25,7 +25,7 @@
     --border-color: #e5e5e5;
     --border-dark: #cecece;
     --sidebar-width: 250px;
-    
+
     --radius-sm: 12px;
     --radius-md: 16px;
     --radius-lg: 20px;
@@ -40,9 +40,46 @@ body.tema-escuro {
     --border-dark: #4b5d67;
 }
 
-body.daltonismo-protanopia { filter: contrast(1.1) saturate(0.9); }
-body.daltonismo-deuteranopia { filter: contrast(1.1) hue-rotate(10deg); }
-body.daltonismo-tritanopia { filter: contrast(1.1) hue-rotate(-10deg); }
+body.daltonismo-protanopia {
+    filter: contrast(1.1) saturate(0.9);
+}
+
+body.daltonismo-deuteranopia {
+    filter: contrast(1.1) hue-rotate(10deg);
+}
+
+body.daltonismo-tritanopia {
+    filter: contrast(1.1) hue-rotate(-10deg);
+}
+
+/* ─── Tonalidades ─────────────────────────────────────────────────────────── */
+body.tonalidade-sunset {
+    --duo-blue: #ff6b35;
+    --duo-blue-shadow: #e05520;
+    --duo-green: #e8475f;
+    --duo-green-shadow: #c93549;
+}
+
+body.tonalidade-ocean {
+    --duo-blue: #0096c7;
+    --duo-blue-shadow: #0077b6;
+    --duo-green: #06d6a0;
+    --duo-green-shadow: #05b384;
+}
+
+body.tonalidade-earth {
+    --duo-blue: #d4a03c;
+    --duo-blue-shadow: #b8872e;
+    --duo-green: #c45e3a;
+    --duo-green-shadow: #a44d2e;
+}
+
+body.tonalidade-berry {
+    --duo-blue: #e63981;
+    --duo-blue-shadow: #c0145c;
+    --duo-green: #7a285f;
+    --duo-green-shadow: #67164c;
+}
 
 * {
     box-sizing: border-box;
