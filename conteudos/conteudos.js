@@ -13,24 +13,24 @@ const CHAVE_ULTIMO_JOGO = 'mg_ultimo_jogo';
 /** Definição das fases por ano letivo */
 const FASES_CONFIG = {
     6: [
-        { numero: 1, titulo: 'Frações Simples',       slicesPerPizza: 4, pizzaCount: 1 },
-        { numero: 2, titulo: 'Frações Equivalentes',  slicesPerPizza: 6, pizzaCount: 1 },
-        { numero: 3, titulo: 'Comparando Frações',    slicesPerPizza: 8, pizzaCount: 2 },
+        { numero: 1, titulo: 'Frações Simples',       slicesPerPizza: 4, pizzaCount: 1, jogoId: 1 },
+        { numero: 2, titulo: 'Frações Equivalentes',  slicesPerPizza: 6, pizzaCount: 1, jogoId: 1 },
+        { numero: 3, titulo: 'Comparando Frações',    slicesPerPizza: 8, pizzaCount: 2, jogoId: 1 },
     ],
     7: [
-        { numero: 1, titulo: 'Frações Impróprias',    slicesPerPizza: 6, pizzaCount: 1 },
-        { numero: 2, titulo: 'Números Mistos',         slicesPerPizza: 8, pizzaCount: 2 },
-        { numero: 3, titulo: 'Adição de Frações',      slicesPerPizza: 12, pizzaCount: 2 },
+        { numero: 1, titulo: 'Gráficos de Barras',    jogoId: 2 },
+        { numero: 2, titulo: 'Números Mistos',         slicesPerPizza: 8, pizzaCount: 2, jogoId: 1 },
+        { numero: 3, titulo: 'Adição de Frações',      slicesPerPizza: 12, pizzaCount: 2, jogoId: 1 },
     ],
     8: [
-        { numero: 1, titulo: 'Multiplicação Frações',  slicesPerPizza: 8,  pizzaCount: 1 },
-        { numero: 2, titulo: 'Divisão de Frações',     slicesPerPizza: 10, pizzaCount: 2 },
-        { numero: 3, titulo: 'Frações e Decimais',     slicesPerPizza: 12, pizzaCount: 2 },
+        { numero: 1, titulo: 'Interpretação Gráfica',  jogoId: 2 },
+        { numero: 2, titulo: 'Divisão de Frações',     slicesPerPizza: 10, pizzaCount: 2, jogoId: 1 },
+        { numero: 3, titulo: 'Frações e Decimais',     slicesPerPizza: 12, pizzaCount: 2, jogoId: 1 },
     ],
     9: [
-        { numero: 1, titulo: 'Fração e Porcentagem',   slicesPerPizza: 10, pizzaCount: 1 },
-        { numero: 2, titulo: 'Razão e Proporção',      slicesPerPizza: 12, pizzaCount: 2 },
-        { numero: 3, titulo: 'Desafio Final',           slicesPerPizza: 16, pizzaCount: 3 },
+        { numero: 1, titulo: 'Fração e Porcentagem',   slicesPerPizza: 10, pizzaCount: 1, jogoId: 1 },
+        { numero: 2, titulo: 'Análise de Estatísticas', jogoId: 2 },
+        { numero: 3, titulo: 'Desafio Final',           slicesPerPizza: 16, pizzaCount: 3, jogoId: 1 },
     ],
 };
 
@@ -154,8 +154,10 @@ function selecionarDificuldade(dificuldade) {
 function iniciarFase() {
     if (!faseSelecionada) return;
 
+    const jogoId = faseSelecionada.jogoId || 1;
+
     // Registra último jogo acessado
-    localStorage.setItem(CHAVE_ULTIMO_JOGO, `Jogo 1 – Fase ${faseSelecionada.numero} (${anoAtual}° Ano)`);
+    localStorage.setItem(CHAVE_ULTIMO_JOGO, `Jogo ${jogoId} – Fase ${faseSelecionada.numero} (${anoAtual}° Ano)`);
 
     // Atualiza último ano no progresso
     const progresso = obterProgresso();
@@ -163,19 +165,24 @@ function iniciarFase() {
     progresso.ultima_fase = faseSelecionada.numero;
     salvarProgresso(progresso);
 
-    // Monta parâmetros para o jogo via localStorage (compatível com file://)
+    // Monta parâmetros para o jogo via localStorage
     const params = {
         modo:           'trilha',
         ano:            anoAtual,
         fase:           faseSelecionada.numero,
+        jogoId:         jogoId,
         dificuldade:    dificuldadeSelecionada,
-        slicesPerPizza: faseSelecionada.slicesPerPizza,
-        pizzaCount:     faseSelecionada.pizzaCount,
+        slicesPerPizza: faseSelecionada.slicesPerPizza || 4,
+        pizzaCount:     faseSelecionada.pizzaCount || 1,
     };
     localStorage.setItem('mg_params_jogo', JSON.stringify(params));
 
     fecharModalFase();
-    window.location.href = '../jogo_1/jogo_1.html';
+    if (jogoId === 2) {
+        window.location.href = '../jogo_2/jogo_2.php';
+    } else {
+        window.location.href = '../jogo_1/jogo_1.html';
+    }
 }
 
 // ─── Modal de Login ───────────────────────────────────────────────────────────

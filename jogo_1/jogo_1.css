@@ -164,7 +164,15 @@ body {
     background-color: var(--duo-green);
     border-radius: 10px;
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-    transition: width 0.3s ease-out;
+    transition: width 0.35s ease-out, background-color 0.25s ease;
+}
+
+.barra-progresso.erro {
+    background-color: var(--duo-red) !important;
+}
+
+.barra-progresso.acerto {
+    background-color: var(--duo-green) !important;
 }
 
 /* ─── Main Game Layout ─────────────────────────────────────────────────────── */
@@ -177,14 +185,14 @@ body {
     overflow: auto;
 }
 
-/* ─── Wooden Table (Pizza + Undo) ──────────────────────────────────────────── */
+/* ─── Wooden Table (Pizza + Undo) ──────────────────────────────────── */
 .mesa-madeira {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 16px;
     background-color: var(--mesa-bg);
     background-image: var(--mesa-grain);
     border: 4px solid var(--mesa-border);
@@ -193,54 +201,100 @@ body {
         inset 0 2px 8px rgba(255, 255, 255, 0.15),
         inset 0 -4px 8px rgba(0, 0, 0, 0.2),
         0 8px 24px rgba(0, 0, 0, 0.15);
-    padding: 24px;
+    padding: 16px;
     min-height: 0;
-    overflow: visible;
+    overflow: hidden;
 }
 
-/* Pizza Visual Area */
+/* Pizza Visual Area com tamanho dinâmico */
 .pizzas-area {
+    flex: 1;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
+    min-height: 200px;
 }
 
 .pizza-wrapper {
     position: relative;
-    width: min(380px, 40vw);
-    height: min(380px, 40vw);
+    width: min(320px, 34vw, 42vh);
+    height: min(320px, 34vw, 42vh);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.2));
+    transition: width 0.25s ease, height 0.25s ease;
+    flex-shrink: 0;
+}
+
+/* Ajuste proporcional baseado na quantidade de pizzas */
+.pizzas-area.pizzas-qtd-1 .pizza-wrapper {
+    width: min(340px, 36vw, 45vh);
+    height: min(340px, 36vw, 45vh);
+}
+
+.pizzas-area.pizzas-qtd-2 .pizza-wrapper {
+    width: min(250px, 26vw, 36vh);
+    height: min(250px, 26vw, 36vh);
+}
+
+.pizzas-area.pizzas-qtd-3 .pizza-wrapper {
+    width: min(200px, 20vw, 29vh);
+    height: min(200px, 20vw, 29vh);
 }
 
 svg.pizza {
     width: 100%;
     height: 100%;
+    display: block;
     overflow: visible;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22));
 }
 
-/* Plate Adaptation in Dark Mode */
-body.tema-escuro .pizza circle:first-child {
-    fill: #273742;
-    stroke: #37464f;
+/* Prato com estilo cartoon alegre e limpo */
+.pizza-plate {
+    fill: #f5f1ea;
+    stroke: #d8cebe;
+    stroke-width: 4;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.pizza-plate-inner {
+    fill: #eae3d5;
+    stroke: #dfd5c4;
+    stroke-width: 2;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+/* Prato no Modo Escuro */
+body.tema-escuro .pizza-plate {
+    fill: #22303c;
+    stroke: #2e4152;
+}
+
+body.tema-escuro .pizza-plate-inner {
+    fill: #19242d;
+    stroke: #263848;
 }
 
 .slice {
     cursor: pointer;
-    transition: opacity 0.25s ease, transform 0.2s ease, filter 0.2s ease;
+    transition: opacity 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
     transform-origin: 130px 130px;
 }
 
 .slice:hover {
-    filter: brightness(1.12);
-    transform: scale(1.04);
+    filter: brightness(1.08) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    transform: scale(1.045);
 }
 
 .slice.eaten {
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.85);
+    transform: scale(0.7) rotate(6deg);
 }
 
 /* Undo Button (inside mesa) */
@@ -300,7 +354,7 @@ body.tema-escuro #btn-desfazer:hover {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 700;
     text-align: center;
     padding: 2rem 1.5rem;
@@ -311,26 +365,28 @@ body.tema-escuro #btn-desfazer:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(28, 176, 246, 0.1);
-    border: 2px solid var(--duo-blue);
-    border-bottom: 4px solid var(--duo-blue-shadow);
-    border-radius: var(--radius-md);
-    width: 180px;
-    height: 110px;
-    margin: 1rem 0;
-    box-shadow: 0 4px 0 rgba(28, 176, 246, 0.15);
+    background-color: rgba(255, 150, 0, 0.12);
+    border: 3px solid var(--duo-orange);
+    border-bottom: 6px solid var(--duo-orange-shadow);
+    border-radius: var(--radius-lg);
+    width: 210px;
+    min-height: 125px;
+    margin: 1.25rem 0;
+    box-shadow: 0 6px 0 rgba(255, 150, 0, 0.2);
 }
 
 .pergunta {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--duo-blue);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--duo-orange);
+    letter-spacing: 1px;
     cursor: default;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .pergunta:hover {
-    transform: scale(1.15);
+    transform: scale(1.12);
 }
 
 .button_position {
@@ -415,12 +471,23 @@ body.tema-escuro #btn-desfazer:hover {
     }
 
     .mesa-madeira {
-        min-height: 300px;
+        min-height: 350px;
+        max-height: 520px;
     }
 
-    .pizza-wrapper {
-        width: min(300px, 55vw);
-        height: min(300px, 55vw);
+    .pizzas-area.pizzas-qtd-1 .pizza-wrapper {
+        width: min(280px, 60vw);
+        height: min(280px, 60vw);
+    }
+
+    .pizzas-area.pizzas-qtd-2 .pizza-wrapper {
+        width: min(180px, 38vw);
+        height: min(180px, 38vw);
+    }
+
+    .pizzas-area.pizzas-qtd-3 .pizza-wrapper {
+        width: min(140px, 28vw);
+        height: min(140px, 28vw);
     }
 }
 
@@ -448,26 +515,36 @@ body.tema-escuro #btn-desfazer:hover {
     }
 
     .fracao_div {
-        width: 140px;
-        height: 80px;
+        width: 160px;
+        min-height: 90px;
     }
 
     .pergunta {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
     }
 
     .dica {
         width: 100%;
     }
 
-    .pizza-wrapper {
-        width: min(260px, 75vw);
-        height: min(260px, 75vw);
+    .mesa-madeira {
+        padding: 12px;
+        gap: 12px;
     }
 
-    .mesa-madeira {
-        padding: 16px;
-        gap: 14px;
+    .pizzas-area.pizzas-qtd-1 .pizza-wrapper {
+        width: min(220px, 70vw);
+        height: min(220px, 70vw);
+    }
+
+    .pizzas-area.pizzas-qtd-2 .pizza-wrapper {
+        width: min(140px, 40vw);
+        height: min(140px, 40vw);
+    }
+
+    .pizzas-area.pizzas-qtd-3 .pizza-wrapper {
+        width: min(105px, 28vw);
+        height: min(105px, 28vw);
     }
 
     #btn-desfazer {
@@ -476,15 +553,95 @@ body.tema-escuro #btn-desfazer:hover {
 }
 
 /* ─── Reduced Motion ───────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
+/* ─── Modal de Resultado Final ────────────────────────────────────────────── */
+dialog#modal-resultado {
+    margin: auto;
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem 2rem;
+    background: var(--bg-card);
+    color: var(--text-main);
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 6px 0 var(--border-color);
+    text-align: center;
+}
 
-    .barra-progresso,
-    .slice,
-    .pergunta,
-    .confirmar,
-    .dica,
-    #btn-sair-jogo,
-    #btn-desfazer {
-        transition: none;
-    }
+dialog#modal-resultado::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.modal-resultado-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+#modal-resultado-titulo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--duo-green);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resultado-estrelas {
+    font-size: 2.6rem;
+    letter-spacing: 4px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.resultado-stats {
+    background: rgba(0, 0, 0, 0.03);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+body.tema-escuro .resultado-stats {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.resultado-stats p {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.resultado-stats strong {
+    color: var(--text-main);
+    font-size: 1.25rem;
+}
+
+#btn-modal-ok {
+    width: 100%;
+    min-width: 200px;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: none;
+    border-bottom: 4px solid var(--duo-green-shadow);
+    box-shadow: 0 4px 0 var(--duo-green-shadow);
+    background-color: var(--duo-green);
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+#btn-modal-ok:hover {
+    filter: brightness(1.08);
+}
+
+#btn-modal-ok:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 transparent;
 }

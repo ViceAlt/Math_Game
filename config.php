@@ -31,3 +31,14 @@ if (!defined('SMTP_FROM_NAME')) define('SMTP_FROM_NAME', 'Math Game');
 
 // Configuração de ambiente
 if (!defined('APP_ENV')) define('APP_ENV', 'development');
+
+// Controle de exibição de erros por ambiente para evitar expor dados sensíveis
+if (defined('APP_ENV') && APP_ENV === 'production') {
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+} else {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+}

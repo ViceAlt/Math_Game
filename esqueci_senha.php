@@ -35,43 +35,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Valida formato do email (sem revelar se existe ou não)
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            // Ainda assim exibe a mensagem genérica — não revela se o email é inválido
+            // Exibe mensagem genérica e não revela se o email é inválido ou se existe
             $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
         } else {
             $ip = recuperacao_obter_ip();
 
-            // Rate limit: mesma mensagem genérica ao exceder o limite
-            if (recuperacao_rate_limit_atingido($email, $ip)) {
-                $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
-            } else {
-                // Registra tentativa (email e IP separados)
-                recuperacao_registrar_tentativa('recuperacao', $email);
-                recuperacao_registrar_tentativa('recuperacao_ip', $ip);
+            try {
+                // Rate limit: verifica se o limite foi excedido
+                if (recuperacao_rate_limit_atingido($email, $ip)) {
+                    $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
+                } else {
+                    // Registra a tentativa para AMBOS (e-mail cadastrado ou não)
+                    recuperacao_registrar_tentativa('recuperacao', $email);
+                    recuperacao_registrar_tentativa('recuperacao_ip', $ip);
 
-                // Busca o usuário — sem revelar resultado ao front
-                $pdo = getDB();
-                $stmt = $pdo->prepare(
-                    'SELECT id, username, email FROM usuarios WHERE email = ? LIMIT 1'
-                );
-                $stmt->execute([$email]);
-                $usuario = $stmt->fetch();
+                    // Busca o usuário de forma segura
+                    $pdo = getDB();
+                    $stmt = $pdo->prepare(
+                        'SELECT id, username, email FROM usuarios WHERE email = ? LIMIT 1'
+                    );
+                    $stmt->execute([$email]);
+                    $usuario = $stmt->fetch();
 
-                if ($usuario) {
-                    // Gera token e salva hash no banco
-                    $token = recuperacao_gerar_token((int) $usuario['id'], $ip);
+                    if ($usuario) {
+                        // Gera token e envia e-mail apenas se o usuário existir
+                        $token = recuperacao_gerar_token((int) $usuario['id'], $ip);
+                        $link = rtrim(APP_URL, '/') . '/redefinir_senha.php?token=' . urlencode($token);
+                        email_enviar_recuperacao($usuario['email'], $usuario['username'], $link);
+                    }
 
-                    // Monta o link sem usar $_SERVER['HTTP_HOST'] (evita host header injection)
-                    $link = rtrim(APP_URL, '/') . '/redefinir_senha.php?token=' . urlencode($token);
-
-                    // Envia e-mail (falha silenciosa — não revela ao usuário)
-                    email_enviar_recuperacao($usuario['email'], $usuario['username'], $link);
-
-                    // Limpeza oportunista de tokens expirados e tentativas antigas
+                    // Limpeza oportunista de dados antigos com mais de 24h
                     recuperacao_limpar_dados_antigos();
-                }
 
-                // Mesma mensagem, exista o email ou não
-                $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
+                    // Mesma mensagem genérica se o e-mail existir ou não
+                    $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
+                }
+            } catch (\PDOException $e) {
+                error_log('[Math Game] Erro de banco de dados em esqueci_senha.php: ' . $e->getMessage());
+                $mensagem = 'Não foi possível processar sua solicitação agora. Tente novamente mais tarde.';
+            } catch (\Throwable $e) {
+                error_log('[Math Game] Erro em esqueci_senha.php: ' . $e->getMessage());
+                $mensagem = 'Não foi possível processar sua solicitação agora. Tente novamente mais tarde.';
             }
         }
 

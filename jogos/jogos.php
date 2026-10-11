@@ -45,6 +45,23 @@
                 <button type="button" class="btn-jogar-card" id="btn-jogar-jogo-1" onclick="iniciarJogoLivre(1)">Jogar</button>
             </article>
 
+            <article class="card-jogo" id="card-jogo-2" aria-labelledby="jogo-2-nome">
+                <h2 id="jogo-2-nome">Gráfico de Barras</h2>
+                <p>Ajuste as barras do gráfico conforme as quantidades indicadas no problema.</p>
+                <p>Seu recorde: <strong id="recorde-jogo-2">0 pts</strong></p>
+
+                <div class="dificuldade-group" role="group" aria-label="Dificuldade do jogo 2">
+                    <button type="button" class="btn-dificuldade" id="jogo2-facil"
+                            data-dificuldade="facil" onclick="selecionarDificuldadeJogo(2,'facil')" aria-pressed="true">Fácil</button>
+                    <button type="button" class="btn-dificuldade" id="jogo2-medio"
+                            data-dificuldade="medio" onclick="selecionarDificuldadeJogo(2,'medio')" aria-pressed="false">Médio</button>
+                    <button type="button" class="btn-dificuldade" id="jogo2-experiente"
+                            data-dificuldade="experiente" onclick="selecionarDificuldadeJogo(2,'experiente')" aria-pressed="false">Experiente</button>
+                </div>
+
+                <button type="button" class="btn-jogar-card" id="btn-jogar-jogo-2" onclick="iniciarJogoLivre(2)">Jogar</button>
+            </article>
+
         </section>
     </main>
 

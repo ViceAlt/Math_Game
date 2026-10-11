@@ -31,7 +31,7 @@
         <!-- Right sidebar: Question + Hint -->
         <aside class="sidebar">
             <div class="pergunta_div">
-                <text>Deixe a pizza na fração equivalente a:</text>
+                <text>Coma a quantidade de fatias da pizza na fração equivalente a:</text>
                 <div class="fracao_div">
                     <p class="pergunta" id="pergunta-texto">
                         1/2
@@ -46,6 +46,21 @@
             </div>
         </aside>
     </main>
+
+    <!-- Modal de Resultado Final -->
+    <dialog id="modal-resultado" aria-labelledby="modal-resultado-titulo">
+        <article class="modal-resultado-conteudo">
+            <h2 id="modal-resultado-titulo">Fim de Jogo!</h2>
+            <div class="resultado-estrelas" id="modal-estrelas-display" aria-label="Estrelas conquistadas">⭐⭐⭐</div>
+            <div class="resultado-stats">
+                <p>Pontuação: <strong id="modal-pontuacao-valor">0</strong> pts</p>
+                <p>Acertos: <strong id="modal-acertos-valor">0/0</strong></p>
+            </div>
+            <footer>
+                <button type="button" id="btn-modal-ok" onclick="voltarPaginaAnterior()">OK</button>
+            </footer>
+        </article>
+    </dialog>
 
     <script src="jogo_1.js"></script>
 </body>

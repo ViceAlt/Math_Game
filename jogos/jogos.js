@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function exibirRecordes() {
     const recordes = obterRecordes();
-    const el = document.getElementById('recorde-jogo-1');
-    if (el) el.textContent = `${recordes[1] || 0} pts`;
+    const el1 = document.getElementById('recorde-jogo-1');
+    if (el1) el1.textContent = `${recordes[1] || 0} pts`;
+    const el2 = document.getElementById('recorde-jogo-2');
+    if (el2) el2.textContent = `${recordes[2] || 0} pts`;
 }
 
 function obterRecordes() {
@@ -54,7 +56,11 @@ function iniciarJogoLivre(jogoId) {
     // Registra último jogo acessado
     localStorage.setItem('mg_ultimo_jogo', `Jogo ${jogoId} (modo livre)`);
 
-    window.location.href = '../jogo_1/jogo_1.html';
+    if (jogoId === 2) {
+        window.location.href = '../jogo_2/jogo_2.php';
+    } else {
+        window.location.href = '../jogo_1/jogo_1.html';
+    }
 }
 
 // ─── Navegação de Perfil ──────────────────────────────────────────────────────

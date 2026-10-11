@@ -26,47 +26,60 @@ function recuperacao_obter_ip(): string {
 /**
  * Registra uma tentativa de acesso (login ou recuperação) na tabela tentativas_acesso.
  *
- * @param string $tipo  'login' ou 'recuperacao'
+ * @param string $tipo  'login', 'recuperacao' ou 'recuperacao_ip'
  * @param string $chave Email ou IP em minúsculas.
  */
 function recuperacao_registrar_tentativa(string $tipo, string $chave): void {
-    $pdo  = getDB();
-    $stmt = $pdo->prepare(
-        'INSERT INTO tentativas_acesso (tipo, chave, criado_em) VALUES (?, ?, NOW())'
-    );
-    $stmt->execute([$tipo, strtolower($chave)]);
+    try {
+        $pdo  = getDB();
+        $stmt = $pdo->prepare(
+            'INSERT INTO tentativas_acesso (tipo, chave, criado_em) VALUES (?, ?, NOW())'
+        );
+        $stmt->execute([$tipo, strtolower($chave)]);
+    } catch (\PDOException $e) {
+        error_log('[Math Game] Erro ao registrar tentativa_acesso: ' . $e->getMessage());
+    }
 }
 
 /**
  * Conta tentativas de acesso dentro de um intervalo de minutos.
  *
- * @param string $tipo     'login' ou 'recuperacao'
+ * @param string $tipo     'login', 'recuperacao' ou 'recuperacao_ip'
  * @param string $chave    Email ou IP em minúsculas.
  * @param int    $minutos  Janela de tempo.
  * @return int Número de tentativas.
  */
 function recuperacao_contar_tentativas(string $tipo, string $chave, int $minutos = 60): int {
-    $pdo  = getDB();
-    $stmt = $pdo->prepare(
-        'SELECT COUNT(*) FROM tentativas_acesso
-         WHERE tipo = ? AND chave = ?
-           AND criado_em >= DATE_SUB(NOW(), INTERVAL ? MINUTE)'
-    );
-    $stmt->execute([$tipo, strtolower($chave), $minutos]);
-    return (int) $stmt->fetchColumn();
+    try {
+        $pdo  = getDB();
+        $stmt = $pdo->prepare(
+            'SELECT COUNT(*) FROM tentativas_acesso
+             WHERE tipo = ? AND chave = ?
+               AND criado_em >= DATE_SUB(NOW(), INTERVAL ? MINUTE)'
+        );
+        $stmt->execute([$tipo, strtolower($chave), $minutos]);
+        return (int) $stmt->fetchColumn();
+    } catch (\PDOException $e) {
+        error_log('[Math Game] Erro ao contar tentativas_acesso: ' . $e->getMessage());
+        return 0;
+    }
 }
 
 /**
  * Remove todas as tentativas de acesso de uma chave específica.
  * Chamada após login bem-sucedido para limpar o contador.
  *
- * @param string $tipo  'login' ou 'recuperacao'
+ * @param string $tipo  'login', 'recuperacao' ou 'recuperacao_ip'
  * @param string $chave Email ou IP em minúsculas.
  */
 function recuperacao_limpar_tentativas(string $tipo, string $chave): void {
-    $pdo  = getDB();
-    $stmt = $pdo->prepare('DELETE FROM tentativas_acesso WHERE tipo = ? AND chave = ?');
-    $stmt->execute([$tipo, strtolower($chave)]);
+    try {
+        $pdo  = getDB();
+        $stmt = $pdo->prepare('DELETE FROM tentativas_acesso WHERE tipo = ? AND chave = ?');
+        $stmt->execute([$tipo, strtolower($chave)]);
+    } catch (\PDOException $e) {
+        error_log('[Math Game] Erro ao limpar tentativas_acesso: ' . $e->getMessage());
+    }
 }
 
 /**
