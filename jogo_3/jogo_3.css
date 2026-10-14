@@ -53,18 +53,6 @@ body.tema-escuro {
 }
 
 /* Modos de daltonismo */
-body.daltonismo-protanopia {
-    filter: contrast(1.1) saturate(0.9);
-}
-
-body.daltonismo-deuteranopia {
-    filter: contrast(1.1) hue-rotate(10deg);
-}
-
-body.daltonismo-tritanopia {
-    filter: contrast(1.1) hue-rotate(-10deg);
-}
-
 /* Tonalidades */
 body.tonalidade-sunset {
     --duo-blue: #ff6b35;
@@ -135,11 +123,7 @@ body {
     box-shadow: 0 4px 0 var(--duo-red-shadow);
     cursor: pointer;
     flex-shrink: 0;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-#btn-sair-jogo:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 #btn-sair-jogo:active {
@@ -250,18 +234,7 @@ body {
     border-bottom: 3px solid var(--border-dark);
     box-shadow: 0 3px 0 var(--border-color);
     cursor: pointer;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-#btn-desfazer:hover,
-#btn-limpar:hover {
-    background: rgba(0, 0, 0, 0.04);
-    color: var(--text-main);
-}
-
-body.tema-escuro #btn-desfazer:hover,
-body.tema-escuro #btn-limpar:hover {
-    background: rgba(255, 255, 255, 0.06);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 #btn-desfazer:active,
@@ -502,11 +475,6 @@ body.tema-escuro #btn-limpar:hover {
     gap: 12px;
 }
 
-.btn-alternativa:hover:not(:disabled) {
-    border-color: var(--duo-blue);
-    background-color: rgba(28, 176, 246, 0.05);
-}
-
 .btn-alternativa:active:not(:disabled) {
     transform: translateY(3px);
     box-shadow: 0 0 0 transparent;
@@ -574,7 +542,7 @@ body.tema-escuro #btn-limpar:hover {
     cursor: pointer;
     background-color: var(--duo-green);
     color: #ffffff;
-    transition: filter 0.15s ease, transform 0.1s ease;
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 .confirmar:disabled {
@@ -584,11 +552,6 @@ body.tema-escuro #btn-limpar:hover {
     box-shadow: 0 4px 0 var(--border-dark);
     background-color: var(--border-color);
     color: var(--text-muted);
-}
-
-.confirmar:hover:not(:disabled),
-.proxima:hover {
-    filter: brightness(1.08);
 }
 
 .confirmar:active:not(:disabled),
@@ -612,11 +575,7 @@ body.tema-escuro #btn-limpar:hover {
     cursor: pointer;
     background-color: var(--duo-yellow);
     color: #ffffff;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-.dica:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 .dica:active {
@@ -705,11 +664,7 @@ body.tema-escuro .resultado-stats {
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-#btn-modal-ok:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 #btn-modal-ok:active {

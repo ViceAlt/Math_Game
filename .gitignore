@@ -1,4 +1,7 @@
 /vendor/
 .env
+.env.local
+/logs/*.log
 scratch/
 scratch_check_db.php
+

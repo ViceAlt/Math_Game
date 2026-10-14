@@ -2,7 +2,7 @@
  * configuracoes.js
  * Lógica da página Configurações.
  * Persiste preferências de tema e modo de daltonismo no localStorage
- * e aplica as classes correspondentes ao <body>.
+ * e aplica as classes correspondentes aos elementos raiz.
  */
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
@@ -14,7 +14,7 @@ const CHAVE_USUARIO    = 'mg_usuario';
 /** Classes de tonalidade aplicáveis ao body */
 const CLASSES_TONALIDADE = ['tonalidade-sunset', 'tonalidade-ocean', 'tonalidade-earth', 'tonalidade-berry'];
 
-/** Classes de daltonismo aplicáveis ao body */
+/** Classes de daltonismo aplicáveis ao HTML e ao body */
 const CLASSES_DALTONISMO = ['daltonismo-protanopia', 'daltonismo-deuteranopia', 'daltonismo-tritanopia'];
 
 // ─── Inicialização ───────────────────────────────────────────────────────────
@@ -125,11 +125,11 @@ function selecionarDaltonismo(modo) {
 }
 
 function aplicarClasseDaltonismo(modo) {
-    // Remove todas as classes de daltonismo antes de aplicar a nova
-    CLASSES_DALTONISMO.forEach(cls => document.body.classList.remove(cls));
+    const alvos = [document.documentElement, document.body];
+    CLASSES_DALTONISMO.forEach(cls => alvos.forEach(el => el.classList.remove(cls)));
 
     if (modo !== 'nenhum') {
-        document.body.classList.add(`daltonismo-${modo}`);
+        alvos.forEach(el => el.classList.add(`daltonismo-${modo}`));
     }
 }
 
@@ -139,14 +139,6 @@ function navegarPerfil() {
     if (LOGADO) {
         window.location.href = '../perfil/perfil.php';
     } else {
-        document.getElementById('modal-login-sugestao').showModal();
+        abrirModalPerfil();
     }
 }
-
-function fecharModalLogin() {
-    document.getElementById('modal-login-sugestao').close();
-}
-
-document.getElementById('modal-login-sugestao').addEventListener('click', function (e) {
-    if (e.target === this) fecharModalLogin();
-});

@@ -31,7 +31,7 @@
                     <span id="nomeFormaAlvo">Carregando...</span>
                 </div>
                 <div class="acoes-desenho">
-                    <button type="button" id="btn-desfazer" onclick="desfazerUltimoMovimento()" title="Desfazer última linha desenhada">Desfazer Linha</button>
+                    <button type="button" id="btn-desfazer" class="btn-desfazer" onclick="desfazerUltimoMovimento()" title="Desfazer última linha desenhada">Desfazer Linha</button>
                     <button type="button" id="btn-limpar" onclick="limparDesenho()" title="Limpar todo o plano">Limpar</button>
                 </div>
             </div>

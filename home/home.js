@@ -64,23 +64,9 @@ function navegarPerfil() {
     if (LOGADO) {
         window.location.href = '../perfil/perfil.php';
     } else {
-        abrirModal();
+        abrirModalPerfil();
     }
 }
-
-// ─── Modal ───────────────────────────────────────────────────────────────────
-
-function abrirModal() {
-    document.getElementById('modal-login-sugestao').showModal();
-}
-
-function fecharModal() {
-    document.getElementById('modal-login-sugestao').close();
-}
-
-document.getElementById('modal-login-sugestao').addEventListener('click', function (e) {
-    if (e.target === this) fecharModal();
-});
 
 // ─── Preferências Visuais ─────────────────────────────────────────────────────
 

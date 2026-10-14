@@ -18,6 +18,7 @@ $logado  = $usuario !== null;
     <title>Conteúdos | Math Game</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="conteudos.css">
+    <link rel="stylesheet" href="../includes/modal-perfil.css">
     <script src="../tema.js"></script>
 </head>
 
@@ -80,22 +81,13 @@ $logado  = $usuario !== null;
     </dialog>
 
     <!-- Modal: Sugestão de Login -->
-    <dialog id="modal-login-sugestao" aria-labelledby="modal-login-titulo">
-        <article>
-            <h2 id="modal-login-titulo">Acesso restrito</h2>
-            <p>Faça login para salvar seu progresso e desbloquear fases.</p>
-            <footer>
-                <a href="../login/login.php"><button type="button" id="btn-ir-login">Fazer Login</button></a>
-                <a href="../cadastro/cadastro.php"><button type="button" id="btn-ir-cadastro">Criar Conta</button></a>
-                <button type="button" id="btn-cancelar-login" onclick="fecharModalLogin()">Agora não</button>
-            </footer>
-        </article>
-    </dialog>
+    <?php require __DIR__ . '/../includes/modal_perfil.php'; ?>
 
     <script>
         const LOGADO  = <?= $logado ? 'true' : 'false' ?>;
         const USUARIO = <?= $logado ? json_encode($usuario) : 'null' ?>;
     </script>
+    <script src="../includes/modal-perfil.js"></script>
     <script src="conteudos.js"></script>
 
 </body>

@@ -40,18 +40,6 @@ body.tema-escuro {
     --border-dark: #4b5d67;
 }
 
-body.daltonismo-protanopia {
-    filter: contrast(1.1) saturate(0.9);
-}
-
-body.daltonismo-deuteranopia {
-    filter: contrast(1.1) hue-rotate(10deg);
-}
-
-body.daltonismo-tritanopia {
-    filter: contrast(1.1) hue-rotate(-10deg);
-}
-
 /* ─── Tonalidades ─────────────────────────────────────────────────────────── */
 body.tonalidade-sunset {
     --duo-blue: #ff6b35;
@@ -130,15 +118,6 @@ body {
     letter-spacing: 0.8px;
     cursor: pointer;
     transition: all 0.15s ease;
-}
-
-.sidebar button:hover {
-    background: rgba(0, 0, 0, 0.04);
-    color: var(--text-main);
-}
-
-body.tema-escuro .sidebar button:hover {
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .sidebar a[aria-current="page"] button {
@@ -233,11 +212,7 @@ dd {
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-#btn-sair:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 #btn-sair:active {

@@ -8,6 +8,7 @@
     <title>Jogos | Math Game</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="jogos.css">
+    <link rel="stylesheet" href="../includes/modal-perfil.css">
     <script src="../tema.js"></script>
 </head>
 <body>
@@ -99,22 +100,13 @@
         </section>
     </main>
 
-    <dialog id="modal-login-sugestao" aria-labelledby="modal-login-titulo">
-        <article>
-            <h2 id="modal-login-titulo">Acesso restrito</h2>
-            <p>Crie uma conta ou faça login para ver seu perfil.</p>
-            <footer>
-                <a href="../login/login.php"><button type="button" id="btn-ir-login">Fazer Login</button></a>
-                <a href="../cadastro/cadastro.php"><button type="button" id="btn-ir-cadastro">Criar Conta</button></a>
-                <button type="button" id="btn-cancelar-login" onclick="fecharModalLogin()">Agora não</button>
-            </footer>
-        </article>
-    </dialog>
+    <?php require __DIR__ . '/../includes/modal_perfil.php'; ?>
 
     <script>
         const LOGADO  = <?= $logado ? 'true' : 'false' ?>;
         const USUARIO = <?= $logado ? json_encode($usuario) : 'null' ?>;
     </script>
+    <script src="../includes/modal-perfil.js"></script>
     <script src="jogos.js"></script>
 </body>
 </html>

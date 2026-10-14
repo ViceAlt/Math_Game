@@ -36,18 +36,6 @@ body.tema-escuro {
     --border-dark: #4b5d67;
 }
 
-body.daltonismo-protanopia {
-    filter: contrast(1.1) saturate(0.9);
-}
-
-body.daltonismo-deuteranopia {
-    filter: contrast(1.1) hue-rotate(10deg);
-}
-
-body.daltonismo-tritanopia {
-    filter: contrast(1.1) hue-rotate(-10deg);
-}
-
 /* ─── Tonalidades ─────────────────────────────────────────────────────────── */
 body.tonalidade-sunset {
     --duo-blue: #ff6b35;
@@ -165,12 +153,7 @@ button[type="submit"],
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
-    transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
-}
-
-button[type="submit"]:hover,
-#btn-cadastrar:hover {
-    filter: brightness(1.05);
+    transition: filter var(--button-hover-duration), transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 button[type="submit"]:active,

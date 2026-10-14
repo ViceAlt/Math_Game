@@ -1,72 +1,90 @@
 <?php
 /**
  * redefinir_senha.php
- * Página de redefinição de senha via link do e-mail.
+ * Página de redefinição de senha com validação de token, mensagens claras de status e atomicidade.
  *
  * Segurança:
- * - Header Referrer-Policy: no-referrer (token fica na URL)
- * - Sem scripts de terceiros
- * - Token validado via hash SHA-256 (nunca armazenado em texto puro)
- * - Transação atômica (uso único com UPDATE WHERE usado_em IS NULL + rowCount)
- * - session_regenerate_id após reset
- * - Não faz login automático
- * - Envia e-mail de aviso após troca
+ * - Header Referrer-Policy: no-referrer (previne vazamento do token na URL)
+ * - Validação segura via hash SHA-256 (tokens nunca são salvos ou comparados em texto puro)
+ * - Transação atômica no banco (uso único com checagem de rowCount)
+ * - Sem login automático após redefinição
+ * - Notificação por e-mail de confirmação pós-troca
  */
 
 // Envia cabeçalho antes de qualquer saída
 header('Referrer-Policy: no-referrer');
 
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/sessao.php';
 require_once __DIR__ . '/includes/csrf.php';
 require_once __DIR__ . '/includes/senha.php';
 require_once __DIR__ . '/includes/recuperacao.php';
 require_once __DIR__ . '/includes/email.php';
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/includes/logger.php';
 
 sessao_iniciar();
 
-$tokenUrl     = $_GET['token'] ?? '';
-$csrfToken    = csrf_gerar();
-$mensagem     = '';
-$erro         = false;
-$tokenValido  = null;
+$tokenUrl = trim($_GET['token'] ?? '');
+$csrfToken = csrf_gerar();
+$mensagemErro = '';
+$tokenValido = null;
 
-// ── Valida o token na chegada (GET ou POST) ───────────────────────────────────
-if (!empty($tokenUrl)) {
-    $tokenValido = recuperacao_buscar_token_valido($tokenUrl);
+// Verifica o status do token informado na URL
+$statusToken = recuperacao_verificar_status_token($tokenUrl);
+
+switch ($statusToken['status']) {
+    case 'valido':
+        $tokenValido = $statusToken['dados'];
+        break;
+    case 'expirado':
+        $mensagemErro = 'Este link de recuperação expirou (a validade é de 1 hora). Por favor, solicite um novo link abaixo.';
+        break;
+    case 'ja_usado':
+        $mensagemErro = 'Este link de recuperação já foi utilizado. Se precisar redefinir sua senha novamente, solicite um novo link.';
+        break;
+    case 'inexistente':
+    default:
+        $mensagemErro = 'Link de recuperação inválido ou inexistente. Verifique o link copiado ou solicite um novo.';
+        break;
 }
 
-// ── Processamento do POST (nova senha) ───────────────────────────────────────
+// ── Processamento do POST (Submissão da nova senha) ──────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $csrfEnviado  = $_POST['csrf_token']     ?? '';
-    $tokenPost    = $_POST['token_recupera'] ?? '';
-    $novaSenha    = $_POST['nova_senha']      ?? '';
+    $csrfEnviado   = $_POST['csrf_token']     ?? '';
+    $tokenPost     = trim($_POST['token_recupera'] ?? '');
+    $novaSenha     = $_POST['nova_senha']      ?? '';
     $confirmaSenha = $_POST['confirma_senha'] ?? '';
 
     // Valida CSRF
     if (!csrf_validar($csrfEnviado)) {
-        $mensagem = 'Requisição inválida. Recarregue a página e tente novamente.';
-        $erro     = true;
+        recuperacao_log('Tentativa de redefinição de senha rejeitada: CSRF inválido', 'WARNING');
+        $mensagemErro = 'Sessão expirada. Recarregue a página e tente novamente.';
         $tokenValido = null;
     } else {
-        // Revalida o token no momento do POST (evita race condition)
-        $tokenValido = recuperacao_buscar_token_valido($tokenPost);
+        // Revalida o token no momento do POST (proteção contra race conditions)
+        $statusPost = recuperacao_verificar_status_token($tokenPost);
 
-        if (!$tokenValido) {
-            $mensagem = 'Link inválido ou expirado. Solicite um novo link de recuperação.';
-            $erro     = true;
+        if ($statusPost['status'] !== 'valido') {
+            if ($statusPost['status'] === 'expirado') {
+                $mensagemErro = 'Este link de recuperação expirou. Por favor, solicite um novo link.';
+            } elseif ($statusPost['status'] === 'ja_usado') {
+                $mensagemErro = 'Este link de recuperação já foi utilizado.';
+            } else {
+                $mensagemErro = 'Link de recuperação inválido ou inexistente.';
+            }
+            $tokenValido = null;
         } else {
-            // Valida a nova senha
+            $tokenValido = $statusPost['dados'];
+
+            // Valida requisitos e tamanho da senha (8 a 72 bytes)
             $erroSenha = validar_forca_senha($novaSenha);
 
             if ($erroSenha !== null) {
-                $mensagem = $erroSenha;
-                $erro     = true;
+                $mensagemErro = $erroSenha;
             } elseif ($novaSenha !== $confirmaSenha) {
-                $mensagem = 'As senhas não conferem.';
-                $erro     = true;
+                $mensagemErro = 'As senhas informadas não conferem. Digite a mesma senha em ambos os campos.';
             } else {
-                // Tenta redefinir a senha em transação atômica
+                // Executa a troca de senha em transação atômica
                 $sucesso = recuperacao_redefinir_senha(
                     (int) $tokenValido['usuario_id'],
                     (int) $tokenValido['id'],
@@ -74,34 +92,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 );
 
                 if (!$sucesso) {
-                    // Outro processo usou o token simultaneamente ou erro de banco
-                    $mensagem = 'Este link já foi utilizado ou expirou. Solicite um novo.';
-                    $erro     = true;
+                    $mensagemErro = 'Não foi possível redefinir sua senha (o link pode ter sido utilizado em outra aba). Solicite um novo link.';
                     $tokenValido = null;
                 } else {
-                    // Envia e-mail de aviso (falha silenciosa)
+                    // Envia e-mail de aviso confirmando a alteração
                     email_enviar_aviso_senha_alterada(
                         $tokenValido['email'],
                         $tokenValido['username']
                     );
 
-                    // Invalida a sessão atual e regenera o ID
-                    session_regenerate_id(true);
+                    // Destrói / regenera a sessão
+                    if (session_status() === PHP_SESSION_ACTIVE) {
+                        session_regenerate_id(true);
+                    }
 
-                    // Redireciona para o login com mensagem de sucesso — NÃO faz login automático
+                    // Redireciona com aviso para a página de login
                     header('Location: ' . rtrim(APP_URL, '/') . '/login/login.php?aviso=senha_redefinida');
                     exit;
                 }
             }
         }
     }
+
+    // Regenera CSRF
+    $csrfToken = csrf_regenerar();
 }
 
-// ── Verifica o token inicial (GET sem token ou token inválido) ────────────────
 $exibirFormulario = ($tokenValido !== null);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,52 +143,69 @@ $exibirFormulario = ($tokenValido !== null);
             margin-bottom: 1.25rem;
             text-align: left;
         }
+
         body.tema-escuro .aviso-erro {
             background: #2e1a1a;
             color: #ff9e9e;
         }
+
+        .btn-solicitar-novo {
+            display: block;
+            text-align: center;
+            padding: .9rem 1.5rem;
+            background: var(--duo-blue, #1cb0f6);
+            color: #fff;
+            border-radius: 16px;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 1.05rem;
+            letter-spacing: .5px;
+            margin-top: 1.5rem;
+            transition: filter 0.2s;
+        }
+
+        .btn-solicitar-novo:hover {
+            filter: brightness(0.95);
+        }
     </style>
 </head>
+
 <body>
 
     <main class="main" id="main-content">
         <h1>Nova Senha</h1>
 
-        <?php if ($mensagem): ?>
+        <?php if ($mensagemErro): ?>
             <div class="aviso-erro" role="alert" aria-live="assertive">
-                ⚠️ <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
+                ⚠️ <?= htmlspecialchars($mensagemErro, ENT_QUOTES, 'UTF-8') ?>
             </div>
         <?php endif; ?>
 
         <?php if (!$exibirFormulario): ?>
-            <!-- Token inválido ou expirado: só mostra opção de pedir novo link -->
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
-                O link de redefinição é inválido ou expirou. Solicite um novo abaixo.
+            <!-- Token inválido, expirado ou já utilizado -->
+            <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem;">
+                Por motivos de segurança, cada link de redefinição só pode ser utilizado uma única vez e possui tempo limite de validade.
             </p>
-            <a href="esqueci_senha.php" id="link-novo-link" style="
-                display: block; text-align: center; padding: .9rem 1.5rem;
-                background: var(--duo-blue,#1cb0f6); color:#fff; border-radius:16px;
-                font-weight:800; text-decoration:none; font-size:1.05rem; letter-spacing:.5px;
-            ">Solicitar novo link</a>
-
+            <a href="esqueci_senha.php" id="link-novo-link" class="btn-solicitar-novo">
+                Solicitar novo link
+            </a>
         <?php else: ?>
-            <!-- Formulário de redefinição -->
+            <!-- Formulário com token válido -->
             <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
                 Olá, <strong><?= htmlspecialchars($tokenValido['username'], ENT_QUOTES, 'UTF-8') ?></strong>!
-                Crie uma nova senha para a sua conta.
+                Defina uma nova senha segura para acessar sua conta.
             </p>
 
             <form id="form-redefinir" method="POST" action="redefinir_senha.php?token=<?= urlencode($tokenUrl) ?>" novalidate>
-                <!-- CSRF e token de recuperação -->
-                <input type="hidden" name="csrf_token"     value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>">
-                <input type="hidden" name="token_recupera" value="<?= htmlspecialchars($tokenUrl,  ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="token_recupera" value="<?= htmlspecialchars($tokenUrl, ENT_QUOTES, 'UTF-8') ?>">
 
                 <div class="form-group">
                     <label for="nova-senha">Nova senha</label>
                     <input type="password" id="nova-senha" name="nova_senha"
-                           autocomplete="new-password" required minlength="8"
-                           aria-required="true" aria-describedby="dica-senha"
-                           placeholder="Mínimo 8 caracteres">
+                        autocomplete="new-password" required minlength="8" maxlength="72"
+                        aria-required="true" aria-describedby="dica-senha"
+                        placeholder="Mínimo de 8 caracteres">
                     <span id="dica-senha" style="font-size:.82rem; color: var(--text-muted);">
                         A senha deve ter entre 8 e 72 caracteres.
                     </span>
@@ -176,14 +214,10 @@ $exibirFormulario = ($tokenValido !== null);
                 <div class="form-group">
                     <label for="confirma-senha">Confirmar nova senha</label>
                     <input type="password" id="confirma-senha" name="confirma_senha"
-                           autocomplete="new-password" required minlength="8"
-                           aria-required="true"
-                           placeholder="Repita a nova senha">
+                        autocomplete="new-password" required minlength="8" maxlength="72"
+                        aria-required="true"
+                        placeholder="Repita a nova senha">
                 </div>
-
-                <?php if ($erro && $mensagem): ?>
-                    <span class="erro" role="alert"><?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?></span>
-                <?php endif; ?>
 
                 <button type="submit" id="btn-redefinir">Salvar nova senha</button>
             </form>
@@ -193,8 +227,7 @@ $exibirFormulario = ($tokenValido !== null);
     </main>
 
     <script>
-        // Aplica preferências visuais sem carregar scripts externos
-        (function() {
+        (function () {
             const tema = localStorage.getItem('mg_tema');
             const daltonismo = localStorage.getItem('mg_daltonismo');
             const tonalidade = localStorage.getItem('mg_tonalidade');
@@ -205,8 +238,8 @@ $exibirFormulario = ($tokenValido !== null);
             // Validação client-side das senhas
             const form = document.getElementById('form-redefinir');
             if (form) {
-                form.addEventListener('submit', function(e) {
-                    const nova     = document.getElementById('nova-senha');
+                form.addEventListener('submit', function (e) {
+                    const nova = document.getElementById('nova-senha');
                     const confirma = document.getElementById('confirma-senha');
                     if (nova && confirma && nova.value !== confirma.value) {
                         e.preventDefault();
@@ -220,4 +253,5 @@ $exibirFormulario = ($tokenValido !== null);
         })();
     </script>
 </body>
+
 </html>

@@ -5,12 +5,14 @@
  * Não exibe mensagens – lança exceção em caso de falha.
  */
 
-define('DB_HOST', '127.0.0.1');
-define('DB_PORT', '3308');
-define('DB_NAME', 'math_game');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_CHARSET', 'utf8mb4');
+require_once __DIR__ . '/config.php';
+
+if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
+if (!defined('DB_PORT')) define('DB_PORT', '3308');
+if (!defined('DB_NAME')) define('DB_NAME', 'math_game');
+if (!defined('DB_USER')) define('DB_USER', 'root');
+if (!defined('DB_PASS')) define('DB_PASS', '');
+if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
 
 function getDB(): PDO {
     static $pdo = null;

@@ -191,12 +191,8 @@ function navegarPerfil() {
     if (LOGADO) {
         window.location.href = '../perfil/perfil.php';
     } else {
-        document.getElementById('modal-login-sugestao').showModal();
+        abrirModalPerfil();
     }
-}
-
-function fecharModalLogin() {
-    document.getElementById('modal-login-sugestao').close();
 }
 
 function obterProgresso() {

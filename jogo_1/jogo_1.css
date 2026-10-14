@@ -53,18 +53,6 @@ body.tema-escuro {
     --mesa-border: #3a261a;
 }
 
-body.daltonismo-protanopia {
-    filter: contrast(1.1) saturate(0.9);
-}
-
-body.daltonismo-deuteranopia {
-    filter: contrast(1.1) hue-rotate(10deg);
-}
-
-body.daltonismo-tritanopia {
-    filter: contrast(1.1) hue-rotate(-10deg);
-}
-
 /* ─── Tonalidades ─────────────────────────────────────────────────────────── */
 body.tonalidade-sunset {
     --duo-blue: #ff6b35;
@@ -136,11 +124,7 @@ body {
     box-shadow: 0 4px 0 var(--duo-red-shadow);
     cursor: pointer;
     flex-shrink: 0;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-#btn-sair-jogo:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 #btn-sair-jogo:active {
@@ -315,17 +299,7 @@ body.tema-escuro .pizza-plate-inner {
     box-shadow: 0 4px 0 var(--border-color);
     cursor: pointer;
     flex-shrink: 0;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-#btn-desfazer:hover {
-    background: rgba(0, 0, 0, 0.03);
-    color: var(--text-main);
-}
-
-body.tema-escuro #btn-desfazer:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-main);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 #btn-desfazer:active {
@@ -412,11 +386,7 @@ body.tema-escuro #btn-desfazer:hover {
     cursor: pointer;
     background-color: var(--duo-green);
     color: #ffffff;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-.confirmar:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 .confirmar:active {
@@ -440,11 +410,7 @@ body.tema-escuro #btn-desfazer:hover {
     cursor: pointer;
     background-color: var(--duo-yellow);
     color: #ffffff;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-.dica:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 .dica:active {
@@ -634,11 +600,7 @@ body.tema-escuro .resultado-stats {
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-#btn-modal-ok:hover {
-    filter: brightness(1.08);
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
 
 #btn-modal-ok:active {

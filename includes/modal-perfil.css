@@ -1,0 +1,86 @@
+#modal-login-sugestao {
+    width: min(480px, calc(100vw - 2rem));
+    max-width: 480px;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    margin: auto;
+    padding: 2rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    color: var(--text-main);
+    box-shadow: 0 12px 0 var(--border-color);
+}
+
+#modal-login-sugestao::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+#modal-login-sugestao h2 {
+    margin-bottom: 0.75rem;
+    color: var(--duo-green);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+#modal-login-sugestao p {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+#modal-login-sugestao footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#modal-login-sugestao footer button {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    transition: transform 0.1s ease, filter var(--button-hover-duration);
+}
+
+#modal-login-sugestao #btn-ir-login {
+    border: none;
+    border-bottom: 4px solid var(--duo-blue-shadow);
+    background: var(--duo-blue);
+    color: #fff;
+    box-shadow: 0 4px 0 var(--duo-blue-shadow);
+}
+
+#modal-login-sugestao #btn-ir-cadastro {
+    border: none;
+    border-bottom: 4px solid var(--duo-green-shadow);
+    background: var(--duo-green);
+    color: #fff;
+    box-shadow: 0 4px 0 var(--duo-green-shadow);
+}
+
+#modal-login-sugestao #btn-cancelar-login {
+    border: 2px solid var(--border-color);
+    border-bottom: 4px solid var(--border-dark);
+    background: transparent;
+    color: var(--text-muted);
+}
+
+#modal-login-sugestao #btn-ir-login:active,
+#modal-login-sugestao #btn-ir-cadastro:active,
+#modal-login-sugestao #btn-cancelar-login:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 transparent;
+}
+
+@media (max-width: 480px) {
+    #modal-login-sugestao {
+        padding: 1.5rem;
+    }
+}
