@@ -8,7 +8,7 @@
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const CHAVE_PARAMS    = 'mg_params_jogo';
 const CHAVE_USUARIO   = 'mg_usuario';
-const CHAVE_PROGRESSO = 'mg_progresso';
+const CHAVE_PROGRESSO = 'mg_progresso_fases';
 const CHAVE_RECORDE_LIVRE = 'mg_recorde_livre';
 
 // ─── Configurações por dificuldade ────────────────────────────────────────────
@@ -254,18 +254,9 @@ function finalizarJogo() {
     verificarSessaoEGravar(estrelas);
 }
 
-/** Verifica via API se há sessão ativa antes de gravar o progresso. */
 async function verificarSessaoEGravar(estrelas) {
     if (params.modo === 'trilha') {
-        try {
-            const res = await fetch('../api/auth/session.php');
-            const data = await res.json();
-            if (data.ok && data.usuario) {
-                gravarProgressoTrilha(estrelas);
-            }
-        } catch(e) {
-            console.error('Erro ao verificar sessão:', e);
-        }
+        gravarProgressoTrilha(estrelas);
     } else if (params.modo === 'livre') {
         gravarRecordeLivre();
     }
@@ -288,19 +279,29 @@ function calcularEstrelas(acertos, total) {
 function exibirResultado(estrelas) {
     const modal = document.getElementById('modal-resultado');
     if (modal) {
-        const estrelasTxt = '⭐'.repeat(estrelas) + '☆'.repeat(3 - estrelas);
         const elEstrelas = document.getElementById('modal-estrelas-display');
         const elPontos = document.getElementById('modal-pontuacao-valor');
         const elAcertos = document.getElementById('modal-acertos-valor');
 
-        if (elEstrelas) elEstrelas.textContent = estrelasTxt;
+        if (elEstrelas) {
+            let svgHtml = '<div style="display:inline-flex; gap:8px; justify-content:center; align-items:center;">';
+            for (let i = 1; i <= 3; i++) {
+                if (i <= estrelas) {
+                    svgHtml += '<svg width="34" height="34" viewBox="0 0 24 24" fill="#F59E0B" stroke="#D97706" stroke-width="1.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+                } else {
+                    svgHtml += '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+                }
+            }
+            svgHtml += '</div>';
+            elEstrelas.innerHTML = svgHtml;
+            elEstrelas.setAttribute('aria-label', `${estrelas} de 3 estrelas`);
+        }
         if (elPontos) elPontos.textContent = pontuacao;
         if (elAcertos) elAcertos.textContent = `${acertos}/${totalRodadas}`;
 
         modal.showModal();
     } else {
-        const estrelasTxt = '⭐'.repeat(estrelas) + '☆'.repeat(3 - estrelas);
-        alert(`Jogo finalizado!\nPontuação: ${pontuacao}\nEstrelas: ${estrelasTxt}\nAcertos: ${acertos}/${totalRodadas}`);
+        alert(`Jogo finalizado!\nPontuação: ${pontuacao}\nEstrelas: ${estrelas}/3\nAcertos: ${acertos}/${totalRodadas}`);
         voltarPaginaAnterior();
     }
 }
@@ -308,23 +309,39 @@ function exibirResultado(estrelas) {
 // ─── Gravação de Progresso (Trilha) ──────────────────────────────────────────
 
 async function gravarProgressoTrilha(estrelas) {
-    // Calculo do ID da fase (baseado nos IDs do DB: 601, 602, etc. ou usando um de/para simples)
-    // No DB de seed, temos IDs 1 a 12.
-    // Ano 6 = IDs 1,2,3
-    // Ano 7 = IDs 4,5,6
-    // Ano 8 = IDs 7,8,9
-    // Ano 9 = IDs 10,11,12
-    const anoOffset = (params.ano - 6) * 3;
-    const faseId = anoOffset + params.fase;
+    const ano = parseInt(params.ano, 10) || 6;
+    const fase = parseInt(params.fase, 10) || 1;
+
+    // Salva localmente (fallback para visitantes e cache)
+    try {
+        const progressoLocal = obterProgresso();
+        const chaveFase = `ano_${ano}_fase_${fase}`;
+        if (!progressoLocal[chaveFase] || estrelas > (progressoLocal[chaveFase].estrelas || 0)) {
+            progressoLocal[chaveFase] = { estrelas, pontuacao };
+        }
+        if (estrelas >= 1) {
+            const chaveProx = `ano_${ano}_fase_${fase + 1}`;
+            if (!progressoLocal[chaveProx]) {
+                progressoLocal[chaveProx] = { estrelas: 0, pontuacao: 0, desbloqueada: true };
+            }
+        }
+        salvarProgresso(progressoLocal);
+    } catch(e) {
+        console.warn('Erro ao salvar progresso local:', e);
+    }
 
     try {
         await fetch('../api/progresso/salvar.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                fase_id: faseId,
+                ano: ano,
+                fase: fase,
+                fase_id: params.fase_id || 0,
+                jogo_id: 1,
                 pontuacao: pontuacao,
-                estrelas: estrelas
+                estrelas: estrelas,
+                tipo: 'trilha'
             })
         });
     } catch(e) {
@@ -346,12 +363,24 @@ function gravarRecordeLivre() {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function lerParams() {
+    let p = { modo: 'livre', dificuldade: 'facil', ano: 6, fase: 1, jogoId: 1 };
     try {
         const raw = localStorage.getItem(CHAVE_PARAMS);
-        return raw ? JSON.parse(raw) : { modo: 'livre', dificuldade: 'facil' };
+        if (raw) p = Object.assign(p, JSON.parse(raw));
     } catch {
-        return { modo: 'livre', dificuldade: 'facil' };
+        // ignora
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('ano')) p.ano = parseInt(urlParams.get('ano'), 10);
+    if (urlParams.has('fase')) {
+        p.fase = parseInt(urlParams.get('fase'), 10);
+        p.modo = 'trilha';
+    }
+    if (urlParams.has('dificuldade')) p.dificuldade = urlParams.get('dificuldade');
+    if (urlParams.has('modo')) p.modo = urlParams.get('modo');
+
+    return p;
 }
 
 function obterUsuarioLogado() {

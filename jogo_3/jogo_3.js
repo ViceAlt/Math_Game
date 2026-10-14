@@ -7,7 +7,7 @@
 
 // ─── Constantes do Sistema ───────────────────────────────────────────────────
 const CHAVE_PARAMS        = 'mg_params_jogo';
-const CHAVE_PROGRESSO     = 'mg_progresso';
+const CHAVE_PROGRESSO     = 'mg_progresso_fases';
 const CHAVE_RECORDE_LIVRE = 'mg_recorde_livre';
 
 // Paleta de cores vibrantes e amigáveis para as formas criadas (sorteada a cada rodada)
@@ -67,12 +67,24 @@ function aplicarPreferenciasVisuais() {
 }
 
 function lerParams() {
+    let p = { modo: 'livre', dificuldade: 'facil', ano: 6, fase: 1, jogoId: 3 };
     try {
         const raw = localStorage.getItem(CHAVE_PARAMS);
-        return raw ? JSON.parse(raw) : { modo: 'livre', dificuldade: 'facil', jogoId: 3 };
-    } catch {
-        return { modo: 'livre', dificuldade: 'facil', jogoId: 3 };
+        if (raw) p = Object.assign(p, JSON.parse(raw));
+    } catch (e) {
+        // ignora
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('ano')) p.ano = parseInt(urlParams.get('ano'), 10);
+    if (urlParams.has('fase')) {
+        p.fase = parseInt(urlParams.get('fase'), 10);
+        p.modo = 'trilha';
+    }
+    if (urlParams.has('dificuldade')) p.dificuldade = urlParams.get('dificuldade');
+    if (urlParams.has('modo')) p.modo = urlParams.get('modo');
+
+    return p;
 }
 
 // ─── Carregamento das Questões do Backend ──────────────────────────────────────
@@ -837,14 +849,62 @@ function mostrarDica() {
     alert(`Dica Geométrica:\n\n${dicaTexto}`);
 }
 
-// ─── Finalização da Partida e Gravação de Recorde ─────────────────────────────
+// ─── Finalização da Partida e Gravação de Progresso ───────────────────────────
 function finalizarJogo() {
     jogoAtivo = false;
     const total = questoesPartida.length;
     const estrelas = calcularEstrelas(acertos, total);
 
     exibirResultado(estrelas, total);
-    gravarRecordeLivre();
+    verificarSessaoEGravar(estrelas);
+}
+
+async function verificarSessaoEGravar(estrelas) {
+    if (params.modo === 'trilha') {
+        gravarProgressoTrilha(estrelas);
+    } else if (params.modo === 'livre') {
+        gravarRecordeLivre();
+    }
+}
+
+async function gravarProgressoTrilha(estrelas) {
+    const ano = parseInt(params.ano, 10) || 6;
+    const fase = parseInt(params.fase, 10) || 1;
+
+    try {
+        const progressoLocal = JSON.parse(localStorage.getItem(CHAVE_PROGRESSO)) || {};
+        const chaveFase = `ano_${ano}_fase_${fase}`;
+        if (!progressoLocal[chaveFase] || estrelas > (progressoLocal[chaveFase].estrelas || 0)) {
+            progressoLocal[chaveFase] = { estrelas, pontuacao };
+        }
+        if (estrelas >= 1) {
+            const chaveProx = `ano_${ano}_fase_${fase + 1}`;
+            if (!progressoLocal[chaveProx]) {
+                progressoLocal[chaveProx] = { estrelas: 0, pontuacao: 0, desbloqueada: true };
+            }
+        }
+        localStorage.setItem(CHAVE_PROGRESSO, JSON.stringify(progressoLocal));
+    } catch (e) {
+        console.warn('Erro ao salvar progresso local:', e);
+    }
+
+    try {
+        await fetch('../api/progresso/salvar.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ano: ano,
+                fase: fase,
+                fase_id: params.fase_id || 0,
+                jogo_id: 3,
+                pontuacao: pontuacao,
+                estrelas: estrelas,
+                tipo: 'trilha'
+            })
+        });
+    } catch (e) {
+        console.error('Erro ao salvar progresso na API', e);
+    }
 }
 
 function calcularEstrelas(acertosQtd, total) {
@@ -858,12 +918,23 @@ function calcularEstrelas(acertosQtd, total) {
 function exibirResultado(estrelas, total) {
     const modal = document.getElementById('modal-resultado');
     if (modal) {
-        const estrelasTxt = '⭐'.repeat(estrelas) + '☆'.repeat(3 - estrelas);
         const elEstrelas = document.getElementById('modal-estrelas-display');
         const elPontos = document.getElementById('modal-pontuacao-valor');
         const elAcertos = document.getElementById('modal-acertos-valor');
 
-        if (elEstrelas) elEstrelas.textContent = estrelasTxt;
+        if (elEstrelas) {
+            let svgHtml = '<div style="display:inline-flex; gap:8px; justify-content:center; align-items:center;">';
+            for (let i = 1; i <= 3; i++) {
+                if (i <= estrelas) {
+                    svgHtml += '<svg width="34" height="34" viewBox="0 0 24 24" fill="#F59E0B" stroke="#D97706" stroke-width="1.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+                } else {
+                    svgHtml += '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+                }
+            }
+            svgHtml += '</div>';
+            elEstrelas.innerHTML = svgHtml;
+            elEstrelas.setAttribute('aria-label', `${estrelas} de 3 estrelas`);
+        }
         if (elPontos) elPontos.textContent = pontuacao;
         if (elAcertos) elAcertos.textContent = `${acertos}/${total}`;
 

@@ -1,238 +1,467 @@
-/* home.css - Duolingo Style */
-@font-face {
-    font-family: 'padrao';
-    src: url('../fonts/inria-sans.regular.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
+/* home.css - Estilo Duolingo da Home (Math Game) */
 
-:root {
-    --duo-green: #58cc02;
-    --duo-green-shadow: #46a302;
-    --duo-blue: #1cb0f6;
-    --duo-blue-shadow: #1899d6;
-    --duo-yellow: #ffc800;
-    --duo-yellow-shadow: #e5b200;
-    --duo-orange: #ff9600;
-    --duo-orange-shadow: #e58700;
-    --duo-red: #ff4b4b;
-    --duo-red-shadow: #ea2b2b;
-
-    --bg-main: #f7f7f7;
-    --bg-card: #ffffff;
-    --text-main: #3c3c3c;
-    --text-muted: #777777;
-    --border-color: #e5e5e5;
-    --border-dark: #cecece;
-    --sidebar-width: 250px;
-
-    --radius-sm: 12px;
-    --radius-md: 16px;
-    --radius-lg: 20px;
-}
-
-body.tema-escuro {
-    --bg-main: #131f24;
-    --bg-card: #202f36;
-    --text-main: #f1f1f1;
-    --text-muted: #8496a0;
-    --border-color: #37464f;
-    --border-dark: #4b5d67;
-}
-
-/* ─── Tonalidades ─────────────────────────────────────────────────────────── */
-body.tonalidade-sunset {
-    --duo-blue: #ff6b35;
-    --duo-blue-shadow: #e05520;
-    --duo-green: #e8475f;
-    --duo-green-shadow: #c93549;
-}
-
-body.tonalidade-ocean {
-    --duo-blue: #0096c7;
-    --duo-blue-shadow: #0077b6;
-    --duo-green: #06d6a0;
-    --duo-green-shadow: #05b384;
-}
-
-body.tonalidade-earth {
-    --duo-blue: #d4a03c;
-    --duo-blue-shadow: #b8872e;
-    --duo-green: #c45e3a;
-    --duo-green-shadow: #a44d2e;
-}
-
-body.tonalidade-berry {
-    --duo-blue: #e63981;
-    --duo-blue-shadow: #c0145c;
-    --duo-green: #7a285f;
-    --duo-green-shadow: #67164c;
-}
-
-* {
+/* Área Principal com Espaçamento para Navbar Fixa */
+.home-main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'padrao', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-body {
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    display: flex;
-    min-height: 100vh;
+/* Layout em Grid de Duas Colunas com Proporções Equilibradas */
+.home-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    align-items: start;
 }
 
-/* Sidebar */
-.sidebar {
-    width: var(--sidebar-width);
-    background: var(--bg-card);
-    border-right: 2px solid var(--border-color);
-    padding: 2rem 1rem;
-    position: fixed;
-    height: 100vh;
-    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.02);
-}
-
-.sidebar ul {
-    list-style: none;
+.home-col-main {
     display: flex;
     flex-direction: column;
+    gap: 1.75rem;
+}
+
+.home-col-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: calc(var(--nav-height, 70px) + 1.5rem);
+}
+
+/* ─── Card Modo Livre (Jogar) ─────────────────────────────────────────────────── */
+.card-jogar {
+    background: var(--bg-card);
+    border: 2px solid var(--duo-green);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 0 var(--duo-green-shadow);
+    padding: 2rem 2.25rem;
+    cursor: pointer;
+    transition: transform var(--transicao-rapida), box-shadow var(--transicao-rapida), filter var(--transicao-rapida);
+}
+
+.card-jogar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 0 var(--duo-green-shadow);
+    filter: brightness(1.02);
+}
+
+.card-jogar:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 var(--duo-green-shadow);
+}
+
+.card-jogar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.65rem;
+}
+
+.card-jogar-titulo-wrap {
+    display: flex;
+    align-items: center;
     gap: 0.75rem;
 }
 
-.sidebar a {
-    text-decoration: none;
-}
-
-.sidebar button {
-    width: 100%;
-    text-align: left;
-    padding: 0.85rem 1.25rem;
-    border-radius: var(--radius-md);
-    border: 2px solid transparent;
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-.sidebar a[aria-current="page"] button {
-    background: var(--duo-blue);
-    color: #ffffff;
-    border-color: var(--duo-blue-shadow);
-    box-shadow: 0 4px 0 var(--duo-blue-shadow);
-}
-
-/* Main Content Area */
-.main {
-    margin-left: var(--sidebar-width);
-    padding: 2.5rem;
-    flex: 1;
-    max-width: 900px;
-}
-
-h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    color: var(--text-main);
-}
-
-h2 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    color: var(--text-main);
-}
-
-h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-}
-
-/* Cards & Sections */
-.perfil-resumo,
-.ultimo-jogo,
-.card-jogar,
-.progresso-trilha {
-    background: var(--bg-card);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 5px 0 var(--border-color);
-    padding: 1.75rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-}
-
-.perfil-resumo {
+.card-jogar-icone {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-}
-
-#foto-perfil {
-    border-radius: 50%;
-    border: 3px solid var(--duo-green);
-    object-fit: cover;
-}
-
-#nome-usuario {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--text-main);
-}
-
-.card-jogar {
-    cursor: pointer;
-    background: var(--bg-card);
-    border-color: var(--duo-green);
-    box-shadow: 0 6px 0 var(--duo-green-shadow);
-    position: relative;
-    overflow: hidden;
+    justify-content: center;
+    color: var(--duo-green);
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--duo-green-light);
 }
 
 .card-jogar h2 {
-    color: var(--duo-green);
     font-size: 1.6rem;
     font-weight: 800;
+    color: var(--duo-green);
+}
+
+.badge-tag {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: var(--duo-green-light);
+    color: var(--duo-green);
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--duo-green);
 }
 
 .card-jogar p {
     color: var(--text-muted);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.card-jogar-cta-row {
+    margin-top: 1.25rem;
+}
+
+/* ─── Card Unificado (Último Jogo + Trilhas) ─────────────────────────────────── */
+.card-unificado {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 0 var(--border-color);
+    padding: 2rem 2.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+body.tema-escuro .card-unificado {
+    box-shadow: 0 5px 0 var(--border-dark);
+}
+
+.secao-unificado {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.secao-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.secao-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-sm);
+    background: var(--duo-blue-light);
+    color: var(--duo-blue);
+    flex-shrink: 0;
+}
+
+.secao-titulo {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.25;
+}
+
+.secao-subtitulo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.divisor-unificado {
+    border: 0;
+    height: 2px;
+    background: var(--border-color);
+    margin: 0;
+}
+
+/* Detalhe do Último Jogo */
+.ultimo-jogo-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    background: var(--bg-card-subtle);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    flex-wrap: wrap;
+}
+
+.ultimo-jogo-detalhes {
+    flex: 1;
+    min-width: 220px;
+}
+
+.ultimo-jogo-detalhes h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.35rem;
+}
+
+.texto-mutado {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* ─── Lista de Trilhas Recentes ─────────────────────────────────────────────── */
+.trilhas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.trilha-item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background: var(--bg-card-subtle);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    flex-wrap: wrap;
+    transition: transform var(--transicao-rapida), border-color var(--transicao-rapida);
+}
+
+.trilha-item-card:hover {
+    border-color: var(--duo-blue);
+}
+
+.trilha-item-info {
+    flex: 1;
+    min-width: 220px;
+}
+
+.trilha-item-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.65rem;
+    gap: 0.75rem;
+}
+
+.trilha-item-nome-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.trilha-item-nome {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.trilha-item-stats {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--duo-blue);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Barra de Progresso Duolingo */
+.barra-progresso-trilha {
+    width: 100%;
+    height: 12px;
+    background: var(--border-color);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    position: relative;
+}
+
+.barra-progresso-fill {
+    height: 100%;
+    background: var(--duo-green);
+    border-radius: var(--radius-pill);
+    transition: width 0.4s ease;
+}
+
+/* ─── Painel Lateral (Direita) ──────────────────────────────────────────────── */
+.card-lateral {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 0 var(--border-color);
+    padding: 2.25rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+}
+
+body.tema-escuro .card-lateral {
+    box-shadow: 0 5px 0 var(--border-dark);
+}
+
+/* Avatar e Tag de Aluno */
+.perfil-avatar-wrapper {
+    position: relative;
+}
+
+#foto-perfil {
+    border-radius: 50%;
+    border: 4px solid var(--duo-green);
+    object-fit: cover;
+    background: var(--bg-card-subtle);
+    display: block;
+}
+
+#nome-usuario {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-main);
+    word-break: break-word;
+}
+
+.perfil-tag {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--duo-blue);
+    background: var(--duo-blue-light);
+    padding: 0.25rem 0.85rem;
+    border-radius: var(--radius-pill);
+    margin-top: -0.5rem;
+}
+
+/* Mini Estatísticas do Usuário na Lateral */
+.perfil-stats-resumo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.perfil-stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.75rem;
+}
+
+.chip-icone-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--duo-blue);
+}
+
+.chip-icone-svg .estrela-amarela {
+    color: var(--duo-yellow);
+    fill: var(--duo-yellow);
+}
+
+.chip-textos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.chip-label {
+    font-size: 0.7rem;
     font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
 }
 
-.card-jogar:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 0 var(--duo-green-shadow);
+.chip-valor {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text-main);
 }
 
-.card-jogar:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+.perfil-botoes-acao {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.25rem;
 }
 
-.progresso-trilha {
+.perfil-botoes-acao .btn-duo {
+    width: 100%;
+}
+
+/* Card Visitante (Aviso de Login na Lateral) */
+.card-visitante-aviso {
     border-color: var(--duo-blue);
     box-shadow: 0 5px 0 var(--duo-blue-shadow);
 }
 
-.progresso-trilha h3 {
+.visitante-icone-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--duo-blue-light);
+    color: var(--duo-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-visitante-aviso h2 {
+    font-size: 1.35rem;
+    font-weight: 800;
     color: var(--duo-blue);
 }
 
-.bg-texto-visitante {
-    font-size: 1.2rem;
-    font-weight: 700;
+.msg-aviso-visitante {
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    line-height: 1.5;
 }
 
-/* Dialog / Modal */
+.visitante-botoes-acao {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.visitante-botoes-acao .btn-duo {
+    width: 100%;
+}
+
+/* ─── Responsividade ─────────────────────────────────────────────────────────── */
+@media (max-width: 880px) {
+    .home-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .home-col-aside {
+        position: static;
+        order: 2; /* Lateral desce para baixo do conteúdo principal */
+    }
+
+    .perfil-botoes-acao,
+    .visitante-botoes-acao {
+        flex-direction: row;
+    }
+
+    .perfil-botoes-acao .btn-duo,
+    .visitante-botoes-acao .btn-duo {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-main {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .card-jogar,
+    .card-unificado,
+    .card-lateral {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .perfil-botoes-acao,
+    .visitante-botoes-acao {
+        flex-direction: column;
+    }
+}

@@ -44,7 +44,7 @@ function email_enviar_recuperacao(string $emailDestino, string $nomeDestino, str
 </head>
 <body>
   <div class='card'>
-    <h2>🔐 Redefinição de senha – Math Game</h2>
+    <h2>Redefinição de senha – Math Game</h2>
     <p>Olá, <strong>" . htmlspecialchars($nomeDestino, ENT_QUOTES, 'UTF-8') . "</strong>!</p>
     <p>Recebemos uma solicitação para redefinir a senha da sua conta no <strong>Math Game</strong>. Clique no botão abaixo para criar sua nova senha:</p>
     <p style='text-align: center;'>
@@ -53,7 +53,7 @@ function email_enviar_recuperacao(string $emailDestino, string $nomeDestino, str
     <p>Caso o botão acima não funcione, copie e cole o link abaixo diretamente no seu navegador:</p>
     <div class='link-box'>" . htmlspecialchars($linkRedefinicao, ENT_QUOTES, 'UTF-8') . "</div>
     <p class='aviso'>
-      ⏳ Este link expira em <strong>" . htmlspecialchars($tempoTexto, ENT_QUOTES, 'UTF-8') . "</strong> e é de uso único.<br>
+      Este link expira em <strong>" . htmlspecialchars($tempoTexto, ENT_QUOTES, 'UTF-8') . "</strong> e é de uso único.<br>
       Se você não solicitou a troca de senha, desconsidere este e-mail com segurança.
     </p>
   </div>
@@ -95,11 +95,11 @@ function email_enviar_aviso_senha_alterada(string $emailDestino, string $nomeDes
 </head>
 <body>
   <div class='card'>
-    <h2>✅ Senha alterada – Math Game</h2>
+    <h2>Senha alterada – Math Game</h2>
     <p>Olá, <strong>" . htmlspecialchars($nomeDestino, ENT_QUOTES, 'UTF-8') . "</strong>!</p>
     <p>A senha da sua conta no <strong>Math Game</strong> foi alterada com sucesso.</p>
     <div class='alerta'>
-      ⚠️ <strong>Não reconhece essa alteração?</strong><br>
+      <strong>Não reconhece essa alteração?</strong><br>
       Se você não realizou essa mudança, entre em contato imediatamente com o suporte ou utilize a opção \"Esqueci a senha\" para recuperar seu acesso.
     </div>
   </div>

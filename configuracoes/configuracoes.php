@@ -8,20 +8,13 @@
     <title>Configurações | Math Game</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="configuracoes.css">
+    <link rel="stylesheet" href="../includes/navbar.css">
     <link rel="stylesheet" href="../includes/modal-perfil.css">
     <script src="../tema.js"></script>
 </head>
 <body>
 
-    <nav class="sidebar" aria-label="Navegação principal">
-        <ul>
-            <li><a href="../home/home.php"><button type="button" id="nav-home">Home</button></a></li>
-            <li><a href="../conteudos/conteudos.php"><button type="button" id="nav-conteudos">Conteúdos</button></a></li>
-            <li><a href="../jogos/jogos.php"><button type="button" id="nav-jogos">Jogos</button></a></li>
-            <li><button type="button" id="nav-perfil" onclick="navegarPerfil()">Perfil</button></li>
-            <li><a href="configuracoes.php" aria-current="page"><button type="button" id="nav-configuracoes">Configurações</button></a></li>
-        </ul>
-    </nav>
+    <?php require __DIR__ . '/../includes/navbar.php'; ?>
 
     <main class="main" id="main-content">
         <h1>Configurações</h1>

@@ -21,6 +21,7 @@ require_once __DIR__ . '/includes/senha.php';
 require_once __DIR__ . '/includes/recuperacao.php';
 require_once __DIR__ . '/includes/email.php';
 require_once __DIR__ . '/includes/logger.php';
+require_once __DIR__ . '/includes/icones.php';
 
 sessao_iniciar();
 
@@ -177,7 +178,7 @@ $exibirFormulario = ($tokenValido !== null);
 
         <?php if ($mensagemErro): ?>
             <div class="aviso-erro" role="alert" aria-live="assertive">
-                ⚠️ <?= htmlspecialchars($mensagemErro, ENT_QUOTES, 'UTF-8') ?>
+                <?= icone_svg('warning', 'icone-inline', 18) ?> <?= htmlspecialchars($mensagemErro, ENT_QUOTES, 'UTF-8') ?>
             </div>
         <?php endif; ?>
 

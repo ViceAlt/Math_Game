@@ -1,3 +1,12 @@
+<?php
+require_once __DIR__ . '/../includes/validador_fase.php';
+$ano  = isset($_GET['ano']) ? (int) $_GET['ano'] : null;
+$fase = isset($_GET['fase']) ? (int) $_GET['fase'] : null;
+if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) {
+    header('Location: ../conteudos/conteudos.php?aviso=fase_bloqueada');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -57,7 +66,7 @@
     <dialog id="modal-resultado" aria-labelledby="modal-resultado-titulo">
         <article class="modal-resultado-conteudo">
             <h2 id="modal-resultado-titulo">Fim de Jogo!</h2>
-            <div class="resultado-estrelas" id="modal-estrelas-display" aria-label="Estrelas conquistadas">⭐⭐⭐</div>
+            <div class="resultado-estrelas" id="modal-estrelas-display" aria-label="Estrelas conquistadas"></div>
             <div class="resultado-stats">
                 <p>Pontuação: <strong id="modal-pontuacao-valor">0</strong> pts</p>
                 <p>Acertos: <strong id="modal-acertos-valor">0/0</strong></p>
