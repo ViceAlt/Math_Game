@@ -99,12 +99,11 @@ html.tonalidade-earth {
 body.tonalidade-berry,
 html.tonalidade-berry {
    /* [BERRY] Cor de Destaque 1: Cereja Carmim */
-   --duo-blue: #e63946;
-   --duo-blue-shadow: #c52d38;
-
+   --duo-blue: #e63981;
+   --duo-blue-shadow: #c0145c;
    /* [BERRY] Cor de Destaque 2: Rubi Escarlate */
-   --duo-green: #d90429;
-   --duo-green-shadow: #b30021;
+   --duo-green: #7a285f;
+   --duo-green-shadow: #67164c;
 }
 
 /* --------------------------------------------------------------------------

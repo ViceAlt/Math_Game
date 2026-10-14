@@ -62,6 +62,40 @@
                 <button type="button" class="btn-jogar-card" id="btn-jogar-jogo-2" onclick="iniciarJogoLivre(2)">Jogar</button>
             </article>
 
+            <article class="card-jogo" id="card-jogo-3" aria-labelledby="jogo-3-nome">
+                <h2 id="jogo-3-nome">Geometria e Formas</h2>
+                <p>Desenhe figuras geométricas no plano e teste seus conhecimentos sobre perímetro e área.</p>
+                <p>Seu recorde: <strong id="recorde-jogo-3">0 pts</strong></p>
+
+                <div class="dificuldade-group" role="group" aria-label="Dificuldade do jogo 3">
+                    <button type="button" class="btn-dificuldade" id="jogo3-facil"
+                            data-dificuldade="facil" onclick="selecionarDificuldadeJogo(3,'facil')" aria-pressed="true">Fácil</button>
+                    <button type="button" class="btn-dificuldade" id="jogo3-medio"
+                            data-dificuldade="medio" onclick="selecionarDificuldadeJogo(3,'medio')" aria-pressed="false">Médio</button>
+                    <button type="button" class="btn-dificuldade" id="jogo3-experiente"
+                            data-dificuldade="experiente" onclick="selecionarDificuldadeJogo(3,'experiente')" aria-pressed="false">Experiente</button>
+                </div>
+
+                <button type="button" class="btn-jogar-card" id="btn-jogar-jogo-3" onclick="iniciarJogoLivre(3)">Jogar</button>
+            </article>
+
+            <article class="card-jogo" id="card-jogo-4" aria-labelledby="jogo-4-nome">
+                <h2 id="jogo-4-nome">Sucessores e Antecessores</h2>
+                <p>Complete as sentenças com o sucessor ou antecessor correto e teste sua lógica matemática.</p>
+                <p>Seu recorde: <strong id="recorde-jogo-4">0 pts</strong></p>
+
+                <div class="dificuldade-group" role="group" aria-label="Dificuldade do jogo 4">
+                    <button type="button" class="btn-dificuldade" id="jogo4-facil"
+                            data-dificuldade="facil" onclick="selecionarDificuldadeJogo(4,'facil')" aria-pressed="true">Fácil</button>
+                    <button type="button" class="btn-dificuldade" id="jogo4-medio"
+                            data-dificuldade="medio" onclick="selecionarDificuldadeJogo(4,'medio')" aria-pressed="false">Médio</button>
+                    <button type="button" class="btn-dificuldade" id="jogo4-experiente"
+                            data-dificuldade="experiente" onclick="selecionarDificuldadeJogo(4,'experiente')" aria-pressed="false">Experiente</button>
+                </div>
+
+                <button type="button" class="btn-jogar-card" id="btn-jogar-jogo-4" onclick="iniciarJogoLivre(4)">Jogar</button>
+            </article>
+
         </section>
     </main>
 
