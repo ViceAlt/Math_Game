@@ -35,14 +35,14 @@
    --cor-aviso: #ff9600;
    --cor-perigo: #ff4b4b;
 
-   /* Neutros Modo Claro */
-   --bg-main: #f7f9fa;
+   /* Neutros Modo Claro (Padronizado com Jogos) */
+   --bg-main: #f7f7f7;
    --bg-card: #ffffff;
-   --bg-card-subtle: #f1f5f9;
-   --text-main: #273138;
-   --text-muted: #64748b;
-   --border-color: #e2e8f0;
-   --border-dark: #cbd5e1;
+   --bg-card-subtle: #f1f1f1;
+   --text-main: #3c3c3c;
+   --text-muted: #777777;
+   --border-color: #e5e5e5;
+   --border-dark: #cecece;
 
    /* Raios de Borda Consistentes */
    --radius-sm: 12px;
@@ -60,20 +60,21 @@
    /* Animações Curtas e Confortáveis */
    --transicao-rapida: 0.15s ease;
    --transicao-media: 0.25s ease;
+   --button-hover-duration: 0.15s ease; /* Alias de --transicao-rapida para compatibilidade */
 }
 
 /* --------------------------------------------------------------------------
-   MODO ESCURO
+   MODO ESCURO (Padronizado com Jogos)
    -------------------------------------------------------------------------- */
 body.tema-escuro,
 html.tema-escuro {
    --bg-main: #131f24;
-   --bg-card: #1b272d;
-   --bg-card-subtle: #24333b;
-   --text-main: #f1f5f9;
-   --text-muted: #94a3b8;
-   --border-color: #2b3940;
-   --border-dark: #37464f;
+   --bg-card: #202f36;
+   --bg-card-subtle: #2b3940;
+   --text-main: #f1f1f1;
+   --text-muted: #8496a0;
+   --border-color: #37464f;
+   --border-dark: #4b5d67;
 
    --duo-green-light: rgba(88, 204, 2, 0.15);
    --duo-blue-light: rgba(28, 176, 246, 0.15);
@@ -91,6 +92,7 @@ html.tema-escuro {
 body.tonalidade-sunset, html.tonalidade-sunset {
    --duo-blue: #ff6b35;
    --duo-blue-shadow: #e05520;
+   --duo-blue-light: #fff0eb;
    --duo-green: #e8475f;
    --duo-green-shadow: #c93549;
 }
@@ -98,6 +100,7 @@ body.tonalidade-sunset, html.tonalidade-sunset {
 body.tonalidade-ocean, html.tonalidade-ocean {
    --duo-blue: #0096c7;
    --duo-blue-shadow: #0077b6;
+   --duo-blue-light: #e6f7fc;
    --duo-green: #06d6a0;
    --duo-green-shadow: #05b384;
 }
@@ -105,8 +108,33 @@ body.tonalidade-ocean, html.tonalidade-ocean {
 body.tonalidade-earth, html.tonalidade-earth {
    --duo-blue: #d4a03c;
    --duo-blue-shadow: #b8872e;
+   --duo-blue-light: #fbf5e8;
    --duo-green: #c45e3a;
    --duo-green-shadow: #a44d2e;
+}
+
+body.tonalidade-berry, html.tonalidade-berry {
+   --duo-blue: #e63981;
+   --duo-blue-shadow: #c0145c;
+   --duo-blue-light: #fdebf2;
+   --duo-green: #7a285f;
+   --duo-green-shadow: #67164c;
+}
+
+body.tonalidade-crimson, html.tonalidade-crimson {
+   --duo-blue: #dc2626;
+   --duo-blue-shadow: #991b1b;
+   --duo-blue-light: #fee2e2;
+   --duo-green: #f43f5e;
+   --duo-green-shadow: #be123c;
+}
+
+body.tonalidade-arctic, html.tonalidade-arctic {
+   --duo-blue: #0284c7;
+   --duo-blue-shadow: #0369a1;
+   --duo-blue-light: #e0f7fa;
+   --duo-green: #06b6d4;
+   --duo-green-shadow: #0891b2;
 }
 
 /* --------------------------------------------------------------------------
@@ -158,7 +186,7 @@ h3 { font-size: 1.15rem; }
    text-decoration: none;
    border: 2px solid transparent;
    user-select: none;
-   transition: transform var(--transicao-rapida), box-shadow var(--transicao-rapida), filter var(--transicao-rapida);
+   transition: filter var(--transicao-rapida), background var(--transicao-rapida), border-color var(--transicao-rapida), color var(--transicao-rapida);
 }
 
 .btn-duo:focus-visible {
@@ -175,14 +203,11 @@ h3 { font-size: 1.15rem; }
 }
 
 .btn-duo-green:hover {
-   filter: brightness(1.05);
-   transform: translateY(-2px);
-   box-shadow: 0 6px 0 var(--duo-green-shadow);
+   filter: brightness(1.08);
 }
 
 .btn-duo-green:active {
-   transform: translateY(3px);
-   box-shadow: 0 1px 0 var(--duo-green-shadow);
+   filter: brightness(0.92);
 }
 
 /* Botão Azul 3D (Ação Secundária / Continuar) */
@@ -194,14 +219,11 @@ h3 { font-size: 1.15rem; }
 }
 
 .btn-duo-blue:hover {
-   filter: brightness(1.05);
-   transform: translateY(-2px);
-   box-shadow: 0 6px 0 var(--duo-blue-shadow);
+   filter: brightness(1.08);
 }
 
 .btn-duo-blue:active {
-   transform: translateY(3px);
-   box-shadow: 0 1px 0 var(--duo-blue-shadow);
+   filter: brightness(0.92);
 }
 
 /* Botão Laranja 3D */
@@ -213,14 +235,11 @@ h3 { font-size: 1.15rem; }
 }
 
 .btn-duo-orange:hover {
-   filter: brightness(1.05);
-   transform: translateY(-2px);
-   box-shadow: 0 6px 0 var(--duo-orange-shadow);
+   filter: brightness(1.08);
 }
 
 .btn-duo-orange:active {
-   transform: translateY(3px);
-   box-shadow: 0 1px 0 var(--duo-orange-shadow);
+   filter: brightness(0.92);
 }
 
 /* Botão 3D Contorno (Outline / Secundário) */
@@ -235,13 +254,10 @@ h3 { font-size: 1.15rem; }
    background: var(--duo-blue-light);
    border-color: var(--duo-blue);
    color: var(--duo-blue);
-   transform: translateY(-2px);
-   box-shadow: 0 6px 0 var(--duo-blue);
 }
 
 .btn-duo-outline:active {
-   transform: translateY(3px);
-   box-shadow: 0 1px 0 var(--duo-blue);
+   filter: brightness(0.92);
 }
 
 /* Botão Neutro Cinza */
@@ -254,13 +270,11 @@ h3 { font-size: 1.15rem; }
 
 .btn-duo-neutral:hover {
    color: var(--text-main);
-   transform: translateY(-2px);
-   box-shadow: 0 6px 0 var(--border-dark);
+   background: var(--border-color);
 }
 
 .btn-duo-neutral:active {
-   transform: translateY(3px);
-   box-shadow: 0 1px 0 var(--border-dark);
+   filter: brightness(0.92);
 }
 
 /* --------------------------------------------------------------------------

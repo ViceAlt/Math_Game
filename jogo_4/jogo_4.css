@@ -56,11 +56,25 @@ body.tonalidade-earth {
     --duo-green-shadow: #a44d2e;
 }
 
-body.tonalidade-berry {
+body.tonalidade-berry, html.tonalidade-berry {
     --duo-blue: #e63981;
     --duo-blue-shadow: #c0145c;
     --duo-green: #7a285f;
     --duo-green-shadow: #67164c;
+}
+
+body.tonalidade-crimson, html.tonalidade-crimson {
+    --duo-blue: #dc2626;
+    --duo-blue-shadow: #991b1b;
+    --duo-green: #f43f5e;
+    --duo-green-shadow: #be123c;
+}
+
+body.tonalidade-arctic, html.tonalidade-arctic {
+    --duo-blue: #0284c7;
+    --duo-blue-shadow: #0369a1;
+    --duo-green: #06b6d4;
+    --duo-green-shadow: #0891b2;
 }
 
 * {
@@ -104,12 +118,15 @@ body {
     box-shadow: 0 4px 0 var(--duo-red-shadow);
     cursor: pointer;
     flex-shrink: 0;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-sair-jogo:hover {
+    filter: brightness(1.08);
 }
 
 #btn-sair-jogo:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 .barra-progresso-container {
@@ -211,14 +228,17 @@ body {
     font-weight: 900;
     color: var(--duo-blue);
     user-select: none;
-    transition: filter var(--button-hover-duration), transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+    transition: filter var(--button-hover-duration), border-color 0.2s ease, background-color 0.2s ease;
     position: relative;
+}
+
+.campo-escolha:hover {
+    filter: brightness(1.05);
 }
 
 .campo-escolha:active,
 .campo-escolha.aberto {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0 var(--duo-blue-shadow);
+    filter: brightness(0.95);
 }
 
 .campo-escolha.vazio {
@@ -290,9 +310,12 @@ body {
     color: var(--text-muted);
 }
 
+.btn-confirmar:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+
 .btn-confirmar:active:not(:disabled) {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 .acao-dica {
@@ -315,12 +338,15 @@ body {
     cursor: pointer;
     background-color: var(--duo-yellow);
     color: #ffffff;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+.btn-dica:hover {
+    filter: brightness(1.08);
 }
 
 .btn-dica:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 /* Popover Flutuante de Opções */
@@ -446,12 +472,15 @@ body.tema-escuro .resultado-stats {
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-modal-ok:hover {
+    filter: brightness(1.08);
 }
 
 #btn-modal-ok:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 /* Responsividade */

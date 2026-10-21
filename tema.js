@@ -13,7 +13,9 @@
         'tonalidade-sunset',
         'tonalidade-ocean',
         'tonalidade-earth',
-        'tonalidade-berry'
+        'tonalidade-berry',
+        'tonalidade-crimson',
+        'tonalidade-arctic'
     ];
 
     const CLASSES_DALTONISMO = [

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "f_1",
+    "nivel": "facil",
+    "fases": [7],
+    "esq": { "x": 1, "blocos": 4, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 9, "baloes": 0 },
+    "solucao": 5,
+    "passos_minimos": 1,
+    "dica": "Retire 4 blocos de ambos os lados para deixar o x sozinho."
+  },
+  {
+    "id": "f_2",
+    "nivel": "facil",
+    "fases": [7],
+    "esq": { "x": 1, "blocos": 3, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 8, "baloes": 0 },
+    "solucao": 5,
+    "passos_minimos": 1,
+    "dica": "Retire 3 blocos dos dois pratos simultaneamente."
+  },
+  {
+    "id": "f_3",
+    "nivel": "facil",
+    "fases": [7],
+    "esq": { "x": 1, "blocos": 7, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 15, "baloes": 0 },
+    "solucao": 8,
+    "passos_minimos": 1,
+    "dica": "Remova 7 blocos de cada prato para isolar o x."
+  },
+  {
+    "id": "f_4",
+    "nivel": "facil",
+    "fases": [9],
+    "esq": { "x": 1, "blocos": 6, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 14, "baloes": 0 },
+    "solucao": 8,
+    "passos_minimos": 1,
+    "dica": "O que você retira da esquerda, precisa retirar da direita."
+  },
+  {
+    "id": "f_5",
+    "nivel": "facil",
+    "fases": [9],
+    "esq": { "x": 1, "blocos": 5, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 12, "baloes": 0 },
+    "solucao": 7,
+    "passos_minimos": 1,
+    "dica": "Subtraia 5 blocos dos dois lados ao mesmo tempo."
+  },
+  {
+    "id": "f_6",
+    "nivel": "facil",
+    "fases": [7, 9],
+    "esq": { "x": 1, "blocos": 8, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 18, "baloes": 0 },
+    "solucao": 10,
+    "passos_minimos": 1,
+    "dica": "Isole a caixa x retirando 8 blocos dos dois lados."
+  },
+  {
+    "id": "f_7",
+    "nivel": "facil",
+    "fases": [9],
+    "esq": { "x": 1, "blocos": 2, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 11, "baloes": 0 },
+    "solucao": 9,
+    "passos_minimos": 1,
+    "dica": "Retire 2 blocos de cada prato para equilibrar."
+  },
+  {
+    "id": "m_1",
+    "nivel": "medio",
+    "fases": [13],
+    "esq": { "x": 2, "blocos": 4, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 12, "baloes": 0 },
+    "solucao": 4,
+    "passos_minimos": 2,
+    "dica": "Passe os 4 blocos para o outro lado e depois divida ambos os lados por 2."
+  },
+  {
+    "id": "m_2",
+    "nivel": "medio",
+    "fases": [13],
+    "esq": { "x": 3, "blocos": 2, "baloes": 0 },
+    "dir": { "x": 1, "blocos": 10, "baloes": 0 },
+    "solucao": 4,
+    "passos_minimos": 3,
+    "dica": "Passe x para a esquerda e 2 blocos para a direita, depois divida por 2."
+  },
+  {
+    "id": "m_3",
+    "nivel": "medio",
+    "fases": [13],
+    "esq": { "x": 2, "blocos": 3, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 11, "baloes": 0 },
+    "solucao": 4,
+    "passos_minimos": 2,
+    "dica": "Isole 2x passando 3 blocos para a direita e divida os dois lados por 2."
+  },
+  {
+    "id": "m_4",
+    "nivel": "medio",
+    "fases": [15],
+    "esq": { "x": 3, "blocos": 3, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 15, "baloes": 0 },
+    "solucao": 4,
+    "passos_minimos": 2,
+    "dica": "Passe os 3 blocos para o outro lado e divida ambos os lados por 3."
+  },
+  {
+    "id": "m_5",
+    "nivel": "medio",
+    "fases": [15],
+    "esq": { "x": 2, "blocos": 6, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 16, "baloes": 0 },
+    "solucao": 5,
+    "passos_minimos": 2,
+    "dica": "Passe os 6 blocos para a direita e divida por 2."
+  },
+  {
+    "id": "m_6",
+    "nivel": "medio",
+    "fases": [15],
+    "esq": { "x": 4, "blocos": 2, "baloes": 0 },
+    "dir": { "x": 2, "blocos": 10, "baloes": 0 },
+    "solucao": 4,
+    "passos_minimos": 3,
+    "dica": "Passe as caixas x para a esquerda e os blocos para a direita, depois divida por 2."
+  },
+  {
+    "id": "m_7",
+    "nivel": "medio",
+    "fases": [13, 15],
+    "esq": { "x": 2, "blocos": 5, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 15, "baloes": 0 },
+    "solucao": 5,
+    "passos_minimos": 2,
+    "dica": "Isole 2x passando 5 blocos para o outro lado e divida por 2."
+  },
+  {
+    "id": "e_1",
+    "nivel": "experiente",
+    "fases": [17],
+    "esq": { "x": 2, "blocos": 4, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 14, "baloes": 0 },
+    "solucao": 5,
+    "passos_minimos": 2,
+    "dica": "Retire 4 blocos dos dois lados. Quando sobrar 2x = 10, use a ferramenta Dividir Prato!"
+  },
+  {
+    "id": "e_2",
+    "nivel": "experiente",
+    "fases": [17],
+    "esq": { "x": 3, "blocos": 2, "baloes": 0 },
+    "dir": { "x": 1, "blocos": 10, "baloes": 0 },
+    "solucao": 4,
+    "passos_minimos": 3,
+    "dica": "Retire 1x dos dois pratos, retire 2 blocos e divida o restante pelas caixas x."
+  },
+  {
+    "id": "e_3",
+    "nivel": "experiente",
+    "fases": [17],
+    "esq": { "x": 2, "blocos": 6, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 18, "baloes": 0 },
+    "solucao": 6,
+    "passos_minimos": 2,
+    "dica": "Isole 2x retirando 6 blocos de cada lado, e então divida os 12 blocos por 2."
+  },
+  {
+    "id": "e_4",
+    "nivel": "experiente",
+    "fases": [19],
+    "esq": { "x": 3, "blocos": 3, "baloes": 0 },
+    "dir": { "x": 1, "blocos": 11, "baloes": 0 },
+    "solucao": 4,
+    "passos_minimos": 3,
+    "dica": "Passe 1x para a esquerda, 3 blocos para a direita e divida por 2."
+  },
+  {
+    "id": "e_5",
+    "nivel": "experiente",
+    "fases": [19],
+    "esq": { "x": 4, "blocos": 2, "baloes": 0 },
+    "dir": { "x": 2, "blocos": 14, "baloes": 0 },
+    "solucao": 6,
+    "passos_minimos": 3,
+    "dica": "Retire 2x dos dois lados, retire 2 blocos e divida os 12 blocos restantes por 2."
+  },
+  {
+    "id": "e_6",
+    "nivel": "experiente",
+    "fases": [19],
+    "esq": { "x": 3, "blocos": 1, "baloes": 0 },
+    "dir": { "x": 1, "blocos": 15, "baloes": 0 },
+    "solucao": 7,
+    "passos_minimos": 3,
+    "dica": "Remova 1x dos dois pratos (restam 2x e 1 bloco). Subtraia 1 e divida 14 por 2."
+  },
+  {
+    "id": "e_7",
+    "nivel": "experiente",
+    "fases": [17, 19],
+    "esq": { "x": 2, "blocos": 8, "baloes": 0 },
+    "dir": { "x": 0, "blocos": 22, "baloes": 0 },
+    "solucao": 7,
+    "passos_minimos": 2,
+    "dica": "Retire 8 blocos de ambos os lados e divida os 14 blocos restantes por 2."
+  }
+]

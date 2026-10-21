@@ -8,19 +8,19 @@
     --mundo-cor: var(--duo-green, #58cc02);
     --mundo-cor-shadow: var(--duo-green-shadow, #46a302);
     --mundo-cor-light: var(--duo-green-light, #eaf8dd);
-    --trilha-linha-fundo: #e2e8f0;
-    --trilha-bolinha-bloqueada: #e2e8f0;
-    --trilha-bloqueada-shadow: #cbd5e1;
-    --trilha-bloqueada-borda: #cbd5e1;
-    --trilha-bloqueada-icone: #94a3b8;
+    --trilha-linha-fundo: #e5e5e5;
+    --trilha-bolinha-bloqueada: #e5e5e5;
+    --trilha-bloqueada-shadow: #cecece;
+    --trilha-bloqueada-borda: #cecece;
+    --trilha-bloqueada-icone: #777777;
 }
 
 body.tema-escuro {
-    --trilha-linha-fundo: #24333b;
-    --trilha-bolinha-bloqueada: #1f2d34;
-    --trilha-bloqueada-shadow: #141e23;
-    --trilha-bloqueada-borda: #2e3e47;
-    --trilha-bloqueada-icone: #64748b;
+    --trilha-linha-fundo: #2b3940;
+    --trilha-bolinha-bloqueada: #202f36;
+    --trilha-bloqueada-shadow: #131f24;
+    --trilha-bloqueada-borda: #37464f;
+    --trilha-bloqueada-icone: #8496a0;
 }
 
 /* 6° Ano – Floresta dos Números */
@@ -60,11 +60,8 @@ main.mundo-9 {
     max-width: 1080px;
 }
 
-/* ─── Cabeçalho Sticky de Unidade (Duolingo Header) ─────────────────────────── */
+/* ─── Cabeçalho do Mundo / Ano Letivo ───────────────────────────────────────── */
 .mundo-header-sticky {
-    position: sticky;
-    top: calc(var(--nav-height, 70px) + 8px);
-    z-index: 850;
     background: var(--bg-card);
     border: 2px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -74,8 +71,6 @@ main.mundo-9 {
     display: flex;
     flex-direction: column;
     gap: 1.15rem;
-    backdrop-filter: blur(8px);
-    transition: border-color var(--transicao-media), box-shadow var(--transicao-media);
 }
 
 body.tema-escuro .mundo-header-sticky {
@@ -229,18 +224,16 @@ body.tema-escuro .mundo-header-sticky {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    transition: transform var(--transicao-rapida), border-color var(--transicao-rapida), color var(--transicao-rapida);
+    transition: border-color var(--transicao-rapida), color var(--transicao-rapida), filter var(--transicao-rapida);
 }
 
 .btn-mundo-aba:hover {
     color: var(--text-main);
-    transform: translateY(-2px);
-    border-bottom-width: 5px;
+    border-color: var(--mundo-cor);
 }
 
 .btn-mundo-aba:active {
-    transform: translateY(3px);
-    border-bottom-width: 1px;
+    filter: brightness(0.92);
 }
 
 .btn-mundo-aba.ativa {
@@ -399,14 +392,11 @@ body.tema-escuro .fase-badge-num {
 }
 
 .fase-bolinha.desbloqueada:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 0 var(--mundo-cor-shadow);
-    filter: brightness(1.05);
+    filter: brightness(1.1);
 }
 
 .fase-bolinha.desbloqueada:active {
-    transform: translateY(4px) scale(0.98);
-    box-shadow: 0 2px 0 var(--mundo-cor-shadow);
+    filter: brightness(0.92);
 }
 
 /* Estado: CONCLUÍDA */
@@ -811,8 +801,7 @@ body.tema-escuro .modal-fase-conteudo {
 }
 
 .btn-dificuldade:active {
-    transform: translateY(2px);
-    border-bottom-width: 2px;
+    filter: brightness(0.92);
 }
 
 .modal-fase-footer {

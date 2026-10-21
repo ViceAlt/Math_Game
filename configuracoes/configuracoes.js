@@ -12,7 +12,7 @@ const CHAVE_DALTONISMO = 'mg_daltonismo';
 const CHAVE_USUARIO    = 'mg_usuario';
 
 /** Classes de tonalidade aplicáveis ao body */
-const CLASSES_TONALIDADE = ['tonalidade-sunset', 'tonalidade-ocean', 'tonalidade-earth', 'tonalidade-berry'];
+const CLASSES_TONALIDADE = ['tonalidade-sunset', 'tonalidade-ocean', 'tonalidade-earth', 'tonalidade-berry', 'tonalidade-crimson', 'tonalidade-arctic'];
 
 /** Classes de daltonismo aplicáveis ao HTML e ao body */
 const CLASSES_DALTONISMO = ['daltonismo-protanopia', 'daltonismo-deuteranopia', 'daltonismo-tritanopia'];

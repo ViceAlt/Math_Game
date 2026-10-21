@@ -149,6 +149,52 @@
                     <span class="tonalidade-nome">Berry</span>
                 </button>
 
+                <!-- Crimson (Rubi vibrante + Coral intenso) -->
+                <button type="button" class="tonalidade-card" id="ton-crimson"
+                        role="radio" aria-checked="false" aria-label="Tonalidade Crimson"
+                        onclick="selecionarTonalidade('crimson')">
+                    <div class="mini-page mp-crimson">
+                        <div class="mp-sidebar">
+                            <div class="mp-nav-item"></div>
+                            <div class="mp-nav-item mp-nav-active"></div>
+                            <div class="mp-nav-item"></div>
+                        </div>
+                        <div class="mp-content">
+                            <div class="mp-header"></div>
+                            <div class="mp-cards">
+                                <div class="mp-card"></div>
+                                <div class="mp-card"></div>
+                            </div>
+                            <div class="mp-btn-primary"></div>
+                            <div class="mp-btn-secondary"></div>
+                        </div>
+                    </div>
+                    <span class="tonalidade-nome">Crimson</span>
+                </button>
+
+                <!-- Arctic (Azul Petróleo + Ciano Gelo) -->
+                <button type="button" class="tonalidade-card" id="ton-arctic"
+                        role="radio" aria-checked="false" aria-label="Tonalidade Arctic"
+                        onclick="selecionarTonalidade('arctic')">
+                    <div class="mini-page mp-arctic">
+                        <div class="mp-sidebar">
+                            <div class="mp-nav-item"></div>
+                            <div class="mp-nav-item mp-nav-active"></div>
+                            <div class="mp-nav-item"></div>
+                        </div>
+                        <div class="mp-content">
+                            <div class="mp-header"></div>
+                            <div class="mp-cards">
+                                <div class="mp-card"></div>
+                                <div class="mp-card"></div>
+                            </div>
+                            <div class="mp-btn-primary"></div>
+                            <div class="mp-btn-secondary"></div>
+                        </div>
+                    </div>
+                    <span class="tonalidade-nome">Arctic</span>
+                </button>
+
             </div>
         </section>
 

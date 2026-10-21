@@ -12,14 +12,16 @@ const JOGO_NOMES_CURTOS = {
     1: 'Fatia Maluca',
     2: 'Gráfico em Ação',
     3: 'Formas & Fórmulas',
-    4: 'Trilha Numérica'
+    4: 'Trilha Numérica',
+    5: 'Balança de Equilíbrio'
 };
 
 const JOGO_PATHS = {
     1: '../jogo_1/jogo_1.php',
     2: '../jogo_2/jogo_2.php',
     3: '../jogo_3/jogo_3.php',
-    4: '../jogo_4/jogo_4.php'
+    4: '../jogo_4/jogo_4.php',
+    5: '../jogo_5/jogo_5.php'
 };
 
 const MUNDOS_INFO = {
@@ -139,7 +141,10 @@ function carregarFasesFallback() {
         for (let n = 1; n <= 20; n++) {
             let jogoId;
             if (ano === 6) jogoId = (n % 2 === 1) ? 1 : 4;
-            else if (ano === 7) jogoId = (n % 2 === 1) ? 1 : 2;
+            else if (ano === 7) {
+                if ([7, 9, 13, 15, 17, 19].includes(n)) jogoId = 5;
+                else jogoId = (n % 2 === 1) ? 1 : 2;
+            }
             else if (ano === 8) jogoId = (n % 2 === 1) ? 3 : 2;
             else jogoId = ((n - 1) % 4) + 1;
 

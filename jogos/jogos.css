@@ -58,11 +58,25 @@ body.tonalidade-earth {
     --duo-green-shadow: #a44d2e;
 }
 
-body.tonalidade-berry {
+body.tonalidade-berry, html.tonalidade-berry {
     --duo-blue: #e63981;
     --duo-blue-shadow: #c0145c;
     --duo-green: #7a285f;
     --duo-green-shadow: #67164c;
+}
+
+body.tonalidade-crimson, html.tonalidade-crimson {
+    --duo-blue: #dc2626;
+    --duo-blue-shadow: #991b1b;
+    --duo-green: #f43f5e;
+    --duo-green-shadow: #be123c;
+}
+
+body.tonalidade-arctic, html.tonalidade-arctic {
+    --duo-blue: #0284c7;
+    --duo-blue-shadow: #0369a1;
+    --duo-green: #06b6d4;
+    --duo-green-shadow: #0891b2;
 }
 
 * {
@@ -121,12 +135,12 @@ h1 {
     flex-direction: column;
     gap: 1rem;
     box-shadow: 0 5px 0 var(--border-color);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    transition: border-color 0.15s ease, filter 0.15s ease;
 }
 
 .card-jogo:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 0 var(--border-color);
+    border-color: var(--duo-blue);
+    filter: brightness(1.02);
 }
 
 .card-jogo h2 {
@@ -172,7 +186,7 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     cursor: pointer;
-    transition: filter var(--button-hover-duration), transform 0.1s ease, background 0.15s ease, color 0.15s ease;
+    transition: filter var(--button-hover-duration), background 0.15s ease, color 0.15s ease;
 }
 
 .btn-dificuldade[aria-pressed="true"] {
@@ -184,9 +198,7 @@ h1 {
 }
 
 .btn-dificuldade:active {
-    transform: translateY(3px);
-    box-shadow: 0 0 0 transparent;
-    border-bottom-width: 1px;
+    filter: brightness(0.92);
 }
 
 /* Play Button */
@@ -205,10 +217,13 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--transicao-rapida);
+}
+
+.btn-jogar-card:hover {
+    filter: brightness(1.08);
 }
 
 .btn-jogar-card:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }

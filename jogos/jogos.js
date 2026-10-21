@@ -29,6 +29,8 @@ function exibirRecordes() {
     if (el3) el3.textContent = `${recordes[3] || 0} pts`;
     const el4 = document.getElementById('recorde-jogo-4');
     if (el4) el4.textContent = `${recordes[4] || 0} pts`;
+    const el5 = document.getElementById('recorde-jogo-5');
+    if (el5) el5.textContent = `${recordes[5] || 0} pts`;
 }
 
 function obterRecordes() {
@@ -60,7 +62,9 @@ function iniciarJogoLivre(jogoId) {
     // Registra último jogo acessado
     localStorage.setItem('mg_ultimo_jogo', `Jogo ${jogoId} (modo livre)`);
 
-    if (jogoId === 4) {
+    if (jogoId === 5) {
+        window.location.href = '../jogo_5/jogo_5.php';
+    } else if (jogoId === 4) {
         window.location.href = '../jogo_4/jogo_4.php';
     } else if (jogoId === 3) {
         window.location.href = '../jogo_3/jogo_3.php';

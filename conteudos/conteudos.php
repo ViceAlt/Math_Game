@@ -1,10 +1,4 @@
-<?php
-/**
- * conteudos.php – Trilha de Conteúdos (Math Game)
- * Mapa vertical gamificado estilo Duolingo / Candy Crush / Mario World.
- * 100% livre de emojis, com ícones SVG nativos, cabeçalho sticky e acabamento 3D.
- */
-session_start();
+<?php session_start();
 $usuario = $_SESSION['usuario'] ?? null;
 $logado  = $usuario !== null;
 
@@ -32,10 +26,10 @@ $jsVersion  = file_exists(__DIR__ . '/conteudos.js') ? filemtime(__DIR__ . '/con
 
     <?php require __DIR__ . '/../includes/navbar.php'; ?>
 
-    <main class="main conteudos-main mundo-6" id="main-content">
+    <!-- ===== CABEÇALHO FIXO DO MUNDO / ANO LETIVO (fora do main para position:fixed correto) ===== -->
+    <header class="mundo-header-sticky" id="mundo-header">
+        <div class="mundo-header-inner">
 
-        <!-- ===== CABEÇALHO STICKY DO MUNDO / ANO LETIVO ===== -->
-        <header class="mundo-header-sticky" id="mundo-header">
             <div class="mundo-header-conteudo">
                 
                 <div class="mundo-identificacao">
@@ -95,7 +89,11 @@ $jsVersion  = file_exists(__DIR__ . '/conteudos.js') ? filemtime(__DIR__ . '/con
                     <span class="aba-label">9° Ano</span>
                 </button>
             </nav>
-        </header>
+
+        </div>
+    </header>
+
+    <main class="main conteudos-main mundo-6" id="main-content">
 
         <!-- ===== ÁREA PRINCIPAL: MAPA VERTICAL + RESUMO LATERAL DESKTOP ===== -->
         <div class="conteudos-layout-grid">
@@ -213,6 +211,33 @@ $jsVersion  = file_exists(__DIR__ . '/conteudos.js') ? filemtime(__DIR__ . '/con
     </script>
     <script src="../includes/icones.js"></script>
     <script src="../includes/modal-perfil.js"></script>
+
+    <!-- Ajuste dinâmico do espaço abaixo do header fixo -->
+    <script>
+        (function () {
+            var header = document.getElementById('mundo-header');
+            var main   = document.getElementById('main-content');
+
+            function ajustarEspacamento() {
+                if (!header || !main) return;
+                var h = header.offsetHeight;
+                // Padding-top do main para que o conteúdo não fique atrás do header fixo
+                main.style.paddingTop = h + 'px';
+                // CSS custom property para o sticky da sidebar lateral
+                document.documentElement.style.setProperty('--mundo-header-h', h + 'px');
+            }
+
+            // Executa imediatamente e ao redimensionar
+            ajustarEspacamento();
+            window.addEventListener('resize', ajustarEspacamento);
+
+            // Observa mudanças de tamanho do próprio header (ano selecionado pode mudar conteúdo)
+            if (window.ResizeObserver) {
+                new ResizeObserver(ajustarEspacamento).observe(header);
+            }
+        })();
+    </script>
+
     <script src="conteudos.js?v=<?= $jsVersion ?>"></script>
 
 </body>

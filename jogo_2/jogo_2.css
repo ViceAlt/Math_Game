@@ -67,11 +67,25 @@ body.tonalidade-earth {
     --duo-green-shadow: #a44d2e;
 }
 
-body.tonalidade-berry {
+body.tonalidade-berry, html.tonalidade-berry {
     --duo-blue: #e63981;
     --duo-blue-shadow: #c0145c;
     --duo-green: #7a285f;
     --duo-green-shadow: #67164c;
+}
+
+body.tonalidade-crimson, html.tonalidade-crimson {
+    --duo-blue: #dc2626;
+    --duo-blue-shadow: #991b1b;
+    --duo-green: #f43f5e;
+    --duo-green-shadow: #be123c;
+}
+
+body.tonalidade-arctic, html.tonalidade-arctic {
+    --duo-blue: #0284c7;
+    --duo-blue-shadow: #0369a1;
+    --duo-green: #06b6d4;
+    --duo-green-shadow: #0891b2;
 }
 
 * {
@@ -115,12 +129,15 @@ body {
     box-shadow: 0 4px 0 var(--duo-red-shadow);
     cursor: pointer;
     flex-shrink: 0;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-sair-jogo:hover {
+    filter: brightness(1.08);
 }
 
 #btn-sair-jogo:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 .barra-progresso-container {
@@ -230,12 +247,15 @@ body.tema-escuro .resultado-stats {
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-modal-ok:hover {
+    filter: brightness(1.08);
 }
 
 #btn-modal-ok:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 /* Layout Principal */
@@ -402,12 +422,15 @@ body.tema-escuro .resultado-stats {
     cursor: pointer;
     background-color: var(--duo-green);
     color: #ffffff;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+.confirmar:hover {
+    filter: brightness(1.08);
 }
 
 .confirmar:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 .dica {
@@ -425,12 +448,15 @@ body.tema-escuro .resultado-stats {
     cursor: pointer;
     background-color: var(--duo-yellow);
     color: #ffffff;
-    transition: filter 0.15s ease, transform 0.1s ease;
+    transition: filter 0.15s ease;
+}
+
+.dica:hover {
+    filter: brightness(1.08);
 }
 
 .dica:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 /* Responsividade */

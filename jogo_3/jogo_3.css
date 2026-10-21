@@ -69,11 +69,25 @@ body.tonalidade-earth {
     --duo-green-shadow: #a44d2e;
 }
 
-body.tonalidade-berry {
+body.tonalidade-berry, html.tonalidade-berry {
     --duo-blue: #e63981;
     --duo-blue-shadow: #c0145c;
     --duo-green: #7a285f;
     --duo-green-shadow: #67164c;
+}
+
+body.tonalidade-crimson, html.tonalidade-crimson {
+    --duo-blue: #dc2626;
+    --duo-blue-shadow: #991b1b;
+    --duo-green: #f43f5e;
+    --duo-green-shadow: #be123c;
+}
+
+body.tonalidade-arctic, html.tonalidade-arctic {
+    --duo-blue: #0284c7;
+    --duo-blue-shadow: #0369a1;
+    --duo-green: #06b6d4;
+    --duo-green-shadow: #0891b2;
 }
 
 * {
@@ -117,12 +131,15 @@ body {
     box-shadow: 0 4px 0 var(--duo-red-shadow);
     cursor: pointer;
     flex-shrink: 0;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-sair-jogo:hover {
+    filter: brightness(1.08);
 }
 
 #btn-sair-jogo:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 .barra-progresso-container {
@@ -228,13 +245,18 @@ body {
     border-bottom: 3px solid var(--border-dark);
     box-shadow: 0 3px 0 var(--border-color);
     cursor: pointer;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration), background-color var(--transicao-rapida);
+}
+
+#btn-desfazer:hover,
+#btn-limpar:hover {
+    filter: brightness(1.05);
+    background-color: var(--bg-card-subtle);
 }
 
 #btn-desfazer:active,
 #btn-limpar:active {
-    transform: translateY(3px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 /* Canvas Container */
@@ -470,8 +492,7 @@ body {
 }
 
 .btn-alternativa:active:not(:disabled) {
-    transform: translateY(3px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 .btn-alternativa .letra-alt {
@@ -548,10 +569,14 @@ body {
     color: var(--text-muted);
 }
 
+.confirmar:hover:not(:disabled),
+.proxima:hover {
+    filter: brightness(1.08);
+}
+
 .confirmar:active:not(:disabled),
 .proxima:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 .dica {
@@ -569,12 +594,15 @@ body {
     cursor: pointer;
     background-color: var(--duo-yellow);
     color: #ffffff;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+.dica:hover {
+    filter: brightness(1.08);
 }
 
 .dica:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 /* Modal de Resultado Final */
@@ -658,12 +686,15 @@ body.tema-escuro .resultado-stats {
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: filter var(--button-hover-duration), transform 0.1s ease;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-modal-ok:hover {
+    filter: brightness(1.08);
 }
 
 #btn-modal-ok:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 transparent;
+    filter: brightness(0.92);
 }
 
 /* Responsividade */

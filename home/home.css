@@ -39,18 +39,15 @@
     box-shadow: 0 5px 0 var(--duo-green-shadow);
     padding: 2rem 2.25rem;
     cursor: pointer;
-    transition: transform var(--transicao-rapida), box-shadow var(--transicao-rapida), filter var(--transicao-rapida);
+    transition: filter var(--transicao-rapida), border-color var(--transicao-rapida);
 }
 
 .card-jogar:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 0 var(--duo-green-shadow);
-    filter: brightness(1.02);
+    filter: brightness(1.05);
 }
 
 .card-jogar:active {
-    transform: translateY(3px);
-    box-shadow: 0 2px 0 var(--duo-green-shadow);
+    filter: brightness(0.95);
 }
 
 .card-jogar-header {
@@ -214,7 +211,7 @@ body.tema-escuro .card-unificado {
     border-radius: var(--radius-md);
     padding: 1.25rem 1.5rem;
     flex-wrap: wrap;
-    transition: transform var(--transicao-rapida), border-color var(--transicao-rapida);
+    transition: border-color var(--transicao-rapida);
 }
 
 .trilha-item-card:hover {

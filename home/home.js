@@ -17,14 +17,16 @@ const JOGO_PATHS = {
     1: '../jogo_1/jogo_1.php',
     2: '../jogo_2/jogo_2.php',
     3: '../jogo_3/jogo_3.php',
-    4: '../jogo_4/jogo_4.php'
+    4: '../jogo_4/jogo_4.php',
+    5: '../jogo_5/jogo_5.php'
 };
 
 const JOGO_NOMES = {
     1: 'Fatia Maluca (Frações)',
     2: 'Gráfico em Ação (Estatística)',
     3: 'Formas & Fórmulas (Geometria)',
-    4: 'Trilha Numérica (Álgebra)'
+    4: 'Trilha Numérica (Álgebra)',
+    5: 'Balança de Equilíbrio (Equações)'
 };
 
 const MUNDOS_ICONES_JS = {

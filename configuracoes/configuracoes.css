@@ -156,36 +156,57 @@ input[type="radio"]:checked {
 /* ─── Tonalidade System ───────────────────────────────────────────────────── */
 
 /* Sunset: Laranja vibrante + Coral quente */
-body.tonalidade-sunset {
+body.tonalidade-sunset, html.tonalidade-sunset {
     --duo-blue: #ff6b35;
     --duo-blue-shadow: #e05520;
+    --duo-blue-light: #fff0eb;
     --duo-green: #e8475f;
     --duo-green-shadow: #c93549;
 }
 
 /* Ocean: Teal profundo + Menta viva */
-body.tonalidade-ocean {
+body.tonalidade-ocean, html.tonalidade-ocean {
     --duo-blue: #0096c7;
     --duo-blue-shadow: #0077b6;
+    --duo-blue-light: #e6f7fc;
     --duo-green: #06d6a0;
     --duo-green-shadow: #05b384;
 }
 
 /* Earth: Âmbar dourado + Terracota */
-body.tonalidade-earth {
+body.tonalidade-earth, html.tonalidade-earth {
     --duo-blue: #d4a03c;
     --duo-blue-shadow: #b8872e;
+    --duo-blue-light: #fbf5e8;
     --duo-green: #c45e3a;
     --duo-green-shadow: #a44d2e;
 }
 
 /* Berry: Cereja vibrante + Rubi quente (sem tons violeta/magenta) */
-body.tonalidade-berry {
-
+body.tonalidade-berry, html.tonalidade-berry {
     --duo-blue: #e63981;
     --duo-blue-shadow: #c0145c;
+    --duo-blue-light: #fdebf2;
     --duo-green: #7a285f;
     --duo-green-shadow: #67164c;
+}
+
+/* Crimson: Rubi vibrante + Coral intenso */
+body.tonalidade-crimson, html.tonalidade-crimson {
+    --duo-blue: #dc2626;
+    --duo-blue-shadow: #991b1b;
+    --duo-blue-light: #fee2e2;
+    --duo-green: #f43f5e;
+    --duo-green-shadow: #be123c;
+}
+
+/* Arctic: Azul Petróleo + Ciano Gelo */
+body.tonalidade-arctic, html.tonalidade-arctic {
+    --duo-blue: #0284c7;
+    --duo-blue-shadow: #0369a1;
+    --duo-blue-light: #e0f7fa;
+    --duo-green: #06b6d4;
+    --duo-green-shadow: #0891b2;
 }
 
 /* ─── Tonalidade UI (Configurações) ───────────────────────────────────────── */
@@ -229,12 +250,16 @@ body.tonalidade-berry {
     border-bottom: 4px solid var(--border-dark);
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: filter var(--button-hover-duration), transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: filter var(--transicao-rapida), border-color var(--transicao-rapida), box-shadow var(--transicao-rapida), background var(--transicao-rapida);
+}
+
+.tonalidade-card:hover {
+    border-color: var(--duo-blue);
+    background: var(--bg-card-subtle);
 }
 
 .tonalidade-card:active {
-    transform: translateY(2px);
-    border-bottom-width: 2px;
+    filter: brightness(0.92);
 }
 
 .tonalidade-card[aria-checked="true"] {
@@ -453,4 +478,46 @@ body.tema-escuro .mp-card {
 
 .mp-berry .mp-card:last-child {
     border-color: #e63981;
+}
+
+/* Crimson (Rubi + Coral) */
+.mp-crimson .mp-nav-active {
+    background: #dc2626;
+}
+
+.mp-crimson .mp-btn-primary {
+    background: #f43f5e;
+}
+
+.mp-crimson .mp-btn-secondary {
+    background: #dc2626;
+}
+
+.mp-crimson .mp-card:first-child {
+    border-color: #f43f5e;
+}
+
+.mp-crimson .mp-card:last-child {
+    border-color: #dc2626;
+}
+
+/* Arctic (Azul Petróleo + Ciano Gelo) */
+.mp-arctic .mp-nav-active {
+    background: #0284c7;
+}
+
+.mp-arctic .mp-btn-primary {
+    background: #06b6d4;
+}
+
+.mp-arctic .mp-btn-secondary {
+    background: #0284c7;
+}
+
+.mp-arctic .mp-card:first-child {
+    border-color: #06b6d4;
+}
+
+.mp-arctic .mp-card:last-child {
+    border-color: #0284c7;
 }

@@ -90,6 +90,23 @@
                 <button type="button" class="btn-jogar-card" id="btn-jogar-jogo-4" onclick="iniciarJogoLivre(4)">Jogar</button>
             </article>
 
+            <article class="card-jogo" id="card-jogo-5" aria-labelledby="jogo-5-nome">
+                <h2 id="jogo-5-nome">A Balança de Equilíbrio</h2>
+                <p>Equilibre caixas x e blocos de pesos para isolar a incógnita e desvendar as equações.</p>
+                <p>Seu recorde: <strong id="recorde-jogo-5">0 pts</strong></p>
+
+                <div class="dificuldade-group" role="group" aria-label="Dificuldade do jogo 5">
+                    <button type="button" class="btn-dificuldade" id="jogo5-facil"
+                            data-dificuldade="facil" onclick="selecionarDificuldadeJogo(5,'facil')" aria-pressed="true">Fácil</button>
+                    <button type="button" class="btn-dificuldade" id="jogo5-medio"
+                            data-dificuldade="medio" onclick="selecionarDificuldadeJogo(5,'medio')" aria-pressed="false">Médio</button>
+                    <button type="button" class="btn-dificuldade" id="jogo5-experiente"
+                            data-dificuldade="experiente" onclick="selecionarDificuldadeJogo(5,'experiente')" aria-pressed="false">Experiente</button>
+                </div>
+
+                <button type="button" class="btn-jogar-card" id="btn-jogar-jogo-5" onclick="iniciarJogoLivre(5)">Jogar</button>
+            </article>
+
         </section>
     </main>
 
