@@ -1,11 +1,13 @@
 <?php
-require __DIR__ . '/home/home.php';
+// Redireciona imediatamente para a página inicial em home/home.php
+header('Location: home/home.php');
+exit;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=home.php">
+    <meta http-equiv="refresh" content="0; url=home/home.php">
     <title>Redirecionando...</title>
 </head>
 <body>

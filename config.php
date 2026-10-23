@@ -87,11 +87,11 @@ if (!defined('APP_URL')) {
 }
 
 // ── 3. Banco de Dados MySQL ─────────────────────────────────────────────────
-if (!defined('DB_HOST')) define('DB_HOST', app_env('DB_HOST', '127.0.0.1'));
-if (!defined('DB_PORT')) define('DB_PORT', app_env('DB_PORT', '3308'));
-if (!defined('DB_NAME')) define('DB_NAME', app_env('DB_NAME', 'math_game'));
-if (!defined('DB_USER')) define('DB_USER', app_env('DB_USER', 'root'));
-if (!defined('DB_PASS')) define('DB_PASS', app_env('DB_PASS', ''));
+if (!defined('DB_HOST')) define('DB_HOST', app_env('DB_HOST', 'sql113.byethost4.com'));
+if (!defined('DB_PORT')) define('DB_PORT', app_env('DB_PORT', '3306'));
+if (!defined('DB_NAME')) define('DB_NAME', app_env('DB_NAME', 'b4_42774075_math_game'));
+if (!defined('DB_USER')) define('DB_USER', app_env('DB_USER', 'b4_42774075'));
+if (!defined('DB_PASS')) define('DB_PASS', app_env('DB_PASS', 'senai@571'));
 if (!defined('DB_CHARSET')) define('DB_CHARSET', app_env('DB_CHARSET', 'utf8mb4'));
 
 // ── 4. Configurações SMTP (PHPMailer) ────────────────────────────────────────
