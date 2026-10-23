@@ -285,31 +285,46 @@ function renderizarPrato(container, lado) {
 
     const itensNoLado = estadoAtual.items.filter(i => i.ladoAtual === lado);
 
-    // Detectar blocos numéricos combináveis (2+ blocos/balões no mesmo lado)
     const blocosNumericos = itensNoLado.filter(i => i.tipo === 'bloco' || i.tipo === 'balao');
     const itensX = itensNoLado.filter(i => i.tipo === 'x');
-    const podeSubtrair = blocosNumericos.length >= 2;
 
-    // Renderizar itens x normalmente
-    itensX.forEach(item => {
-        const el = criarElementoPeso(item, lado);
-        container.appendChild(el);
-    });
+    // Detectar X com sinais opostos no mesmo lado (podem ser subtraídos)
+    const xPositivos = itensX.filter(i => i.ladoAtual === i.ladoOrigem);
+    const xNegativos = itensX.filter(i => i.ladoAtual !== i.ladoOrigem);
+    const temXOpostos = xPositivos.length > 0 && xNegativos.length > 0;
 
-    if (podeSubtrair) {
-        // Envolver blocos numéricos num wrapper com borda pontilhada + botão Subtrair
+    const podeSubtrairBlocos = blocosNumericos.length >= 2;
+
+    // Itens combináveis: blocos numéricos + (se houver x com sinais opostos, x também)
+    const podeSubtrairAlgo = podeSubtrairBlocos || temXOpostos;
+
+    if (podeSubtrairAlgo) {
         const wrapper = document.createElement('div');
         wrapper.className = 'subtrair-wrapper ativo';
 
         const btnSubtrair = document.createElement('button');
         btnSubtrair.type = 'button';
         btnSubtrair.className = 'btn-subtrair-lado';
-        btnSubtrair.textContent = 'Subtrair';
+        btnSubtrair.textContent = 'Somar';
         btnSubtrair.addEventListener('click', (e) => {
             e.stopPropagation();
             executarSubtracaoLado(lado);
         });
         wrapper.appendChild(btnSubtrair);
+
+        // X opostos entram no wrapper de subtração
+        if (temXOpostos) {
+            itensX.forEach(item => {
+                const el = criarElementoPeso(item, lado);
+                wrapper.appendChild(el);
+            });
+        } else {
+            // X sem opostos ficam fora do wrapper
+            itensX.forEach(item => {
+                const el = criarElementoPeso(item, lado);
+                container.appendChild(el);
+            });
+        }
 
         blocosNumericos.forEach(item => {
             const el = criarElementoPeso(item, lado);
@@ -318,7 +333,10 @@ function renderizarPrato(container, lado) {
 
         container.appendChild(wrapper);
     } else {
-        // Renderizar blocos numéricos normalmente
+        itensX.forEach(item => {
+            const el = criarElementoPeso(item, lado);
+            container.appendChild(el);
+        });
         blocosNumericos.forEach(item => {
             const el = criarElementoPeso(item, lado);
             container.appendChild(el);
@@ -815,18 +833,28 @@ function atualizarBotaoDivisao() {
     const textoContainer = document.getElementById('divisao-texto-container');
     const btnDividir = document.getElementById('btn-dividir-balanca');
     const sidebarContainer = document.getElementById('operacoes-botoes-container');
+    const ehExperiente = (params.dificuldade === 'experiente');
 
     if (sidebarContainer) {
         sidebarContainer.innerHTML = '';
         const instrucao = document.createElement('p');
         instrucao.className = 'instrucao-arraste';
-        instrucao.innerHTML = '🖐️ <strong>Arraste</strong> ou clique nos pesos para equilibrar';
+        if (ehExperiente) {
+            instrucao.innerHTML = '📝 <strong>Arraste</strong> os pesos e resolva a conta no papel!';
+        } else {
+            instrucao.innerHTML = '🖐️ <strong>Arraste</strong> ou clique nos pesos para equilibrar';
+        }
         sidebarContainer.appendChild(instrucao);
     }
 
     if (!painel || !textoContainer || !btnDividir) return;
 
-    // Calcular os dados consolidados por lado
+    // No modo experiente, não mostrar divisão mecânica — o jogador calcula no papel
+    if (ehExperiente) {
+        painel.style.display = 'none';
+        return;
+    }
+
     const dados = reconstruirDadosReais();
 
     // Verificar se x está isolado em um lado com coeficiente > 1 e pode dividir
@@ -851,56 +879,18 @@ function atualizarBotaoDivisao() {
     if (podeDividirEsq || podeDividirDir) {
         const ladoX = podeDividirEsq ? 'esq' : 'dir';
         const divisor = podeDividirEsq ? dados.esq.xCount : dados.dir.xCount;
-        const ehExperiente = (params.dificuldade === 'experiente');
 
         painel.style.display = 'flex';
 
-        if (ehExperiente) {
-            // Nível Experiente: texto acompanhado de espaço para completar com o divisor
-            textoContainer.innerHTML = `
-                <p class="divisao-texto">
-                    Dividir ambos os lados por
-                    <input type="number" id="input-divisor-experiente" class="input-divisor-experiente" min="2" max="10" placeholder="?" autocomplete="off">
-                </p>
-            `;
-            const inputExp = document.getElementById('input-divisor-experiente');
-            if (inputExp) {
-                inputExp.focus();
-                inputExp.onkeydown = (e) => {
-                    if (e.key === 'Enter') btnDividir.click();
-                };
-            }
-
-            btnDividir.onclick = () => {
-                const input = document.getElementById('input-divisor-experiente');
-                const valDigitado = input ? parseInt(input.value, 10) : NaN;
-
-                if (valDigitado === divisor) {
-                    painel.style.display = 'none';
-                    executarDivisao(ladoX, divisor);
-                } else {
-                    if (input) {
-                        input.classList.remove('shake-erro');
-                        void input.offsetWidth; // trigger reflow
-                        input.classList.add('shake-erro');
-                        input.focus();
-                    }
-                    exibirDica(`Dica: observe o número de caixas x (${divisor}) para dividir os dois lados igualmente!`);
-                    acoesDesequilibrantesTotal++;
-                }
-            };
-        } else {
-            // Nível Médio / Fácil: texto informando o divisor e botão dividir em baixo
-            textoContainer.innerHTML = `
-                <p class="divisao-texto">
-                    Dividir ambos os lados por <strong class="destaque-divisor">${divisor}</strong>
-                </p>
-            `;
-            btnDividir.onclick = () => {
-                painel.style.display = 'none';
-                executarDivisao(ladoX, divisor);
-            };
-        }
+        textoContainer.innerHTML = `
+            <p class="divisao-texto">
+                Dividir ambos os lados por <strong class="destaque-divisor">${divisor}</strong>
+            </p>
+        `;
+        btnDividir.onclick = () => {
+            painel.style.display = 'none';
+            executarDivisao(ladoX, divisor);
+        };
     } else {
         painel.style.display = 'none';
     }
@@ -973,47 +963,77 @@ function executarDivisao(ladoX, divisor) {
     checarIsolamentoIncognita();
 }
 
-// ─── Subtração de Blocos no Mesmo Lado ───────────────────────────────────────
+// ─── Subtração de Blocos e X com Sinais Opostos no Mesmo Lado ────────────────
 function executarSubtracaoLado(lado) {
-    const blocosNoLado = estadoAtual.items.filter(
-        i => i.ladoAtual === lado && (i.tipo === 'bloco' || i.tipo === 'balao')
+    const itensSubtraiveis = estadoAtual.items.filter(
+        i => i.ladoAtual === lado
     );
 
-    if (blocosNoLado.length < 2) return;
+    // Separar X e blocos numéricos
+    const itensX = itensSubtraiveis.filter(i => i.tipo === 'x');
+    const blocosNoLado = itensSubtraiveis.filter(i => i.tipo === 'bloco' || i.tipo === 'balao');
+
+    // Verificar se há X com sinais opostos
+    const xPositivos = itensX.filter(i => i.ladoAtual === i.ladoOrigem);
+    const xNegativos = itensX.filter(i => i.ladoAtual !== i.ladoOrigem);
+    const temXOpostos = xPositivos.length > 0 && xNegativos.length > 0;
+
+    const temBlocosSubtraiveis = blocosNoLado.length >= 2;
+
+    if (!temXOpostos && !temBlocosSubtraiveis) return;
 
     salvarEstadoHistorico();
     passosRealizadosTotal++;
 
-    // Calcular valor líquido de todos os blocos nesse lado
-    let valorLiquido = 0;
-    blocosNoLado.forEach(item => {
-        const noOrigem = (item.ladoAtual === item.ladoOrigem);
-        if (item.tipo === 'bloco') {
-            valorLiquido += noOrigem ? item.valor : -item.valor;
-        } else if (item.tipo === 'balao') {
-            valorLiquido += noOrigem ? -item.valor : item.valor;
+    // 1. Subtrair X com sinais opostos
+    if (temXOpostos) {
+        const pares = Math.min(xPositivos.length, xNegativos.length);
+        // Remover pares de x que se cancelam
+        for (let i = 0; i < pares; i++) {
+            const idxPos = estadoAtual.items.indexOf(xPositivos[i]);
+            if (idxPos > -1) estadoAtual.items.splice(idxPos, 1);
+            const idxNeg = estadoAtual.items.indexOf(xNegativos[i]);
+            if (idxNeg > -1) estadoAtual.items.splice(idxNeg, 1);
         }
-    });
+    }
 
-    // Remover todos os blocos numéricos desse lado
-    blocosNoLado.forEach(item => {
-        const idx = estadoAtual.items.indexOf(item);
-        if (idx > -1) estadoAtual.items.splice(idx, 1);
-    });
+    // 2. Subtrair blocos numéricos (se 2+)
+    // Recalcular pois itens podem ter mudado
+    const blocosRestantes = estadoAtual.items.filter(
+        i => i.ladoAtual === lado && (i.tipo === 'bloco' || i.tipo === 'balao')
+    );
 
-    // Se o valor líquido não for zero, criar um bloco resultante
-    if (Math.abs(valorLiquido) > 0.001) {
-        const novoId = estadoAtual.items.length > 0
-            ? Math.max(...estadoAtual.items.map(i => i.id)) + 1
-            : 0;
-
-        estadoAtual.items.push({
-            id: novoId,
-            tipo: 'bloco',
-            valor: Math.abs(valorLiquido),
-            ladoOrigem: valorLiquido > 0 ? lado : (lado === 'esq' ? 'dir' : 'esq'),
-            ladoAtual: lado
+    if (blocosRestantes.length >= 2) {
+        let valorLiquido = 0;
+        blocosRestantes.forEach(item => {
+            const noOrigem = (item.ladoAtual === item.ladoOrigem);
+            if (item.tipo === 'bloco') {
+                valorLiquido += noOrigem ? item.valor : -item.valor;
+            } else if (item.tipo === 'balao') {
+                valorLiquido += noOrigem ? -item.valor : item.valor;
+            }
         });
+
+        // Remover todos os blocos numéricos desse lado
+        blocosRestantes.forEach(item => {
+            const idx = estadoAtual.items.indexOf(item);
+            if (idx > -1) estadoAtual.items.splice(idx, 1);
+        });
+
+        // Se o valor líquido não for zero, criar um bloco resultante
+        if (Math.abs(valorLiquido) > 0.001) {
+            const novoId = estadoAtual.items.length > 0
+                ? Math.max(...estadoAtual.items.map(i => i.id)) + 1
+                : 0;
+
+            estadoAtual.items.push({
+                id: novoId,
+                tipo: 'bloco',
+                valor: Math.abs(valorLiquido),
+                ladoOrigem: valorLiquido > 0 ? lado : (lado === 'esq' ? 'dir' : 'esq'),
+                ladoAtual: lado
+            });
+        }
     }
 
     // Atualizar gangorra com efeito de mola suave
@@ -1028,6 +1048,7 @@ function checarIsolamentoIncognita() {
     const area = document.getElementById('area-resposta-escolha');
     const containerConfirmar = document.getElementById('container-btn-confirmar');
     const { delta } = calcularPesos();
+    const ehExperiente = (params.dificuldade === 'experiente');
 
     if (Math.abs(delta) > 0.01) {
         if (area) area.style.display = 'none';
@@ -1037,7 +1058,7 @@ function checarIsolamentoIncognita() {
 
     const dados = reconstruirDadosReais();
 
-    // x = número (coeficiente 1, sem outros termos, outro lado só positivos)
+    // Isolamento perfeito: x = número (coeficiente 1, sem outros termos)
     const isoladoEsq = (
         dados.esq.xCount === 1 &&
         dados.esq.outrosPositivos === 0 && dados.esq.outrosNegativos === 0 &&
@@ -1052,7 +1073,23 @@ function checarIsolamentoIncognita() {
         dados.esq.outrosNegativos === 0 && dados.esq.outrosPositivos > 0
     );
 
-    if (isoladoEsq || isoladoDir) {
+    // Modo Experiente: permite responder mesmo com coeficiente > 1 (jogador calcula no papel)
+    // Condição: x isolado de um lado (com qualquer coeficiente), sem numéricos, outro lado só numéricos
+    const semiIsoladoEsq = ehExperiente && (
+        dados.esq.xCount >= 1 &&
+        dados.esq.outrosPositivos === 0 && dados.esq.outrosNegativos === 0 &&
+        dados.dir.xCount === 0 &&
+        dados.dir.outrosNegativos === 0 && dados.dir.outrosPositivos > 0
+    );
+
+    const semiIsoladoDir = ehExperiente && (
+        dados.dir.xCount >= 1 &&
+        dados.dir.outrosPositivos === 0 && dados.dir.outrosNegativos === 0 &&
+        dados.esq.xCount === 0 &&
+        dados.esq.outrosNegativos === 0 && dados.esq.outrosPositivos > 0
+    );
+
+    if (isoladoEsq || isoladoDir || semiIsoladoEsq || semiIsoladoDir) {
         exibirEscolhaMultipla(estadoAtual.x_real);
     } else {
         if (area) area.style.display = 'none';

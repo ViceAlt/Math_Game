@@ -289,17 +289,35 @@ body.tonalidade-arctic, html.tonalidade-arctic {
     border-radius: 8px;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     border: 1px solid var(--border-color);
 }
 
-/* Mini-page sidebar */
-.mp-sidebar {
-    width: 28%;
+/* Mini-page topbar (reflects current top-bar navigation) */
+.mp-topbar {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 6px 4px;
-    border-right: 1px solid var(--border-color);
+    align-items: center;
+    gap: 3px;
+    padding: 4px 5px;
+    border-bottom: 1px solid var(--border-color);
+    background: #ffffff;
+}
+
+.mp-brand {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.mp-avatar {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #cecece;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 /* Default light mode colors for mini pages */
@@ -307,13 +325,10 @@ body.tonalidade-arctic, html.tonalidade-arctic {
     background: #f7f7f7;
 }
 
-.mp-sidebar {
-    background: #ffffff;
-}
-
 .mp-nav-item {
-    height: 6px;
-    border-radius: 3px;
+    height: 5px;
+    width: 14px;
+    border-radius: 2px;
     background: #e5e5e5;
 }
 
@@ -356,8 +371,12 @@ body.tema-escuro .mini-page {
     background: #131f24;
 }
 
-body.tema-escuro .mp-sidebar {
+body.tema-escuro .mp-topbar {
     background: #202f36;
+}
+
+body.tema-escuro .mp-avatar {
+    background: #4b5d67;
 }
 
 body.tema-escuro .mp-nav-item {
@@ -378,6 +397,10 @@ body.tema-escuro .mp-card {
 /* Padrão (Azul + Verde) */
 .mp-padrao .mp-nav-active {
     background: #1cb0f6;
+}
+
+.mp-padrao .mp-brand {
+    background: #58cc02;
 }
 
 .mp-padrao .mp-btn-primary {
@@ -401,6 +424,10 @@ body.tema-escuro .mp-card {
     background: #ff6b35;
 }
 
+.mp-sunset .mp-brand {
+    background: #e8475f;
+}
+
 .mp-sunset .mp-btn-primary {
     background: #e8475f;
 }
@@ -420,6 +447,10 @@ body.tema-escuro .mp-card {
 /* Ocean (Teal + Menta) */
 .mp-ocean .mp-nav-active {
     background: #0096c7;
+}
+
+.mp-ocean .mp-brand {
+    background: #06d6a0;
 }
 
 .mp-ocean .mp-btn-primary {
@@ -443,6 +474,10 @@ body.tema-escuro .mp-card {
     background: #d4a03c;
 }
 
+.mp-earth .mp-brand {
+    background: #c45e3a;
+}
+
 .mp-earth .mp-btn-primary {
     background: #c45e3a;
 }
@@ -462,6 +497,10 @@ body.tema-escuro .mp-card {
 /* Berry (Cereja + Rubi) */
 .mp-berry .mp-nav-active {
     background: #e63981;
+}
+
+.mp-berry .mp-brand {
+    background: #7a285f;
 }
 
 .mp-berry .mp-btn-primary {
@@ -485,6 +524,10 @@ body.tema-escuro .mp-card {
     background: #dc2626;
 }
 
+.mp-crimson .mp-brand {
+    background: #f43f5e;
+}
+
 .mp-crimson .mp-btn-primary {
     background: #f43f5e;
 }
@@ -504,6 +547,10 @@ body.tema-escuro .mp-card {
 /* Arctic (Azul Petróleo + Ciano Gelo) */
 .mp-arctic .mp-nav-active {
     background: #0284c7;
+}
+
+.mp-arctic .mp-brand {
+    background: #06b6d4;
 }
 
 .mp-arctic .mp-btn-primary {

@@ -39,10 +39,12 @@
                         role="radio" aria-checked="true" aria-label="Tonalidade Padrão"
                         onclick="selecionarTonalidade('padrao')">
                     <div class="mini-page mp-padrao">
-                        <div class="mp-sidebar">
+                        <div class="mp-topbar">
+                            <div class="mp-brand"></div>
                             <div class="mp-nav-item"></div>
                             <div class="mp-nav-item mp-nav-active"></div>
                             <div class="mp-nav-item"></div>
+                            <div class="mp-avatar"></div>
                         </div>
                         <div class="mp-content">
                             <div class="mp-header"></div>
@@ -62,10 +64,12 @@
                         role="radio" aria-checked="false" aria-label="Tonalidade Sunset"
                         onclick="selecionarTonalidade('sunset')">
                     <div class="mini-page mp-sunset">
-                        <div class="mp-sidebar">
+                        <div class="mp-topbar">
+                            <div class="mp-brand"></div>
                             <div class="mp-nav-item"></div>
                             <div class="mp-nav-item mp-nav-active"></div>
                             <div class="mp-nav-item"></div>
+                            <div class="mp-avatar"></div>
                         </div>
                         <div class="mp-content">
                             <div class="mp-header"></div>
@@ -85,10 +89,12 @@
                         role="radio" aria-checked="false" aria-label="Tonalidade Ocean"
                         onclick="selecionarTonalidade('ocean')">
                     <div class="mini-page mp-ocean">
-                        <div class="mp-sidebar">
+                        <div class="mp-topbar">
+                            <div class="mp-brand"></div>
                             <div class="mp-nav-item"></div>
                             <div class="mp-nav-item mp-nav-active"></div>
                             <div class="mp-nav-item"></div>
+                            <div class="mp-avatar"></div>
                         </div>
                         <div class="mp-content">
                             <div class="mp-header"></div>
@@ -108,10 +114,12 @@
                         role="radio" aria-checked="false" aria-label="Tonalidade Earth"
                         onclick="selecionarTonalidade('earth')">
                     <div class="mini-page mp-earth">
-                        <div class="mp-sidebar">
+                        <div class="mp-topbar">
+                            <div class="mp-brand"></div>
                             <div class="mp-nav-item"></div>
                             <div class="mp-nav-item mp-nav-active"></div>
                             <div class="mp-nav-item"></div>
+                            <div class="mp-avatar"></div>
                         </div>
                         <div class="mp-content">
                             <div class="mp-header"></div>
@@ -131,10 +139,12 @@
                         role="radio" aria-checked="false" aria-label="Tonalidade Berry"
                         onclick="selecionarTonalidade('berry')">
                     <div class="mini-page mp-berry">
-                        <div class="mp-sidebar">
+                        <div class="mp-topbar">
+                            <div class="mp-brand"></div>
                             <div class="mp-nav-item"></div>
                             <div class="mp-nav-item mp-nav-active"></div>
                             <div class="mp-nav-item"></div>
+                            <div class="mp-avatar"></div>
                         </div>
                         <div class="mp-content">
                             <div class="mp-header"></div>
@@ -154,10 +164,12 @@
                         role="radio" aria-checked="false" aria-label="Tonalidade Crimson"
                         onclick="selecionarTonalidade('crimson')">
                     <div class="mini-page mp-crimson">
-                        <div class="mp-sidebar">
+                        <div class="mp-topbar">
+                            <div class="mp-brand"></div>
                             <div class="mp-nav-item"></div>
                             <div class="mp-nav-item mp-nav-active"></div>
                             <div class="mp-nav-item"></div>
+                            <div class="mp-avatar"></div>
                         </div>
                         <div class="mp-content">
                             <div class="mp-header"></div>
@@ -177,10 +189,12 @@
                         role="radio" aria-checked="false" aria-label="Tonalidade Arctic"
                         onclick="selecionarTonalidade('arctic')">
                     <div class="mini-page mp-arctic">
-                        <div class="mp-sidebar">
+                        <div class="mp-topbar">
+                            <div class="mp-brand"></div>
                             <div class="mp-nav-item"></div>
                             <div class="mp-nav-item mp-nav-active"></div>
                             <div class="mp-nav-item"></div>
+                            <div class="mp-avatar"></div>
                         </div>
                         <div class="mp-content">
                             <div class="mp-header"></div>
