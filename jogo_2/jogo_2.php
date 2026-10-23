@@ -13,8 +13,8 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gráfico de Barras Interativo - Math Game">
-    <title>Gráfico de Barras | Math Game</title>
+    <meta name="description" content="Gráfico de Barras Interativo - Mantham">
+    <title>Gráfico de Barras | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="jogo_2.css">
     <script src="../tema.js"></script>

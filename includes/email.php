@@ -19,7 +19,7 @@ require_once __DIR__ . '/logger.php';
  * @return bool True se o e-mail foi enviado com sucesso, false caso contrário.
  */
 function email_enviar_recuperacao(string $emailDestino, string $nomeDestino, string $linkRedefinicao): bool {
-    $assunto = '[Math Game] Redefinição de senha';
+    $assunto = '[Mantham] Redefinição de senha';
     $minutosExpiracao = defined('TOKEN_EXPIRACAO_MINUTOS') ? TOKEN_EXPIRACAO_MINUTOS : 60;
     $tempoTexto = ($minutosExpiracao >= 60 && $minutosExpiracao % 60 === 0)
         ? ($minutosExpiracao / 60) . ' hora' . ($minutosExpiracao > 60 ? 's' : '')
@@ -44,9 +44,9 @@ function email_enviar_recuperacao(string $emailDestino, string $nomeDestino, str
 </head>
 <body>
   <div class='card'>
-    <h2>Redefinição de senha – Math Game</h2>
+    <h2>Redefinição de senha – Mantham</h2>
     <p>Olá, <strong>" . htmlspecialchars($nomeDestino, ENT_QUOTES, 'UTF-8') . "</strong>!</p>
-    <p>Recebemos uma solicitação para redefinir a senha da sua conta no <strong>Math Game</strong>. Clique no botão abaixo para criar sua nova senha:</p>
+    <p>Recebemos uma solicitação para redefinir a senha da sua conta no <strong>Mantham</strong>. Clique no botão abaixo para criar sua nova senha:</p>
     <p style='text-align: center;'>
       <a href='" . htmlspecialchars($linkRedefinicao, ENT_QUOTES, 'UTF-8') . "' class='btn' target='_blank'>Redefinir Minha Senha</a>
     </p>
@@ -60,9 +60,9 @@ function email_enviar_recuperacao(string $emailDestino, string $nomeDestino, str
 </body>
 </html>";
 
-    $textoPlano = "Redefinição de senha – Math Game\n\n"
+    $textoPlano = "Redefinição de senha – Mantham\n\n"
         . "Olá, {$nomeDestino}!\n\n"
-        . "Recebemos uma solicitação para redefinir a senha da sua conta no Math Game.\n"
+        . "Recebemos uma solicitação para redefinir a senha da sua conta no Mantham.\n"
         . "Acesse o link abaixo para criar uma nova senha (válido por {$tempoTexto}):\n\n"
         . $linkRedefinicao . "\n\n"
         . "Se o link não for clicável, copie e cole no seu navegador.\n\n"
@@ -79,7 +79,7 @@ function email_enviar_recuperacao(string $emailDestino, string $nomeDestino, str
  * @return bool True se o e-mail foi enviado com sucesso.
  */
 function email_enviar_aviso_senha_alterada(string $emailDestino, string $nomeDestino): bool {
-    $assunto = '[Math Game] Sua senha foi alterada com sucesso';
+    $assunto = '[Mantham] Sua senha foi alterada com sucesso';
 
     $htmlCorpo = "
 <!DOCTYPE html>
@@ -95,9 +95,9 @@ function email_enviar_aviso_senha_alterada(string $emailDestino, string $nomeDes
 </head>
 <body>
   <div class='card'>
-    <h2>Senha alterada – Math Game</h2>
+    <h2>Senha alterada – Mantham</h2>
     <p>Olá, <strong>" . htmlspecialchars($nomeDestino, ENT_QUOTES, 'UTF-8') . "</strong>!</p>
-    <p>A senha da sua conta no <strong>Math Game</strong> foi alterada com sucesso.</p>
+    <p>A senha da sua conta no <strong>Mantham</strong> foi alterada com sucesso.</p>
     <div class='alerta'>
       <strong>Não reconhece essa alteração?</strong><br>
       Se você não realizou essa mudança, entre em contato imediatamente com o suporte ou utilize a opção \"Esqueci a senha\" para recuperar seu acesso.
@@ -106,9 +106,9 @@ function email_enviar_aviso_senha_alterada(string $emailDestino, string $nomeDes
 </body>
 </html>";
 
-    $textoPlano = "Senha alterada – Math Game\n\n"
+    $textoPlano = "Senha alterada – Mantham\n\n"
         . "Olá, {$nomeDestino}!\n\n"
-        . "A senha da sua conta no Math Game foi alterada com sucesso.\n\n"
+        . "A senha da sua conta no Mantham foi alterada com sucesso.\n\n"
         . "Se você não realizou essa alteração, acesse imediatamente o site e utilize 'Esqueci a senha' para recuperar sua conta.";
 
     return _enviar_email($emailDestino, $nomeDestino, $assunto, $htmlCorpo, $textoPlano);
@@ -153,7 +153,7 @@ function _enviar_email(
         $debug  = defined('SMTP_DEBUG') ? (bool) SMTP_DEBUG : false;
 
         $fromEmail = defined('SMTP_FROM_EMAIL') ? SMTP_FROM_EMAIL : 'nao-responda@mathgame.local';
-        $fromName  = defined('SMTP_FROM_NAME')  ? SMTP_FROM_NAME  : 'Math Game';
+        $fromName  = defined('SMTP_FROM_NAME')  ? SMTP_FROM_NAME  : 'Mantham';
 
         // Configurações do SMTP
         $mail->isSMTP();

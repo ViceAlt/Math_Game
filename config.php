@@ -106,7 +106,7 @@ if (!defined('SMTP_USER')) define('SMTP_USER', app_env('SMTP_USER', ''));
 if (!defined('SMTP_PASS')) define('SMTP_PASS', app_env('SMTP_PASS', ''));
 if (!defined('SMTP_SECURE')) define('SMTP_SECURE', strtolower((string) app_env('SMTP_SECURE', ''))); // 'tls', 'ssl' ou ''
 if (!defined('SMTP_FROM_EMAIL')) define('SMTP_FROM_EMAIL', app_env('SMTP_FROM_EMAIL', 'nao-responda@mathgame.local'));
-if (!defined('SMTP_FROM_NAME')) define('SMTP_FROM_NAME', app_env('SMTP_FROM_NAME', 'Math Game'));
+if (!defined('SMTP_FROM_NAME')) define('SMTP_FROM_NAME', app_env('SMTP_FROM_NAME', 'Mantham'));
 
 // Ativa log detalhado do SMTP para diagnóstico (grava em logs/recuperacao.log)
 if (!defined('SMTP_DEBUG')) {

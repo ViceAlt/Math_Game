@@ -5,9 +5,27 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
+/* Fonte da Logo Mantham (Talina DEMO by Pandeka Studio) */
+@font-face {
+   font-family: 'Talina';
+   src: local('Talina DEMO'),
+        local('TalinaDEMO-Regular'),
+        url('fonts/Talina.otf') format('opentype');
+   font-weight: normal;
+   font-style: normal;
+   font-display: swap;
+}
+
 :root {
    /* Tipografia */
    --font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+   --font-logo: 'Talina', 'Nunito', system-ui, sans-serif;
+
+   /* Cores da Marca */
+   --cor-primaria: var(--duo-green);
+   --cor-primaria-shadow: var(--duo-green-shadow);
+   --cor-secundaria: var(--duo-blue);
+   --cor-secundaria-shadow: var(--duo-blue-shadow);
 
    /* Paleta de Cores Primária e Destaques (Vibrantes com contraste AA) */
    --duo-green: #58cc02;
@@ -60,7 +78,8 @@
    /* Animações Curtas e Confortáveis */
    --transicao-rapida: 0.15s ease;
    --transicao-media: 0.25s ease;
-   --button-hover-duration: 0.15s ease; /* Alias de --transicao-rapida para compatibilidade */
+   --button-hover-duration: 0.15s ease;
+   /* Alias de --transicao-rapida para compatibilidade */
 }
 
 /* --------------------------------------------------------------------------
@@ -89,7 +108,8 @@ html.tema-escuro {
 /* --------------------------------------------------------------------------
    TONALIDADES OPCIONAIS (Ajustes de Acento)
    -------------------------------------------------------------------------- */
-body.tonalidade-sunset, html.tonalidade-sunset {
+body.tonalidade-sunset,
+html.tonalidade-sunset {
    --duo-blue: #ff6b35;
    --duo-blue-shadow: #e05520;
    --duo-blue-light: #fff0eb;
@@ -97,7 +117,8 @@ body.tonalidade-sunset, html.tonalidade-sunset {
    --duo-green-shadow: #c93549;
 }
 
-body.tonalidade-ocean, html.tonalidade-ocean {
+body.tonalidade-ocean,
+html.tonalidade-ocean {
    --duo-blue: #0096c7;
    --duo-blue-shadow: #0077b6;
    --duo-blue-light: #e6f7fc;
@@ -105,7 +126,8 @@ body.tonalidade-ocean, html.tonalidade-ocean {
    --duo-green-shadow: #05b384;
 }
 
-body.tonalidade-earth, html.tonalidade-earth {
+body.tonalidade-earth,
+html.tonalidade-earth {
    --duo-blue: #d4a03c;
    --duo-blue-shadow: #b8872e;
    --duo-blue-light: #fbf5e8;
@@ -113,7 +135,8 @@ body.tonalidade-earth, html.tonalidade-earth {
    --duo-green-shadow: #a44d2e;
 }
 
-body.tonalidade-berry, html.tonalidade-berry {
+body.tonalidade-berry,
+html.tonalidade-berry {
    --duo-blue: #e63981;
    --duo-blue-shadow: #c0145c;
    --duo-blue-light: #fdebf2;
@@ -121,7 +144,8 @@ body.tonalidade-berry, html.tonalidade-berry {
    --duo-green-shadow: #67164c;
 }
 
-body.tonalidade-crimson, html.tonalidade-crimson {
+body.tonalidade-crimson,
+html.tonalidade-crimson {
    --duo-blue: #dc2626;
    --duo-blue-shadow: #991b1b;
    --duo-blue-light: #fee2e2;
@@ -129,7 +153,8 @@ body.tonalidade-crimson, html.tonalidade-crimson {
    --duo-green-shadow: #be123c;
 }
 
-body.tonalidade-arctic, html.tonalidade-arctic {
+body.tonalidade-arctic,
+html.tonalidade-arctic {
    --duo-blue: #0284c7;
    --duo-blue-shadow: #0369a1;
    --duo-blue-light: #e0f7fa;
@@ -157,15 +182,26 @@ body {
    min-height: 100vh;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
    color: var(--text-main);
    font-weight: 800;
    line-height: 1.25;
 }
 
-h1 { font-size: 1.85rem; }
-h2 { font-size: 1.4rem; }
-h3 { font-size: 1.15rem; }
+h1 {
+   font-size: 1.85rem;
+}
+
+h2 {
+   font-size: 1.4rem;
+}
+
+h3 {
+   font-size: 1.15rem;
+}
 
 /* --------------------------------------------------------------------------
    BOTÕES 3D ESTILO DUOLINGO
@@ -361,14 +397,23 @@ html.daltonismo-tritanopia::before {
    background: transparent;
 }
 
-html.daltonismo-protanopia::before { backdrop-filter: contrast(1.1) saturate(0.9); }
-html.daltonismo-deuteranopia::before { backdrop-filter: contrast(1.1) hue-rotate(10deg); }
-html.daltonismo-tritanopia::before { backdrop-filter: contrast(1.1) hue-rotate(-10deg); }
+html.daltonismo-protanopia::before {
+   backdrop-filter: contrast(1.1) saturate(0.9);
+}
+
+html.daltonismo-deuteranopia::before {
+   backdrop-filter: contrast(1.1) hue-rotate(10deg);
+}
+
+html.daltonismo-tritanopia::before {
+   backdrop-filter: contrast(1.1) hue-rotate(-10deg);
+}
 
 /* --------------------------------------------------------------------------
    ACESSIBILIDADE: PREFERS-REDUCED-MOTION
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
+
    *,
    *::before,
    *::after {

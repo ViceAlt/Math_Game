@@ -13,8 +13,8 @@ $jsVersion  = file_exists(__DIR__ . '/conteudos.js') ? filemtime(__DIR__ . '/con
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trilha de fases gamificada em estilo mapa vertical - Math Game">
-    <title>Trilha de Conteúdos | Math Game</title>
+    <meta name="description" content="Trilha de fases gamificada em estilo mapa vertical - Mantham">
+    <title>Trilha de Conteúdos | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="../includes/navbar.css">
     <link rel="stylesheet" href="conteudos.css?v=<?= $cssVersion ?>">
@@ -37,7 +37,6 @@ $jsVersion  = file_exists(__DIR__ . '/conteudos.js') ? filemtime(__DIR__ . '/con
                         <?= icone_svg('forest', '', 32) ?>
                     </span>
                     <div class="mundo-textos">
-                        <span class="mundo-unidade-tag" id="mundo-tag">Unidade 1</span>
                         <h1 class="mundo-titulo" id="mundo-titulo">6° Ano – Floresta dos Números</h1>
                         <p class="mundo-descricao" id="mundo-descricao">Domine operações, frações, múltiplos e divisores</p>
                     </div>

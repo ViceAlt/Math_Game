@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Configurações de acessibilidade e aparência - Math Game">
-    <title>Configurações | Math Game</title>
+    <meta name="description" content="Configurações de acessibilidade e aparência - Mantham">
+    <title>Configurações | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="configuracoes.css">
     <link rel="stylesheet" href="../includes/navbar.css">

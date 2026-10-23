@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Catálogo de jogos de Matemática - Math Game">
-    <title>Jogos | Math Game</title>
+    <meta name="description" content="Catálogo de jogos de Matemática - Mantham">
+    <title>Jogos | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="jogos.css">
     <link rel="stylesheet" href="../includes/navbar.css">

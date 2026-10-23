@@ -19,7 +19,7 @@ $jsVersion  = file_exists(__DIR__ . '/home.js') ? filemtime(__DIR__ . '/home.js'
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Plataforma de jogos de Matemática para o Ensino Fundamental 2">
-    <title>Home | Math Game</title>
+    <title>Home | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="../includes/navbar.css">
     <link rel="stylesheet" href="home.css?v=<?= $cssVersion ?>">
@@ -130,7 +130,7 @@ $jsVersion  = file_exists(__DIR__ . '/home.js') ? filemtime(__DIR__ . '/home.js'
                                 onerror="this.onerror=null;this.src='https://api.dicebear.com/7.x/bottts/svg?seed=<?= urlencode($usuario['username']) ?>'">
                         </div>
                         <h2 id="nome-usuario"><?= htmlspecialchars($usuario['username']) ?></h2>
-                        <span class="perfil-tag">Aluno(a) Math Game</span>
+                        <span class="perfil-tag">Aluno(a) Mantham</span>
 
                         <!-- Mini Estatísticas do Usuário -->
                         <div class="perfil-stats-resumo">

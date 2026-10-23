@@ -13,8 +13,8 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sucessores e Antecessores - Math Game">
-    <title>Sucessores e Antecessores | Math Game</title>
+    <meta name="description" content="Sucessores e Antecessores - Mantham">
+    <title>Sucessores e Antecessores | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="jogo_4.css">
     <script src="../tema.js"></script>

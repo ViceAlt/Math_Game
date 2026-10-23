@@ -194,7 +194,10 @@ function selecionarAno(ano) {
         iconeEl.innerHTML = ICONES[infoMundo.icone](32);
     }
 
-    document.getElementById('mundo-tag').textContent = infoMundo.unidade;
+    const tagEl = document.getElementById('mundo-tag');
+    if (tagEl) {
+        tagEl.textContent = infoMundo.unidade;
+    }
     document.getElementById('mundo-titulo').textContent = infoMundo.nome;
     document.getElementById('mundo-descricao').textContent = infoMundo.descricao;
 

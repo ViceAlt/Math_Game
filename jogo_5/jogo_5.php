@@ -13,8 +13,8 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A Balança de Equilíbrio - Equações do 1º Grau - Math Game">
-    <title>A Balança de Equilíbrio | Math Game</title>
+    <meta name="description" content="A Balança de Equilíbrio - Equações do 1º Grau - Mantham">
+    <title>A Balança de Equilíbrio | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="jogo_5.css">
     <script src="../tema.js"></script>

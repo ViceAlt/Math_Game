@@ -13,8 +13,8 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Formas Geométricas e Fórmulas - Math Game">
-    <title>Formas e Geometria | Math Game</title>
+    <meta name="description" content="Formas Geométricas e Fórmulas - Mantham">
+    <title>Formas e Geometria | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="jogo_3.css">
     <script src="../tema.js"></script>

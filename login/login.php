@@ -15,8 +15,8 @@ $csrfToken   = csrf_gerar();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Acesse sua conta na plataforma Math Game">
-    <title>Login | Math Game</title>
+    <meta name="description" content="Acesse sua conta na plataforma Mantham">
+    <title>Login | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
     <link rel="stylesheet" href="login.css">
     <script src="../tema.js"></script>
@@ -24,6 +24,18 @@ $csrfToken   = csrf_gerar();
 <body>
 
     <main class="main" id="main-content">
+        <div class="auth-brand-logo">
+            <a href="../home/home.php" class="auth-brand-link" aria-label="Mantham - Início">
+                <span class="brand-badge-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                </span>
+                <span class="brand-text"><span class="brand-man">Man</span><span class="brand-tham">tham</span></span>
+            </a>
+        </div>
+
         <h1>Entrar na Conta</h1>
 
         <?php if ($aviso === 'senha_alterada'): ?>

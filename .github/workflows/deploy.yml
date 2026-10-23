@@ -1,0 +1,63 @@
+name: Deploy via FTP
+
+# ==============================================================================
+# Deploy Automático via FTP - Math Game
+# Dispara a cada commit/push para os branches principais ou execução manual.
+# ==============================================================================
+
+on:
+  push:
+    branches:
+      - main
+      - Idealização
+  workflow_dispatch:
+
+concurrency:
+  group: ftp-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: 🚀 Deploy para o Servidor Web
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar Repositório (Checkout)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐘 Configurar PHP e Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo, pdo_mysql, json
+          tools: composer:v2
+
+      - name: 📦 Instalar Dependências de Produção (PHPMailer)
+        run: |
+          if [ -f composer.json ]; then
+            composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+          fi
+
+      - name: 📤 Enviar Arquivos via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ mantham.web1337.net/htdocs }}
+          port: ${{ secrets.FTP_PORT || 21 }}
+          protocol: ${{ secrets.FTP_PROTOCOL || 'ftp' }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.agent/**
+            **/scratch*
+            **/scratch_teste_fluxo.php
+            **/*.af
+            **/.env.example
+            **/tests/**
+            **/logs/*.log
