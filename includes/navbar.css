@@ -1,0 +1,416 @@
+/* ==========================================================================
+   BARRA SUPERIOR COMPARTILHADA (NAVBAR) - MATH GAME
+   Estilo Duolingo-Like: 70px de altura, 3D tátil, cantos suaves, sem emojis.
+   ========================================================================== */
+
+:root {
+    --navbar-height: 70px;
+    --font-logo: 'Talina', system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    padding-top: var(--navbar-height);
+    margin: 0;
+}
+
+/* Reset de margens e padding para o conteúdo das páginas */
+.main,
+main.main {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    max-width: 1200px;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    box-sizing: border-box;
+}
+
+/* Header Fixo no Topo */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: var(--bg-card);
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 4px 0 var(--border-color);
+    z-index: 950;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    transition: background-color var(--transicao-rapida), border-color var(--transicao-rapida);
+}
+
+body.tema-escuro .top-navbar {
+    box-shadow: 0 4px 0 var(--border-dark);
+}
+
+.top-navbar-container {
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* ─── Logotipo / Brand ───────────────────────────────────────────────────────── */
+@font-face {
+    font-family: 'Talina';
+    src: local('Talina DEMO'),
+         local('TalinaDEMO-Regular'),
+         url('../fonts/Talina.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.top-navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    font-size: 1.35rem;
+    letter-spacing: -0.4px;
+    flex-shrink: 0;
+    transition: filter var(--transicao-rapida);
+}
+
+.top-navbar-brand:hover {
+    filter: brightness(1.08);
+}
+
+.brand-badge-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
+    background: var(--cor-primaria, var(--duo-green));
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 0 var(--duo-green-shadow);
+    flex-shrink: 0;
+}
+
+.top-navbar-brand .brand-text {
+    font-family: 'Talina', 'Nunito', system-ui, sans-serif;
+    font-size: 1.85rem;
+    font-weight: normal;
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+    letter-spacing: 0.5px;
+}
+
+.top-navbar-brand .brand-man {
+    color: var(--cor-primaria, var(--duo-green));
+}
+
+.top-navbar-brand .brand-tham {
+    color: var(--cor-secundaria, var(--duo-blue));
+}
+
+.top-navbar-brand .brand-highlight {
+    color: var(--cor-secundaria, var(--duo-blue));
+}
+
+/* ─── Navegação Central ──────────────────────────────────────────────────────── */
+.top-navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.top-navbar-nav a {
+    text-decoration: none;
+    display: block;
+}
+
+/* Botões da Navbar (Duolingo 3D Nav Tabs) */
+.top-navbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.15rem;
+    min-height: 44px;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    transition: background-color var(--transicao-rapida), color var(--transicao-rapida), box-shadow var(--transicao-rapida);
+    white-space: nowrap;
+}
+
+.top-navbar-btn .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+}
+
+.top-navbar-btn:hover {
+    background-color: var(--bg-card-subtle);
+    color: var(--text-main);
+}
+
+/* Item Ativo (Página Atual) - Padrão */
+.top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: var(--duo-blue-light);
+    color: var(--duo-blue);
+    border-color: var(--duo-blue);
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
+}
+
+body.tema-escuro .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(28, 176, 246, 0.16);
+    color: #38bdf8;
+    border-color: #38bdf8;
+    box-shadow: 0 3px 0 #0284c7;
+}
+
+/* ─── Botão Ativo da Top-bar por Tonalidade (Modo Claro e Modo Escuro) ────── */
+
+/* Sunset (Laranja Solar + Coral) */
+body.tonalidade-sunset .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tonalidade-sunset .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: #fff0eb;
+    color: #ff6b35;
+    border-color: #ff6b35;
+    box-shadow: 0 3px 0 #e05520;
+}
+
+body.tema-escuro.tonalidade-sunset .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro.tonalidade-sunset .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+body.tema-escuro .tonalidade-sunset .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(255, 107, 53, 0.2);
+    color: #ff8555;
+    border-color: #ff8555;
+    box-shadow: 0 3px 0 #c74415;
+}
+
+/* Ocean (Teal Oceânico + Menta) */
+body.tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: #e6f7fc;
+    color: #0096c7;
+    border-color: #0096c7;
+    box-shadow: 0 3px 0 #0077b6;
+}
+
+body.tema-escuro.tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro.tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+body.tema-escuro .tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(0, 150, 199, 0.2);
+    color: #38bdf8;
+    border-color: #38bdf8;
+    box-shadow: 0 3px 0 #0077b6;
+}
+
+/* Earth (Âmbar Dourado + Terracota) */
+body.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: #fbf5e8;
+    color: #d4a03c;
+    border-color: #d4a03c;
+    box-shadow: 0 3px 0 #b8872e;
+}
+
+body.tema-escuro.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+body.tema-escuro .tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(212, 160, 60, 0.2);
+    color: #e5b352;
+    border-color: #e5b352;
+    box-shadow: 0 3px 0 #9e7121;
+}
+
+/* Berry (Cereja Vibrante + Framboesa) */
+body.tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: #fdebf2;
+    color: #e63981;
+    border-color: #e63981;
+    box-shadow: 0 3px 0 #c0145c;
+}
+
+body.tema-escuro.tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro.tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+body.tema-escuro .tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(230, 57, 129, 0.2);
+    color: #f472b6;
+    border-color: #f472b6;
+    box-shadow: 0 3px 0 #a2104d;
+}
+
+/* Crimson (Rubi Vivo + Coral) */
+body.tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-color: #dc2626;
+    box-shadow: 0 3px 0 #991b1b;
+}
+
+body.tema-escuro.tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro.tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+body.tema-escuro .tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(220, 38, 38, 0.2);
+    color: #f87171;
+    border-color: #f87171;
+    box-shadow: 0 3px 0 #991b1b;
+}
+
+/* Arctic (Azul Petróleo + Ciano Gelo) */
+body.tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: #e0f7fa;
+    color: #0891b2;
+    border-color: #0891b2;
+    box-shadow: 0 3px 0 #0e7490;
+}
+
+body.tema-escuro.tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro.tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+body.tema-escuro .tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(6, 182, 212, 0.2);
+    color: #22d3ee;
+    border-color: #22d3ee;
+    box-shadow: 0 3px 0 #0891b2;
+}
+
+.top-navbar-nav a[aria-current="page"] .top-navbar-btn:active {
+    filter: brightness(0.92);
+}
+
+/* ─── Área do Usuário / Login (Direita) ───────────────────────────────────────── */
+.top-navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Chip de Perfil */
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.35rem 0.95rem 0.35rem 0.4rem;
+    border-radius: var(--radius-pill);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 2px 0 var(--border-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color var(--transicao-rapida), filter var(--transicao-rapida);
+}
+
+.user-chip:hover {
+    border-color: var(--duo-blue);
+    filter: brightness(1.03);
+}
+
+.user-chip:active {
+    filter: brightness(0.95);
+}
+
+.user-chip img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--duo-green);
+    background: var(--bg-card-subtle);
+    display: block;
+}
+
+.user-chip-name {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Botão Entrar na Navbar */
+.btn-nav-login-duo {
+    padding: 0.6rem 1.25rem;
+    min-height: 42px;
+    font-size: 0.9rem;
+}
+
+/* ─── Botão Mobile Hamburger ─────────────────────────────────────────────────── */
+.mobile-toggle {
+    display: none;
+    background: transparent;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 0.45rem;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transicao-rapida);
+}
+
+.mobile-toggle:hover {
+    background: var(--bg-card-subtle);
+}
+
+/* ─── Responsividade ─────────────────────────────────────────────────────────── */
+@media (max-width: 780px) {
+    .mobile-toggle {
+        display: flex;
+    }
+
+    .top-navbar-nav {
+        display: none;
+        position: absolute;
+        top: var(--navbar-height);
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-card);
+        border-bottom: 2px solid var(--border-color);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        flex-direction: column;
+        padding: 1rem 1.25rem;
+        gap: 0.65rem;
+        box-sizing: border-box;
+    }
+
+    .top-navbar-nav.aberto {
+        display: flex;
+    }
+
+    .top-navbar-nav li,
+    .top-navbar-nav a,
+    .top-navbar-btn {
+        width: 100%;
+    }
+
+    .top-navbar-btn {
+        justify-content: flex-start;
+        padding: 0.85rem 1.25rem;
+    }
+
+    .user-chip-name {
+        max-width: 90px;
+    }
+}

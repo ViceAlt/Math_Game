@@ -1,23 +1,34 @@
 <?php
-$host = "localhost";
-$usuario = "root";
-$senha = "";
-$banco = "Math_db";
-$port = "3308";
+/**
+ * conexao.php
+ * Centraliza a conexão PDO com o banco de dados.
+ * Não exibe mensagens – lança exceção em caso de falha.
+ */
 
-$conn = new mysqli(
-    $host,
-    $usuario,
-    $senha,
-    $banco,
-    $port
-);
-if ($conn->connect_error) {
-    die("Erro na conexão: " . $conn->connect_error);
+require_once __DIR__ . '/config.php';
+
+if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
+if (!defined('DB_PORT')) define('DB_PORT', '3308');
+if (!defined('DB_NAME')) define('DB_NAME', 'math_game');
+if (!defined('DB_USER')) define('DB_USER', 'root');
+if (!defined('DB_PASS')) define('DB_PASS', '');
+if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
+
+function getDB(): PDO {
+    static $pdo = null;
+    if ($pdo !== null) return $pdo;
+
+    $dsn = sprintf(
+        'mysql:host=%s;port=%s;dbname=%s;charset=%s',
+        DB_HOST, DB_PORT, DB_NAME, DB_CHARSET
+    );
+
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ];
+
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+    return $pdo;
 }
-$conn->set_charset("utf8mb4");
-
-echo "Conexão OK";
-?>
-
-<!-- esse é o primeiro documento  -->
