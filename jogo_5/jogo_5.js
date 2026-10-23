@@ -6,14 +6,14 @@
  */
 
 // ─── Constantes ──────────────────────────────────────────────────────────────
-const CHAVE_PARAMS        = 'mg_params_jogo';
-const CHAVE_PROGRESSO     = 'mg_progresso_fases';
+const CHAVE_PARAMS = 'mg_params_jogo';
+const CHAVE_PROGRESSO = 'mg_progresso_fases';
 const CHAVE_RECORDE_LIVRE = 'mg_recorde_livre';
-const CHAVE_ULTIMO_JOGO   = 'mg_ultimo_jogo';
+const CHAVE_ULTIMO_JOGO = 'mg_ultimo_jogo';
 
 const CONFIG_DIFICULDADE = {
-    facil:      { multiplicador: 1.0, rodadasPadrao: 3, nome: 'Fácil' },
-    medio:      { multiplicador: 1.5, rodadasPadrao: 3, nome: 'Médio' },
+    facil: { multiplicador: 1.0, rodadasPadrao: 3, nome: 'Fácil' },
+    medio: { multiplicador: 1.5, rodadasPadrao: 3, nome: 'Médio' },
     experiente: { multiplicador: 2.0, rodadasPadrao: 5, nome: 'Experiente' }
 };
 
@@ -1299,10 +1299,10 @@ function exibirModalResultado(estrelas) {
     if (valorAcertos) valorAcertos.textContent = `${acertosTotais}/${totalRodadas}`;
 
     if (comentario) {
-        if (estrelas === 3) comentario.textContent = 'Perfeito! Você dominou o equilíbrio das equações!';
-        else if (estrelas === 2) comentario.textContent = 'Muito bem! Ótimo raciocínio algébrico!';
-        else if (estrelas === 1) comentario.textContent = 'Parabéns por concluir! Treine mais para alcançar 3 estrelas!';
-        else comentario.textContent = 'Tente novamente para aperfeiçoar suas jogadas!';
+        if (estrelas === 3) comentario.textContent = 'Parabéns! Muito Bem!';
+        else if (estrelas === 2) comentario.textContent = 'Boa tentativa, você está evoluindo!';
+        else if (estrelas === 1) comentario.textContent = 'Você está no caminho para ser uma estrela! ⭐';
+        else comentario.textContent = 'Você está no caminho para ser uma estrela!';
     }
 
     modal.showModal();
@@ -1380,7 +1380,7 @@ function salvarRecordeLivre() {
                 tipo: 'jogo_livre',
                 titulo_fase: 'A Balança de Equilíbrio'
             })
-        }).catch(() => {});
+        }).catch(() => { });
     } catch { /* ignora */ }
 }
 

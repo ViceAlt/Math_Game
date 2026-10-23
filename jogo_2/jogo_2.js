@@ -268,7 +268,7 @@ function renderizarGraficoSVG() {
             if (dragActive && itemSendoArrastado === item) {
                 dragActive = false;
                 itemSendoArrastado = null;
-                try { gBarra.releasePointerCapture(e.pointerId); } catch (_) {}
+                try { gBarra.releasePointerCapture(e.pointerId); } catch (_) { }
             }
         };
 
@@ -500,6 +500,13 @@ function exibirResultado(estrelas) {
         }
         if (elPontos) elPontos.textContent = pontuacao;
         if (elAcertos) elAcertos.textContent = `${acertosTotais}/${totalRodadas}`;
+
+        const comentario = document.getElementById('modal-comentario-valor');
+        if (comentario) {
+            if (estrelas === 3) comentario.textContent = 'Parabéns! Muito Bem!';
+            else if (estrelas === 2) comentario.textContent = 'Boa tentativa, você está evoluindo! ';
+            else comentario.textContent = 'Você está no caminho para ser uma estrela!';
+        }
 
         modal.showModal();
     } else {

@@ -6,13 +6,13 @@
  */
 
 // ─── Constantes do Sistema ───────────────────────────────────────────────────
-const CHAVE_PARAMS        = 'mg_params_jogo';
-const CHAVE_PROGRESSO     = 'mg_progresso_fases';
+const CHAVE_PARAMS = 'mg_params_jogo';
+const CHAVE_PROGRESSO = 'mg_progresso_fases';
 const CHAVE_RECORDE_LIVRE = 'mg_recorde_livre';
 
 const CONFIG_DIFICULDADE = {
-    facil:      { multiplicador: 1.0 },
-    medio:      { multiplicador: 1.5 },
+    facil: { multiplicador: 1.0 },
+    medio: { multiplicador: 1.5 },
     experiente: { multiplicador: 2.0 }
 };
 
@@ -453,6 +453,13 @@ function exibirResultado(estrelas, total) {
         }
         if (elPontos) elPontos.textContent = pontuacao;
         if (elAcertos) elAcertos.textContent = `${acertos}/${total}`;
+
+        const comentario = document.getElementById('modal-comentario-valor');
+        if (comentario) {
+            if (estrelas === 3) comentario.textContent = 'Parabéns! Muito Bem!';
+            else if (estrelas === 2) comentario.textContent = 'Boa tentativa, você está evoluindo!';
+            else comentario.textContent = 'Você está no caminho para ser uma estrela!';
+        }
 
         modal.showModal();
     } else {

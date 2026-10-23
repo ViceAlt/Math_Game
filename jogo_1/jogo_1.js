@@ -6,16 +6,16 @@
  */
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
-const CHAVE_PARAMS    = 'mg_params_jogo';
-const CHAVE_USUARIO   = 'mg_usuario';
+const CHAVE_PARAMS = 'mg_params_jogo';
+const CHAVE_USUARIO = 'mg_usuario';
 const CHAVE_PROGRESSO = 'mg_progresso_fases';
 const CHAVE_RECORDE_LIVRE = 'mg_recorde_livre';
 
 // ─── Configurações por dificuldade ────────────────────────────────────────────
 const CONFIG_DIFICULDADE = {
-    facil:      { rodadas: 3, tempoLimite: null, multiplicadorPontos: 1   },
-    medio:      { rodadas: 3, tempoLimite: null, multiplicadorPontos: 1.5 },
-    experiente: { rodadas: 5, tempoLimite: 60,   multiplicadorPontos: 2   },
+    facil: { rodadas: 3, tempoLimite: null, multiplicadorPontos: 1 },
+    medio: { rodadas: 3, tempoLimite: null, multiplicadorPontos: 1.5 },
+    experiente: { rodadas: 5, tempoLimite: 60, multiplicadorPontos: 2 },
 };
 
 // ─── Parâmetros recebidos ─────────────────────────────────────────────────────
@@ -23,50 +23,50 @@ const params = lerParams();
 
 // ─── Estado do Jogo ───────────────────────────────────────────────────────────
 let currentTarget = {};
-let rodadaAtual   = 0;
-let totalRodadas  = CONFIG_DIFICULDADE[params.dificuldade]?.rodadas || 3;
-let pontuacao     = 0;
-let acertos       = 0;
-let jogoAtivo     = true;
-let filaFases     = [];
+let rodadaAtual = 0;
+let totalRodadas = CONFIG_DIFICULDADE[params.dificuldade]?.rodadas || 3;
+let pontuacao = 0;
+let acertos = 0;
+let jogoAtivo = true;
+let filaFases = [];
 
 // ─── Banco de Frações por dificuldade ─────────────────────────────────────────
 const FRACOES = {
     facil: [
-        { whole: 0, num: 1, den: 2, slicesPerPizza: 2,  pizzaCount: 1 },
-        { whole: 0, num: 1, den: 4, slicesPerPizza: 4,  pizzaCount: 1 },
-        { whole: 0, num: 3, den: 4, slicesPerPizza: 4,  pizzaCount: 1 },
-        { whole: 0, num: 2, den: 4, slicesPerPizza: 4,  pizzaCount: 1 },
-        { whole: 0, num: 1, den: 3, slicesPerPizza: 3,  pizzaCount: 1 },
-        { whole: 0, num: 2, den: 3, slicesPerPizza: 3,  pizzaCount: 1 },
-        { whole: 0, num: 1, den: 5, slicesPerPizza: 5,  pizzaCount: 1 },
-        { whole: 0, num: 2, den: 5, slicesPerPizza: 5,  pizzaCount: 1 },
-        { whole: 0, num: 3, den: 5, slicesPerPizza: 5,  pizzaCount: 1 },
-        { whole: 0, num: 4, den: 5, slicesPerPizza: 5,  pizzaCount: 1 },
+        { whole: 0, num: 1, den: 2, slicesPerPizza: 2, pizzaCount: 1 },
+        { whole: 0, num: 1, den: 4, slicesPerPizza: 4, pizzaCount: 1 },
+        { whole: 0, num: 3, den: 4, slicesPerPizza: 4, pizzaCount: 1 },
+        { whole: 0, num: 2, den: 4, slicesPerPizza: 4, pizzaCount: 1 },
+        { whole: 0, num: 1, den: 3, slicesPerPizza: 3, pizzaCount: 1 },
+        { whole: 0, num: 2, den: 3, slicesPerPizza: 3, pizzaCount: 1 },
+        { whole: 0, num: 1, den: 5, slicesPerPizza: 5, pizzaCount: 1 },
+        { whole: 0, num: 2, den: 5, slicesPerPizza: 5, pizzaCount: 1 },
+        { whole: 0, num: 3, den: 5, slicesPerPizza: 5, pizzaCount: 1 },
+        { whole: 0, num: 4, den: 5, slicesPerPizza: 5, pizzaCount: 1 },
     ],
     medio: [
-        { whole: 0, num: 2, den: 6,  slicesPerPizza: 6,  pizzaCount: 1 },
-        { whole: 0, num: 3, den: 6,  slicesPerPizza: 6,  pizzaCount: 1 },
-        { whole: 0, num: 4, den: 6,  slicesPerPizza: 6,  pizzaCount: 1 },
-        { whole: 0, num: 5, den: 6,  slicesPerPizza: 6,  pizzaCount: 1 },
-        { whole: 0, num: 3, den: 8,  slicesPerPizza: 8,  pizzaCount: 1 },
-        { whole: 0, num: 5, den: 8,  slicesPerPizza: 8,  pizzaCount: 1 },
-        { whole: 0, num: 7, den: 8,  slicesPerPizza: 8,  pizzaCount: 1 },
-        { whole: 1, num: 1, den: 4,  slicesPerPizza: 4,  pizzaCount: 2 },
-        { whole: 1, num: 1, den: 2,  slicesPerPizza: 2,  pizzaCount: 2 },
-        { whole: 1, num: 1, den: 3,  slicesPerPizza: 3,  pizzaCount: 2 },
+        { whole: 0, num: 2, den: 6, slicesPerPizza: 6, pizzaCount: 1 },
+        { whole: 0, num: 3, den: 6, slicesPerPizza: 6, pizzaCount: 1 },
+        { whole: 0, num: 4, den: 6, slicesPerPizza: 6, pizzaCount: 1 },
+        { whole: 0, num: 5, den: 6, slicesPerPizza: 6, pizzaCount: 1 },
+        { whole: 0, num: 3, den: 8, slicesPerPizza: 8, pizzaCount: 1 },
+        { whole: 0, num: 5, den: 8, slicesPerPizza: 8, pizzaCount: 1 },
+        { whole: 0, num: 7, den: 8, slicesPerPizza: 8, pizzaCount: 1 },
+        { whole: 1, num: 1, den: 4, slicesPerPizza: 4, pizzaCount: 2 },
+        { whole: 1, num: 1, den: 2, slicesPerPizza: 2, pizzaCount: 2 },
+        { whole: 1, num: 1, den: 3, slicesPerPizza: 3, pizzaCount: 2 },
     ],
     experiente: [
         { whole: 0, num: 5, den: 12, slicesPerPizza: 12, pizzaCount: 1 },
         { whole: 0, num: 7, den: 12, slicesPerPizza: 12, pizzaCount: 1 },
         { whole: 0, num: 11, den: 12, slicesPerPizza: 12, pizzaCount: 1 },
-        { whole: 1, num: 3, den: 8,  slicesPerPizza: 8,  pizzaCount: 2 },
-        { whole: 1, num: 5, den: 8,  slicesPerPizza: 8,  pizzaCount: 2 },
-        { whole: 1, num: 7, den: 8,  slicesPerPizza: 8,  pizzaCount: 2 },
-        { whole: 2, num: 1, den: 6,  slicesPerPizza: 6,  pizzaCount: 3 },
-        { whole: 2, num: 2, den: 6,  slicesPerPizza: 6,  pizzaCount: 3 },
-        { whole: 2, num: 5, den: 6,  slicesPerPizza: 6,  pizzaCount: 3 },
-        { whole: 2, num: 3, den: 4,  slicesPerPizza: 4,  pizzaCount: 3 },
+        { whole: 1, num: 3, den: 8, slicesPerPizza: 8, pizzaCount: 2 },
+        { whole: 1, num: 5, den: 8, slicesPerPizza: 8, pizzaCount: 2 },
+        { whole: 1, num: 7, den: 8, slicesPerPizza: 8, pizzaCount: 2 },
+        { whole: 2, num: 1, den: 6, slicesPerPizza: 6, pizzaCount: 3 },
+        { whole: 2, num: 2, den: 6, slicesPerPizza: 6, pizzaCount: 3 },
+        { whole: 2, num: 5, den: 6, slicesPerPizza: 6, pizzaCount: 3 },
+        { whole: 2, num: 3, den: 4, slicesPerPizza: 4, pizzaCount: 3 },
     ],
 };
 
@@ -97,7 +97,7 @@ function gerarFilaDeFases(dificuldade) {
         return randomSort(FRACOES.medio).slice(0, 3);
     } else if (dificuldade === 'experiente') {
         const medias = randomSort(FRACOES.medio).slice(0, 2);
-        const exp    = randomSort(FRACOES.experiente).slice(0, 3);
+        const exp = randomSort(FRACOES.experiente).slice(0, 3);
         return randomSort([...medias, ...exp]);
     }
     return randomSort(FRACOES.facil).slice(0, 3);
@@ -105,14 +105,14 @@ function gerarFilaDeFases(dificuldade) {
 
 function iniciarJogo() {
     rodadaAtual = 0;
-    pontuacao   = 0;
-    acertos     = 0;
-    jogoAtivo   = true;
+    pontuacao = 0;
+    acertos = 0;
+    jogoAtivo = true;
     totalRodadas = CONFIG_DIFICULDADE[params.dificuldade]?.rodadas || 3;
     filaFases = gerarFilaDeFases(params.dificuldade);
-    
+
     atualizarBarraDeProgresso(0);
-    
+
     proximaRodada();
 }
 
@@ -272,7 +272,7 @@ function calcularEstrelas(acertos, total) {
     const pct = acertos / total;
     if (pct >= 0.9) return 3;
     if (pct >= 0.6) return 2;
-    if (pct >  0)   return 1;
+    if (pct > 0) return 1;
     return 0;
 }
 
@@ -298,6 +298,13 @@ function exibirResultado(estrelas) {
         }
         if (elPontos) elPontos.textContent = pontuacao;
         if (elAcertos) elAcertos.textContent = `${acertos}/${totalRodadas}`;
+
+        const comentario = document.getElementById('modal-comentario-valor');
+        if (comentario) {
+            if (estrelas === 3) comentario.textContent = 'Parabéns! Muito Bem! ';
+            else if (estrelas === 2) comentario.textContent = 'Boa tentativa, você está evoluindo! ';
+            else comentario.textContent = 'Você está no caminho para ser uma estrela! ';
+        }
 
         modal.showModal();
     } else {
@@ -326,7 +333,7 @@ async function gravarProgressoTrilha(estrelas) {
             }
         }
         salvarProgresso(progressoLocal);
-    } catch(e) {
+    } catch (e) {
         console.warn('Erro ao salvar progresso local:', e);
     }
 
@@ -344,7 +351,7 @@ async function gravarProgressoTrilha(estrelas) {
                 tipo: 'trilha'
             })
         });
-    } catch(e) {
+    } catch (e) {
         console.error('Erro ao salvar progresso na API', e);
     }
 }
@@ -510,11 +517,11 @@ function renderPizzas() {
         svg.appendChild(plateInner);
 
         const totalSlices = currentTarget.slicesPerPizza;
-        const angleStep   = 360 / totalSlices;
+        const angleStep = 360 / totalSlices;
 
         for (let i = 0; i < totalSlices; i++) {
             const startAngle = i * angleStep;
-            const endAngle   = (i + 1) * angleStep;
+            const endAngle = (i + 1) * angleStep;
 
             const sliceGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             sliceGroup.classList.add('slice');
@@ -938,7 +945,7 @@ function renderizarOregano(group, midAngle, totalSlices) {
 
 function getSlicePath(cx, cy, r, startAngle, endAngle) {
     const startRad = (startAngle - 90) * Math.PI / 180;
-    const endRad   = (endAngle   - 90) * Math.PI / 180;
+    const endRad = (endAngle - 90) * Math.PI / 180;
 
     const x1 = cx + r * Math.cos(startRad);
     const y1 = cy + r * Math.sin(startRad);
