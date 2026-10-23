@@ -94,23 +94,45 @@ if (!defined('DB_USER')) define('DB_USER', app_env('DB_USER', 'b4_42774075'));
 if (!defined('DB_PASS')) define('DB_PASS', app_env('DB_PASS', 'senai@571'));
 if (!defined('DB_CHARSET')) define('DB_CHARSET', app_env('DB_CHARSET', 'utf8mb4'));
 
-// ── 4. Configurações SMTP (PHPMailer) ────────────────────────────────────────
-// Padrão: Mailpit local (127.0.0.1:1025) ou SMTP externo configurado via .env
-if (!defined('SMTP_HOST')) define('SMTP_HOST', app_env('SMTP_HOST', '127.0.0.1'));
-if (!defined('SMTP_PORT')) define('SMTP_PORT', (int) app_env('SMTP_PORT', 1025));
+// ── 4. Configurações de Envio de E-mail (PHPMailer, APIs e Fallback mail()) ─
+if (!defined('SMTP_HOST')) {
+    $defaultHost = (app_env('APP_ENV') === 'production') ? '' : '127.0.0.1';
+    define('SMTP_HOST', app_env('SMTP_HOST', $defaultHost));
+}
+if (!defined('SMTP_PORT')) {
+    $defaultPort = (app_env('APP_ENV') === 'production') ? 587 : 1025;
+    define('SMTP_PORT', (int) app_env('SMTP_PORT', $defaultPort));
+}
 if (!defined('SMTP_AUTH')) {
-    $smtpAuthVal = app_env('SMTP_AUTH', 'false');
+    $defaultAuth = (app_env('APP_ENV') === 'production') ? 'true' : 'false';
+    $smtpAuthVal = app_env('SMTP_AUTH', $defaultAuth);
     define('SMTP_AUTH', filter_var($smtpAuthVal, FILTER_VALIDATE_BOOLEAN));
 }
 if (!defined('SMTP_USER')) define('SMTP_USER', app_env('SMTP_USER', ''));
 if (!defined('SMTP_PASS')) define('SMTP_PASS', app_env('SMTP_PASS', ''));
-if (!defined('SMTP_SECURE')) define('SMTP_SECURE', strtolower((string) app_env('SMTP_SECURE', ''))); // 'tls', 'ssl' ou ''
-if (!defined('SMTP_FROM_EMAIL')) define('SMTP_FROM_EMAIL', app_env('SMTP_FROM_EMAIL', 'nao-responda@mathgame.local'));
+if (!defined('SMTP_SECURE')) {
+    $defaultSecure = (app_env('APP_ENV') === 'production') ? 'tls' : '';
+    define('SMTP_SECURE', strtolower((string) app_env('SMTP_SECURE', $defaultSecure))); // 'tls', 'ssl' ou ''
+}
+if (!defined('SMTP_FROM_EMAIL')) {
+    $defaultFrom = (app_env('APP_ENV') === 'production') ? 'nao-responda@mantham.web1337.net' : 'nao-responda@mathgame.local';
+    define('SMTP_FROM_EMAIL', app_env('SMTP_FROM_EMAIL', $defaultFrom));
+}
 if (!defined('SMTP_FROM_NAME')) define('SMTP_FROM_NAME', app_env('SMTP_FROM_NAME', 'Mantham'));
+
+// Chaves de API para envio via HTTPS (Porta 443 - 100% imune a bloqueios de portas em hospedagens como ByetHost)
+if (!defined('BREVO_API_KEY')) define('BREVO_API_KEY', app_env('BREVO_API_KEY', ''));
+if (!defined('RESEND_API_KEY')) define('RESEND_API_KEY', app_env('RESEND_API_KEY', ''));
+
+// Fallback automático para a função nativa mail() do PHP caso SMTP falhe ou não esteja disponível
+if (!defined('FALLBACK_PHP_MAIL')) {
+    $fallbackVal = app_env('FALLBACK_PHP_MAIL', 'true');
+    define('FALLBACK_PHP_MAIL', filter_var($fallbackVal, FILTER_VALIDATE_BOOLEAN));
+}
 
 // Ativa log detalhado do SMTP para diagnóstico (grava em logs/recuperacao.log)
 if (!defined('SMTP_DEBUG')) {
-    $debugVal = app_env('SMTP_DEBUG', 'false');
+    $debugVal = app_env('SMTP_DEBUG', 'true');
     define('SMTP_DEBUG', filter_var($debugVal, FILTER_VALIDATE_BOOLEAN));
 }
 

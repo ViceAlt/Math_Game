@@ -72,11 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         recuperacao_log("Link de redefinição montado: " . preg_replace('/token=[a-f0-9]{32}/', 'token=***REDACTED***', $link), 'INFO');
 
-                        // Dispara o e-mail via PHPMailer + SMTP
+                        // Dispara o e-mail (API HTTPS, SMTP ou mail() nativo)
                         $enviado = email_enviar_recuperacao($usuario['email'], $usuario['username'], $link);
 
                         if (!$enviado) {
-                            recuperacao_log("ATENÇÃO: A função de envio de e-mail retornou FALSE para {$usuario['email']}. Verifique as configurações de SMTP no .env", 'ERROR');
+                            recuperacao_log("AVISO DE CONTINGÊNCIA: O servidor não conseguiu despachar o e-mail para '{$usuario['email']}'. Link gerado para acesso imediato: {$link}", 'WARNING');
                         }
                     } else {
                         recuperacao_log("E-mail '{$email}' não encontrado na base de usuários. Nenhuma mensagem enviada.", 'INFO');
