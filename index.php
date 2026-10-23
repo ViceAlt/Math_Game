@@ -10,6 +10,6 @@ exit;
     <title>Redirecionando...</title>
 </head>
 <body>
-    <p>Redirecionando... <a href="home.php">Clique aqui</a> se nada acontecer.</p>
+    <p>Redirecionando... <a href="home/home.php">Clique aqui</a> se nada acontecer.</p>
 </body>
 </html>
