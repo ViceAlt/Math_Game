@@ -1,6 +1,4 @@
 <?php
-header("Location: home.php");
-exit;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
