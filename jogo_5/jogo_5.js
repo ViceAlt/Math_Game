@@ -224,6 +224,7 @@ function carregarNovaRodada() {
     const btnDesfazer = document.getElementById('btn-desfazer');
     if (btnDesfazer) btnDesfazer.disabled = true;
 
+    dicaIndiceJogo5 = 0;
     ocultarDica();
     renderizarBalanca();
     atualizarPainelLateral();
@@ -1231,8 +1232,20 @@ function desfazerUltimaAcao() {
 }
 
 // ─── Dicas ───────────────────────────────────────────────────────────────────
+let dicaIndiceJogo5 = 0;
+let dicaTimerJogo5 = null;
+
 function solicitarDica() {
-    exibirDica("Dica: passe os números para o outro lado trocando o sinal (arraste ou clique neles) para isolar o x!");
+    const dicaEq = equacaoAtual?.dica || "Retire a mesma quantidade de ambos os lados para isolar o x!";
+    const dicas = [
+        dicaEq,
+        "O que você faz em um membro da equação, deve fazer no outro para manter o equilíbrio!",
+        "Passe os números para o outro lado trocando o sinal (arraste ou clique neles) para isolar o x!"
+    ];
+
+    const textoDica = dicas[dicaIndiceJogo5 % dicas.length];
+    dicaIndiceJogo5++;
+    exibirDica(textoDica);
 }
 
 function exibirDica(msg) {
@@ -1241,7 +1254,8 @@ function exibirDica(msg) {
     if (el && texto) {
         texto.textContent = msg;
         el.style.display = 'flex';
-        setTimeout(() => {
+        if (dicaTimerJogo5) clearTimeout(dicaTimerJogo5);
+        dicaTimerJogo5 = setTimeout(() => {
             el.style.display = 'none';
         }, 5500);
     }
@@ -1250,6 +1264,10 @@ function exibirDica(msg) {
 function ocultarDica() {
     const el = document.getElementById('dica-flutuante');
     if (el) el.style.display = 'none';
+    if (dicaTimerJogo5) {
+        clearTimeout(dicaTimerJogo5);
+        dicaTimerJogo5 = null;
+    }
 }
 
 // ─── Fim de Jogo ─────────────────────────────────────────────────────────────

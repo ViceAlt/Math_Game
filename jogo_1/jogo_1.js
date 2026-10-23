@@ -122,6 +122,9 @@ function proximaRodada() {
         return;
     }
 
+    dicaIndiceJogo1 = 0;
+    ocultarDica();
+
     if (params.modo === 'trilha' && params.slicesPerPizza && !params.dificuldade) {
         currentTarget = {
             whole: 0, num: 1, den: 2,
@@ -308,8 +311,54 @@ function exibirResultado(estrelas) {
 
         modal.showModal();
     } else {
-        alert(`Jogo finalizado!\nPontuação: ${pontuacao}\nEstrelas: ${estrelas}/3\nAcertos: ${acertos}/${totalRodadas}`);
+        console.log(`Jogo finalizado! Pontuação: ${pontuacao}, Estrelas: ${estrelas}/3, Acertos: ${acertos}/${totalRodadas}`);
         voltarPaginaAnterior();
+    }
+}
+
+// ─── Dicas Flutuantes ────────────────────────────────────────────────────────
+let dicaIndiceJogo1 = 0;
+let dicaTimerJogo1 = null;
+
+function solicitarDica() {
+    if (!currentTarget) return;
+    const { whole, num, den, slicesPerPizza } = currentTarget;
+    const fatiasNecessarias = whole * slicesPerPizza + Math.round((num / den) * slicesPerPizza);
+
+    const dicas = [
+        "O denominador (número de baixo) indica em quantas partes cada pizza está dividida.",
+        whole > 0
+            ? `Fração mista: coma ${whole} pizza(s) inteira(s) e mais a fração ${num}/${den} da próxima.`
+            : `Fração simples: clique nas fatias para comer o equivalente a ${num}/${den}.`,
+        whole > 0
+            ? `Dica de contagem: selecione um total de ${fatiasNecessarias} fatia(s) somando as pizzas!`
+            : `Dica de contagem: você deve comer exatamente ${fatiasNecessarias} fatia(s) nesta pizza!`
+    ];
+
+    const textoDica = dicas[dicaIndiceJogo1 % dicas.length];
+    dicaIndiceJogo1++;
+    exibirDica(textoDica);
+}
+
+function exibirDica(msg) {
+    const el = document.getElementById('dica-flutuante');
+    const texto = document.getElementById('dica-texto');
+    if (el && texto) {
+        texto.textContent = msg;
+        el.style.display = 'flex';
+        if (dicaTimerJogo1) clearTimeout(dicaTimerJogo1);
+        dicaTimerJogo1 = setTimeout(() => {
+            el.style.display = 'none';
+        }, 5500);
+    }
+}
+
+function ocultarDica() {
+    const el = document.getElementById('dica-flutuante');
+    if (el) el.style.display = 'none';
+    if (dicaTimerJogo1) {
+        clearTimeout(dicaTimerJogo1);
+        dicaTimerJogo1 = null;
     }
 }
 

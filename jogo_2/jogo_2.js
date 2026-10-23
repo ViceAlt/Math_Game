@@ -79,6 +79,9 @@ async function carregarNovaQuestao() {
         btnConfirmar.textContent = 'Verificar';
     }
 
+    dicaIndiceJogo2 = 0;
+    ocultarDica();
+
     try {
         const response = await fetch('gerar_questao.php');
         const data = await response.json();
@@ -96,7 +99,9 @@ async function carregarNovaQuestao() {
             renderizarGraficoSVG();
             renderizarLegenda();
         } else {
-            alert('Erro ao carregar questão.');
+            console.error('Erro ao carregar questão.');
+            const pTexto = document.getElementById('pergunta-texto');
+            if (pTexto) pTexto.textContent = 'Erro ao carregar questão. Tente recarregar a página.';
         }
     } catch (err) {
         console.error('Erro na requisição da questão:', err);
@@ -436,22 +441,46 @@ function aplicarFeedbackBarras(detalhes) {
 
 // ─── Auxiliares e Encerramento do Jogo ────────────────────────────────────────
 
-function mostrarDica() {
-    const btnDica = document.getElementById('btn-dica');
-    if (!btnDica || btnDica.dataset.mostrando === 'true') return;
+let dicaIndiceJogo2 = 0;
+let dicaTimerJogo2 = null;
 
-    btnDica.dataset.mostrando = 'true';
-    const textoOriginal = btnDica.textContent;
-    btnDica.textContent = 'Leia o texto com atenção e arraste cada barra até a linha do eixo Y!';
-    btnDica.style.fontSize = '0.8rem';
-    btnDica.style.letterSpacing = '0';
+function solicitarDica() {
+    if (!questaoAtual) return;
 
-    setTimeout(() => {
-        btnDica.textContent = textoOriginal;
-        btnDica.style.fontSize = '';
-        btnDica.style.letterSpacing = '';
-        btnDica.dataset.mostrando = 'false';
-    }, 4000);
+    const primeiroItem = questaoAtual.itens && questaoAtual.itens.length > 0 ? questaoAtual.itens[0] : 'item';
+    const dicas = [
+        "Observe a escala numérica no eixo vertical (Y) e a legenda colorida para identificar cada barra.",
+        "Clique ou arraste o topo de cada barra para ajustar sua altura até o valor numérico exato do enunciado.",
+        `Verifique no texto o valor correspondente a '${primeiroItem}' e posicione a sua barra na linha certa!`
+    ];
+
+    const msg = dicas[dicaIndiceJogo2 % dicas.length];
+    dicaIndiceJogo2++;
+    exibirDica(msg);
+}
+
+const mostrarDica = solicitarDica;
+
+function exibirDica(msg) {
+    const el = document.getElementById('dica-flutuante');
+    const texto = document.getElementById('dica-texto');
+    if (el && texto) {
+        texto.textContent = msg;
+        el.style.display = 'flex';
+        if (dicaTimerJogo2) clearTimeout(dicaTimerJogo2);
+        dicaTimerJogo2 = setTimeout(() => {
+            el.style.display = 'none';
+        }, 5500);
+    }
+}
+
+function ocultarDica() {
+    const el = document.getElementById('dica-flutuante');
+    if (el) el.style.display = 'none';
+    if (dicaTimerJogo2) {
+        clearTimeout(dicaTimerJogo2);
+        dicaTimerJogo2 = null;
+    }
 }
 
 function atualizarBarraDeProgresso(rodada) {
@@ -510,7 +539,7 @@ function exibirResultado(estrelas) {
 
         modal.showModal();
     } else {
-        alert(`Jogo finalizado!\nPontuação: ${pontuacao}\nEstrelas: ${estrelas}/3\nAcertos: ${acertosTotais}/${totalRodadas}`);
+        console.log(`Jogo finalizado! Pontuação: ${pontuacao}, Estrelas: ${estrelas}/3, Acertos: ${acertosTotais}/${totalRodadas}`);
         voltarPaginaAnterior();
     }
 }

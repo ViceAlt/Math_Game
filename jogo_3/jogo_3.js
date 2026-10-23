@@ -102,7 +102,9 @@ async function carregarPartida() {
             atualizarBarraProgresso(0);
             iniciarQuestao();
         } else {
-            alert('Erro ao carregar questões do jogo.');
+            console.error('Erro ao carregar questões do jogo.');
+            const pTexto = document.getElementById('pergunta-texto');
+            if (pTexto) pTexto.textContent = 'Erro ao carregar questões do jogo. Tente recarregar a página.';
         }
     } catch (e) {
         console.error('Falha ao conectar ao servidor:', e);
@@ -110,6 +112,9 @@ async function carregarPartida() {
 }
 
 function iniciarQuestao() {
+    dicaIndiceJogo3 = 0;
+    ocultarDica();
+
     if (questaoAtualIndex >= questoesPartida.length) {
         finalizarJogo();
         return;
@@ -803,50 +808,92 @@ function atualizarBarraProgresso(concluidas) {
     }
 }
 
-// ─── Modal de Dicas ──────────────────────────────────────────────────────────
-function mostrarDica() {
+// ─── Dicas Flutuantes ────────────────────────────────────────────────────────
+let dicaIndiceJogo3 = 0;
+let dicaTimerJogo3 = null;
+
+function solicitarDica() {
     if (!questaoAtual) return;
-    let dicaTexto = '';
+    let dicas = [];
 
     if (etapaAtual === 1) {
+        let dicaDef = '';
         switch (questaoAtual.id) {
             case 'triangulo_equilatero':
-                dicaTexto = 'Um triângulo equilátero possui 3 lados de mesmo tamanho e ângulos de 60°.';
+                dicaDef = 'Um triângulo equilátero possui 3 lados de mesmo tamanho e ângulos de 60°.';
                 break;
             case 'quadrado':
-                dicaTexto = 'O quadrado tem 4 lados de medidas iguais e 4 cantos retos (90°).';
+                dicaDef = 'O quadrado tem 4 lados de medidas iguais e 4 cantos retos (90°).';
                 break;
             case 'retangulo':
-                dicaTexto = 'O retângulo tem 4 cantos retos e lados opostos de mesmo tamanho.';
+                dicaDef = 'O retângulo tem 4 cantos retos e lados opostos de mesmo tamanho.';
                 break;
             case 'losango':
-                dicaTexto = 'O losango tem 4 lados iguais, parecendo um quadrado inclinado!';
+                dicaDef = 'O losango tem 4 lados iguais, parecendo um quadrado inclinado!';
                 break;
             case 'paralelogramo':
-                dicaTexto = 'O paralelogramo tem lados opostos paralelos e de comprimentos iguais.';
+                dicaDef = 'O paralelogramo tem lados opostos paralelos e de comprimentos iguais.';
                 break;
             case 'trapezio':
-                dicaTexto = 'O trapézio tem um par de lados paralelos chamados de base maior e base menor.';
+                dicaDef = 'O trapézio tem um par de lados paralelos chamados de base maior e base menor.';
                 break;
             case 'triangulo_retangulo':
-                dicaTexto = 'O triângulo retângulo possui um ângulo reto (canto em "L" perfeito de 90°).';
+                dicaDef = 'O triângulo retângulo possui um ângulo reto (canto em "L" perfeito de 90°).';
                 break;
             case 'pentagono_regular':
-                dicaTexto = 'O pentágono regular tem 5 lados iguais que formam uma forma harmônica.';
+                dicaDef = 'O pentágono regular tem 5 lados iguais que formam uma forma harmônica.';
                 break;
             case 'hexagono_regular':
-                dicaTexto = 'O hexágono regular tem 6 lados iguais, lembrando o formato de um favo de mel!';
+                dicaDef = 'O hexágono regular tem 6 lados iguais, lembrando o formato de um favo de mel!';
                 break;
             default:
-                dicaTexto = `Desenhe a forma ${questaoAtual.nome} conectando os vértices.`;
+                dicaDef = `Desenhe a forma ${questaoAtual.nome} conectando os vértices.`;
         }
+        dicas = [
+            dicaDef,
+            'Clique nos pontos da grade para traçar os segmentos de reta e criar os lados.',
+            'Para fechar a forma e confirmar, conecte a última linha de volta ao primeiro ponto desenhado!'
+        ];
     } else {
-        dicaTexto = (questaoAtual.tipoPergunta === 'perimetro')
-            ? 'O perímetro é o contorno total da figura (a soma de todos os seus lados).'
-            : 'A área mede o espaço interno ocupado pela figura no plano.';
+        const isPerimetro = (questaoAtual.tipoPergunta === 'perimetro');
+        dicas = [
+            isPerimetro
+                ? 'O perímetro é o contorno total da figura (a soma de todos os seus lados).'
+                : 'A área mede o espaço interno ocupado pela figura no plano.',
+            isPerimetro
+                ? 'Some as medidas de cada lado da figura para chegar ao perímetro correto.'
+                : 'Conte a quantidade de quadradinhos unitários dentro da figura para calcular a área.',
+            'Analise as fórmulas nas alternativas e escolha a expressão correspondente à forma desenhada!'
+        ];
     }
 
-    alert(`Dica Geométrica:\n\n${dicaTexto}`);
+    const textoDica = dicas[dicaIndiceJogo3 % dicas.length];
+    dicaIndiceJogo3++;
+    exibirDica(textoDica);
+}
+
+const mostrarDica = solicitarDica;
+
+function exibirDica(msg) {
+    const el = document.getElementById('dica-flutuante');
+    const texto = document.getElementById('dica-texto');
+    if (el && texto) {
+        texto.textContent = msg;
+        el.style.display = 'flex';
+        if (dicaTimerJogo3) clearTimeout(dicaTimerJogo3);
+        dicaTimerJogo3 = setTimeout(() => {
+            el.style.display = 'none';
+        }, 5500);
+    }
+}
+
+function ocultarDica() {
+    const el = document.getElementById('dica-flutuante');
+    if (el) el.style.display = 'none';
+    if (dicaTimerJogo3) {
+        clearTimeout(dicaTimerJogo3);
+        dicaTimerJogo3 = null;
+    }
 }
 
 // ─── Finalização da Partida e Gravação de Progresso ───────────────────────────
@@ -947,7 +994,7 @@ function exibirResultado(estrelas, total) {
 
         modal.showModal();
     } else {
-        alert(`Fim de jogo!\nPontos: ${pontuacao}\nAcertos: ${acertos}/${total}`);
+        console.log(`Fim de jogo! Pontos: ${pontuacao}, Acertos: ${acertos}/${total}`);
         voltarPaginaAnterior();
     }
 }

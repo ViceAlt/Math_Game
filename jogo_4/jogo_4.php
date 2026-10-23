@@ -32,6 +32,10 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     <!-- Main game layout centralizado -->
     <main class="game-layout centralizado">
         <section class="card-questao-container">
+            <!-- Dica flutuante -->
+            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
+                <span class="dica-texto" id="dica-texto"></span>
+            </div>
             <!-- Box do Enunciado Principal em tamanho grande -->
             <div class="enunciado-card">
                 <p class="instrucao-topo" id="instrucao-topo">Complete a frase escolhendo as opções corretas:</p>
@@ -50,7 +54,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
 
             <!-- Botão de Dica -->
             <div class="acao-dica">
-                <button type="button" class="btn-dica" id="btn-dica" onclick="mostrarDica()">
+                <button type="button" class="dica" id="btn-dica" onclick="solicitarDica()">
                     Dica
                 </button>
             </div>

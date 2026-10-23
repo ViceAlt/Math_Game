@@ -33,6 +33,10 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     <main class="game-layout">
         <!-- Área de Desenho da Forma (SVG) -->
         <section class="mesa-desenho">
+            <!-- Dica flutuante -->
+            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
+                <span class="dica-texto" id="dica-texto"></span>
+            </div>
             <!-- Barra de ferramentas do plano de desenho -->
             <div class="desenho-toolbar">
                 <div class="info-forma-badge" id="infoFormaBadge">
@@ -112,7 +116,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
 
             <!-- Botão de Dica -->
             <div class="button_position">
-                <button class="dica" id="btn-dica" onclick="mostrarDica()">Dica Geométrica</button>
+                <button class="dica" id="btn-dica" onclick="solicitarDica()">Dica Geométrica</button>
             </div>
         </aside>
     </main>

@@ -291,6 +291,35 @@ body.tema-escuro .resultado-stats {
     padding: 20px;
     min-height: 0;
     overflow: hidden;
+    position: relative;
+}
+
+/* Dica flutuante */
+.dica-flutuante {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff3c4;
+    color: #855d00;
+    border: 2px solid var(--duo-yellow, #ffc800);
+    border-radius: 9999px;
+    padding: 0.45rem 1.25rem;
+    font-weight: 800;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    z-index: 50;
+    animation: fadeInDica 0.25s ease;
+    text-align: center;
+    max-width: 90%;
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeInDica {
+    from { opacity: 0; transform: translate(-50%, -8px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
 }
 
 .grafico-container {

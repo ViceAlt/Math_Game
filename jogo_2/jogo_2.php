@@ -33,6 +33,10 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     <main class="game-layout">
         <!-- Area do Gráfico em SVG -->
         <section class="mesa-grafico">
+            <!-- Dica flutuante -->
+            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
+                <span class="dica-texto" id="dica-texto"></span>
+            </div>
             <div class="grafico-container" id="graficoContainer">
                 <svg id="svgGrafico" viewBox="0 0 700 450" preserveAspectRatio="xMidYMid meet"></svg>
             </div>
@@ -52,7 +56,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
                 </div>
             </div>
             <div class="button_position">
-                <button class="dica" id="btn-dica" onclick="mostrarDica()">Dica</button>
+                <button class="dica" id="btn-dica" onclick="solicitarDica()">Dica</button>
             </div>
         </aside>
     </main>

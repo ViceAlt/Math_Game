@@ -24,6 +24,10 @@
     <main class="game-layout">
         <!-- Left/Center: Wooden table with pizza + undo -->
         <section class="mesa-madeira">
+            <!-- Dica flutuante -->
+            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
+                <span class="dica-texto" id="dica-texto"></span>
+            </div>
             <div class="pizzas-area" id="pizzasArea"></div>
             <button id="btn-desfazer" class="btn-desfazer" onclick="desfazerUltimaFatia()">Desfazer</button>
         </section>
@@ -42,7 +46,7 @@
                 </div>
             </div>
             <div class="button_position">
-                <button class="dica" id="btn-dica">Dica</button>
+                <button class="dica" id="btn-dica" onclick="solicitarDica()">Dica</button>
             </div>
         </aside>
     </main>

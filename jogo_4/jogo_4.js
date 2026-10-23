@@ -82,7 +82,9 @@ async function carregarPartida() {
             atualizarBarraProgresso(0);
             iniciarQuestao();
         } else {
-            alert('Erro ao carregar questões do jogo.');
+            console.error('Erro ao carregar questões do jogo.');
+            const enTexto = document.getElementById('enunciado-texto');
+            if (enTexto) enTexto.textContent = 'Erro ao carregar questões do jogo. Tente recarregar a página.';
         }
     } catch (e) {
         console.error('Falha ao conectar ao servidor:', e);
@@ -90,6 +92,9 @@ async function carregarPartida() {
 }
 
 function iniciarQuestao() {
+    dicaIndiceJogo4 = 0;
+    ocultarDica();
+
     if (questaoAtualIndex >= questoesPartida.length) {
         finalizarJogo();
         return;
@@ -358,11 +363,47 @@ function atualizarBarraProgresso(concluidas) {
     }
 }
 
-// ─── Botão de Dica ────────────────────────────────────────────────────────────
-function mostrarDica() {
+// ─── Dicas Flutuantes ────────────────────────────────────────────────────────
+let dicaIndiceJogo4 = 0;
+let dicaTimerJogo4 = null;
+
+function solicitarDica() {
     if (!questaoAtual) return;
-    const dica = questaoAtual.dica || 'Observe a ordem dos números na reta numérica.';
-    alert(`Dica Matemática:\n\n${dica}`);
+
+    const dicaEspecifica = questaoAtual.dica || 'O antecessor vem logo antes (subtrai 1) e o sucessor vem logo depois (soma 1).';
+    const dicas = [
+        dicaEspecifica,
+        'Em números negativos, quanto mais próximo do zero na reta numérica, maior é o valor do número.',
+        'Analise se a palavra "sucessor" ou "antecessor" combina com a justificativa de ser "maior" ou "menor".'
+    ];
+
+    const textoDica = dicas[dicaIndiceJogo4 % dicas.length];
+    dicaIndiceJogo4++;
+    exibirDica(textoDica);
+}
+
+const mostrarDica = solicitarDica;
+
+function exibirDica(msg) {
+    const el = document.getElementById('dica-flutuante');
+    const texto = document.getElementById('dica-texto');
+    if (el && texto) {
+        texto.textContent = msg;
+        el.style.display = 'flex';
+        if (dicaTimerJogo4) clearTimeout(dicaTimerJogo4);
+        dicaTimerJogo4 = setTimeout(() => {
+            el.style.display = 'none';
+        }, 5500);
+    }
+}
+
+function ocultarDica() {
+    const el = document.getElementById('dica-flutuante');
+    if (el) el.style.display = 'none';
+    if (dicaTimerJogo4) {
+        clearTimeout(dicaTimerJogo4);
+        dicaTimerJogo4 = null;
+    }
 }
 
 // ─── Finalização do Jogo e Progresso ──────────────────────────────────────────
@@ -463,7 +504,7 @@ function exibirResultado(estrelas, total) {
 
         modal.showModal();
     } else {
-        alert(`Fim de jogo!\nPontos: ${pontuacao}\nAcertos: ${acertos}/${total}`);
+        console.log(`Fim de jogo! Pontos: ${pontuacao}, Acertos: ${acertos}/${total}`);
         voltarPaginaAnterior();
     }
 }
