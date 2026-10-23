@@ -1,0 +1,99 @@
+/* ==========================================================================
+   modal-perfil.css – Modal de Sugestão de Login / Conta
+   Design Duolingo-Like: Cantos arredondados, relevo 3D, ícones SVG e backdrop blur.
+   ========================================================================== */
+
+#modal-login-sugestao {
+    width: min(440px, calc(100vw - 2rem));
+    max-width: 440px;
+    margin: auto;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: transparent;
+    color: var(--text-main);
+    outline: none;
+}
+
+#modal-login-sugestao::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+}
+
+.modal-sugestao-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 0 var(--border-color);
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+body.tema-escuro .modal-sugestao-card {
+    box-shadow: 0 10px 0 var(--border-dark);
+}
+
+.modal-sugestao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-sugestao-icone-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--duo-blue-light);
+    color: var(--duo-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--duo-blue);
+}
+
+.btn-fechar-modal-x {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transicao-rapida), background var(--transicao-rapida);
+}
+
+.btn-fechar-modal-x:hover {
+    color: var(--text-main);
+    background: var(--bg-card-subtle);
+}
+
+.modal-sugestao-corpo h2 {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.modal-sugestao-corpo p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.modal-sugestao-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.btn-modal-acao {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.95rem;
+}
