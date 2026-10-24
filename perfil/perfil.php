@@ -54,10 +54,19 @@ $jsVersion  = file_exists(__DIR__ . '/perfil.js') ? filemtime(__DIR__ . '/perfil
                 <div class="cartao-identidade-3d">
                     <!-- Avatar com Selo de Patente -->
                     <div class="avatar-container">
+                        <?php
+                        $fotoUrlPerfil = $usuario['foto_url'] ?? '';
+                        if (empty($fotoUrlPerfil)) {
+                            $fotoUrlPerfil = '../fotos/foto1.webp';
+                        } elseif (!str_starts_with($fotoUrlPerfil, 'http') && !str_starts_with($fotoUrlPerfil, '/')) {
+                            $fotoLimpa = ltrim(str_replace('../', '', $fotoUrlPerfil), '/');
+                            $fotoUrlPerfil = '../' . $fotoLimpa;
+                        }
+                        ?>
                         <img id="perfil-foto"
-                             src="<?= htmlspecialchars($usuario['foto_url'] ?? '../perfil/assets/avatar-padrao.png') ?>"
+                             src="<?= htmlspecialchars($fotoUrlPerfil) ?>"
                              alt="Foto de perfil de <?= htmlspecialchars($usuario['username']) ?>"
-                             onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=<?= urlencode($usuario['username']) ?>'"
+                             onerror="this.src='../fotos/foto1.webp'"
                              width="112" height="112">
                         <span class="badge-patente-flutuante" id="badge-patente-icone" title="Patente atual">
                             <?= icone_svg('trophy-fill', 'icone-trofeu-ouro', 18) ?>
@@ -107,6 +116,73 @@ $jsVersion  = file_exists(__DIR__ . '/perfil.js') ? filemtime(__DIR__ . '/perfil
                     </div>
                 </div>
 
+                <!-- NOVA DIV: Vitrine & Guarda-Roupa de Fotos de Perfil (Carrossel Horizontal com Prévia e Ação) -->
+                <div class="cartao-identidade-3d cartao-loja-avatares" id="loja-avatares-box" aria-label="Loja e Seleção de Fotos de Perfil">
+                    <!-- Cabeçalho da Loja de Fotos com Saldo de Moedas -->
+                    <div class="loja-avatares-header">
+                        <div class="loja-titulos">
+                            <span class="loja-badge-tag">Moeda de Estrelas</span>
+                            <h3 class="loja-titulo">Fotos de Perfil</h3>
+                        </div>
+                        <div class="loja-saldo-badge" id="avatar-saldo-badge" title="Seu saldo de estrelas para compras">
+                            <?= icone_svg('star', 'icone-estrela-moeda', 18) ?>
+                            <span class="saldo-numero" id="avatar-saldo-valor">0</span>
+                            <span class="saldo-sigla">⭐</span>
+                        </div>
+                    </div>
+
+                    <p class="loja-instrucao">Foto 1 é padrão e gratuita. Adquira novos avatares por <strong>10 estrelas</strong> cada!</p>
+
+                    <!-- Carrossel Horizontal Deslizante -->
+                    <div class="carrossel-avatares-container">
+                        <button type="button" class="btn-nav-carrossel seta-esq" id="btn-carrossel-ant" aria-label="Foto anterior" title="Foto anterior">
+                            ‹
+                        </button>
+
+                        <div class="carrossel-avatares-track" id="carrossel-avatares-track" tabindex="0" role="region" aria-label="Carrossel de fotos de perfil">
+                            <div class="avatar-skeleton-loading">Carregando fotos...</div>
+                        </div>
+
+                        <button type="button" class="btn-nav-carrossel seta-dir" id="btn-carrossel-prox" aria-label="Próxima foto" title="Próxima foto">
+                            ›
+                        </button>
+                    </div>
+
+                    <!-- Gaveta / Área de Ação do Avatar Selecionado -->
+                    <div class="drawer-avatar-selecionado" id="drawer-avatar-selecionado">
+                        <div class="drawer-info-preview">
+                            <img id="avatar-selecionado-mini" src="../fotos/foto1.webp" alt="Foto selecionada" width="46" height="46">
+                            <div class="drawer-textos">
+                                <span class="drawer-foto-nome" id="avatar-selecionado-nome">Foto 1 (Padrão)</span>
+                                <span class="drawer-foto-status" id="avatar-selecionado-status">Liberada para uso</span>
+                            </div>
+                        </div>
+
+                        <div class="drawer-botoes-acao" id="avatar-acoes-container">
+                            <!-- Botão comprar (aparece ao selecionar foto bloqueada) -->
+                            <button type="button" class="btn-duo-acao btn-comprar-avatar" id="btn-comprar-avatar" style="display: none;">
+                                <?= icone_svg('star', 'icone-btn-estrela', 18) ?>
+                                <span id="btn-comprar-texto">Comprar por 10 Estrelas</span>
+                            </button>
+
+                            <!-- Botão equipar / usar (aparece quando a foto está liberada mas não equipada) -->
+                            <button type="button" class="btn-duo-acao btn-equipar-avatar" id="btn-equipar-avatar" style="display: none;">
+                                <?= icone_svg('check', 'icone-btn-check', 18) ?>
+                                <span id="btn-equipar-texto">Equipar Foto</span>
+                            </button>
+
+                            <!-- Badge quando já está em uso -->
+                            <div class="badge-avatar-em-uso" id="badge-avatar-em-uso">
+                                <?= icone_svg('check', 'icone-em-uso', 16) ?>
+                                <span>Foto Atual em Uso</span>
+                            </div>
+                        </div>
+
+                        <!-- Feedback de Compra / Erro -->
+                        <div class="avatar-feedback-msg" id="avatar-feedback-msg" aria-live="polite"></div>
+                    </div>
+                </div>
+
                 <!-- Card de Dica de Estudos -->
                 <div class="cartao-dica-estudo">
                     <div class="dica-icone">
@@ -136,15 +212,15 @@ $jsVersion  = file_exists(__DIR__ . '/perfil.js') ? filemtime(__DIR__ . '/perfil
                         </div>
                     </div>
 
-                    <!-- Estrelas Conquistadas -->
+                    <!-- Estrelas Conquistadas & Moeda -->
                     <div class="card-kpi kpi-estrelas" id="card-kpi-estrelas">
                         <div class="kpi-icone-box">
                             <?= icone_svg('star', 'icone-kpi-svg', 26) ?>
                         </div>
                         <div class="kpi-info">
-                            <span class="kpi-rotulo">Estrelas Totais</span>
+                            <span class="kpi-rotulo">Moeda & Estrelas</span>
                             <strong class="kpi-valor" id="perfil-estrelas">0 / 240</strong>
-                            <span class="kpi-legenda" id="perfil-estrelas-percent">0% do total</span>
+                            <span class="kpi-legenda" id="perfil-estrelas-saldo">Saldo: 0 ⭐ disponíveis</span>
                         </div>
                     </div>
 

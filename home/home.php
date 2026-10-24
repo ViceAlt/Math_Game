@@ -123,11 +123,20 @@ $jsVersion  = file_exists(__DIR__ . '/home.js') ? filemtime(__DIR__ . '/home.js'
             <aside class="home-col-aside" aria-label="Painel lateral da conta">
                 <?php if ($logado): ?>
                     <!-- Card Perfil Lateral -->
-                    <div class="card-lateral card-perfil-lateral" id="card-perfil-lateral">
+                        <?php
+                        $fotoHome = $usuario['foto_url'] ?? '';
+                        if (empty($fotoHome)) {
+                            $fotoHomeUrl = '../fotos/foto1.webp';
+                        } elseif (!str_starts_with($fotoHome, 'http') && !str_starts_with($fotoHome, '/')) {
+                            $fotoHomeUrl = '../' . ltrim(str_replace('../', '', $fotoHome), '/');
+                        } else {
+                            $fotoHomeUrl = $fotoHome;
+                        }
+                        ?>
                         <div class="perfil-avatar-wrapper">
-                            <img id="foto-perfil" src="<?= htmlspecialchars($usuario['foto_url'] ?? '../assets/avatar-padrao.png') ?>"
+                            <img id="foto-perfil" src="<?= htmlspecialchars($fotoHomeUrl) ?>"
                                 alt="Foto de perfil de <?= htmlspecialchars($usuario['username']) ?>" width="88" height="88"
-                                onerror="this.onerror=null;this.src='https://api.dicebear.com/7.x/bottts/svg?seed=<?= urlencode($usuario['username']) ?>'">
+                                onerror="this.src='../fotos/foto1.webp'">
                         </div>
                         <h2 id="nome-usuario"><?= htmlspecialchars($usuario['username']) ?></h2>
                         <span class="perfil-tag">Aluno(a) Mantham</span>

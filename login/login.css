@@ -90,11 +90,18 @@ body {
     padding: 2rem 1rem;
 }
 
+/* Fonte da Logo Mantham (logo.ttf da pasta fonts) */
+@font-face {
+    font-family: 'LogoFont';
+    src: url('../fonts/logo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
     font-family: 'Talina';
-    src: local('Talina DEMO'),
-         local('TalinaDEMO-Regular'),
-         url('../fonts/Talina.otf') format('opentype');
+    src: url('../fonts/logo.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -144,7 +151,7 @@ body {
 }
 
 .auth-brand-link .brand-text {
-    font-family: 'Talina', var(--font-family);
+    font-family: 'LogoFont', 'Talina', var(--font-family);
     font-size: 1.85rem;
     font-weight: normal;
     line-height: 1;

@@ -69,10 +69,18 @@ body {
 .barra-progresso {
     height: 100%;
     width: 0%;
-    background-color: var(--duo-green);
+    background-color: #1cb0f6;
     border-radius: 10px;
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-    transition: width 0.35s ease-out;
+    transition: width 0.35s ease-out, background-color 0.25s ease;
+}
+
+.barra-progresso.erro {
+    background-color: #ff4b4b !important;
+}
+
+.barra-progresso.acerto {
+    background-color: #58cc02 !important;
 }
 
 /* ─── Layout Principal ────────────────────────────────────────────────────── */
@@ -907,8 +915,8 @@ body.tema-escuro .instrucao-arraste {
     height: 48px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 4px solid var(--duo-green-shadow);
-    background-color: var(--duo-green);
+    border-bottom: 4px solid #1899d6;
+    background-color: #1cb0f6;
     color: #ffffff;
     font-size: 1.05rem;
     font-weight: 900;
@@ -919,14 +927,14 @@ body.tema-escuro .instrucao-arraste {
     align-items: center;
     justify-content: center;
     transition: all var(--transicao-rapida);
-    box-shadow: 0 4px 8px rgba(88, 204, 2, 0.25);
+    box-shadow: 0 4px 8px rgba(28, 176, 246, 0.25);
 }
 
 .btn-confirmar:hover:not(:disabled) {
-    background-color: #61e002;
+    background-color: #38c2ff;
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(88, 204, 2, 0.35);
+    box-shadow: 0 6px 12px rgba(28, 176, 246, 0.35);
 }
 
 .btn-confirmar:active:not(:disabled) {

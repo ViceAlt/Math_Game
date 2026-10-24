@@ -156,18 +156,18 @@ body {
 .barra-progresso {
     height: 100%;
     width: 0%;
-    background-color: var(--duo-green);
+    background-color: #1cb0f6;
     border-radius: 10px;
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
     transition: width 0.35s ease-out, background-color 0.25s ease;
 }
 
 .barra-progresso.erro {
-    background-color: var(--duo-red) !important;
+    background-color: #ff4b4b !important;
 }
 
 .barra-progresso.acerto {
-    background-color: var(--duo-green) !important;
+    background-color: #58cc02 !important;
 }
 
 /* ─── Main Game Layout ─────────────────────────────────────────────────────── */
@@ -419,25 +419,34 @@ body.tema-escuro .pizza-plate-inner {
     height: 48px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 4px solid var(--duo-green-shadow);
-    box-shadow: 0 4px 0 var(--duo-green-shadow);
+    border-bottom: 4px solid #1899d6;
+    box-shadow: 0 4px 0 #1899d6;
     text-align: center;
     font-size: 1.1rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
-    background-color: var(--duo-green);
+    background-color: #1cb0f6;
     color: #ffffff;
     transition: filter var(--button-hover-duration);
 }
 
-.confirmar:hover {
+.confirmar:hover:not(:disabled) {
     filter: brightness(1.08);
 }
 
-.confirmar:active {
+.confirmar:active:not(:disabled) {
     filter: brightness(0.92);
+}
+
+.confirmar:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background-color: var(--border-color);
+    border-bottom: 4px solid var(--border-dark);
+    box-shadow: 0 4px 0 var(--border-dark);
+    color: var(--text-muted);
 }
 
 /* Hint Button */

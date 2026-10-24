@@ -81,10 +81,20 @@ $urlLogin = $urlBase . '/login/login.php';
         <!-- Área do Usuário / Login (Extremidade Direita) -->
         <div class="top-navbar-user">
             <?php if ($estaLogado): ?>
+                <?php
+                $fotoNav = $usuarioAtual['foto_url'] ?? '';
+                if (empty($fotoNav)) {
+                    $fotoNavUrl = $urlBase . '/fotos/foto1.webp';
+                } elseif (!str_starts_with($fotoNav, 'http') && !str_starts_with($fotoNav, '/')) {
+                    $fotoNavUrl = $urlBase . '/' . ltrim(str_replace('../', '', $fotoNav), '/');
+                } else {
+                    $fotoNavUrl = $fotoNav;
+                }
+                ?>
                 <a href="<?= $urlPerfil ?>" class="user-chip" id="nav-perfil-chip" aria-label="Perfil do usuário <?= htmlspecialchars($usuarioAtual['username'], ENT_QUOTES, 'UTF-8') ?>">
-                    <img src="<?= htmlspecialchars($usuarioAtual['foto_url'] ?? ($urlBase . '/assets/avatar-padrao.png'), ENT_QUOTES, 'UTF-8') ?>"
+                    <img src="<?= htmlspecialchars($fotoNavUrl, ENT_QUOTES, 'UTF-8') ?>"
                          alt="Foto de perfil de <?= htmlspecialchars($usuarioAtual['username'], ENT_QUOTES, 'UTF-8') ?>" width="34" height="34"
-                         onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=<?= urlencode($usuarioAtual['username']) ?>'">
+                         onerror="this.src='<?= $urlBase ?>/fotos/foto1.webp'">
                     <span class="user-chip-name"><?= htmlspecialchars($usuarioAtual['username'], ENT_QUOTES, 'UTF-8') ?></span>
                 </a>
             <?php else: ?>

@@ -54,7 +54,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
 
             <!-- Botão de Dica -->
             <div class="acao-dica">
-                <button type="button" class="dica" id="btn-dica" onclick="solicitarDica()">
+                <button type="button" class="dica btn-dica" id="btn-dica" onclick="solicitarDica()">
                     Dica
                 </button>
             </div>

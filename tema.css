@@ -5,12 +5,18 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
-/* Fonte da Logo Mantham (Talina DEMO by Pandeka Studio) */
+/* Fonte da Logo Mantham (logo.ttf da pasta fonts) */
+@font-face {
+   font-family: 'LogoFont';
+   src: url('fonts/logo.ttf') format('truetype');
+   font-weight: normal;
+   font-style: normal;
+   font-display: swap;
+}
+
 @font-face {
    font-family: 'Talina';
-   src: local('Talina DEMO'),
-        local('TalinaDEMO-Regular'),
-        url('fonts/Talina.otf') format('opentype');
+   src: url('fonts/logo.ttf') format('truetype');
    font-weight: normal;
    font-style: normal;
    font-display: swap;
@@ -19,7 +25,7 @@
 :root {
    /* Tipografia */
    --font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-   --font-logo: 'Talina', 'Nunito', system-ui, sans-serif;
+   --font-logo: 'LogoFont', 'Talina', 'Nunito', system-ui, sans-serif;
 
    /* Cores da Marca */
    --cor-primaria: var(--duo-green);
@@ -421,4 +427,104 @@ html.daltonismo-tritanopia::before {
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
    }
+}
+
+/* ==========================================================================
+   PADRÃO VISUAL UNIVERSAL PARA JOGOS (ALFRED UX MODO INTUITIVO)
+   Regras aplicadas em todos os jogos, independente do tema/tonalidade:
+   - Duo-Blue (#1cb0f6 / #1899d6): Ações de fluxo, botão confirmar e seleções neutras
+   - Barra de progresso: Base em Duo-Blue (#1cb0f6)
+   - Verde (#58cc02): EXCLUSIVO para representar ACERTO / Sucesso
+   - Vermelho (#ff4b4b): EXCLUSIVO para representar ERRO / Falha
+   ========================================================================== */
+
+/* Barra de progresso padronizada nos jogos */
+body .barra-progresso {
+   background-color: #1cb0f6 !important;
+}
+
+body .barra-progresso.acerto {
+   background-color: #58cc02 !important;
+}
+
+body .barra-progresso.erro {
+   background-color: #ff4b4b !important;
+}
+
+/* Botões de Confirmação e Ação nos Jogos (Tom Duo-Blue Fixo) */
+body .confirmar:not(:disabled),
+body .btn-confirmar:not(:disabled),
+body #btn-confirmar:not(:disabled),
+body .proxima:not(:disabled),
+body #btn-proxima:not(:disabled) {
+   background-color: #1cb0f6 !important;
+   border-bottom-color: #1899d6 !important;
+   box-shadow: 0 4px 0 #1899d6 !important;
+   color: #ffffff !important;
+}
+
+body .confirmar:hover:not(:disabled),
+body .btn-confirmar:hover:not(:disabled),
+body #btn-confirmar:hover:not(:disabled),
+body .proxima:hover:not(:disabled),
+body #btn-proxima:hover:not(:disabled) {
+   filter: brightness(1.08) !important;
+   background-color: #38c2ff !important;
+}
+
+body .confirmar:active:not(:disabled),
+body .btn-confirmar:active:not(:disabled),
+body #btn-confirmar:active:not(:disabled),
+body .proxima:active:not(:disabled),
+body #btn-proxima:active:not(:disabled) {
+   filter: brightness(0.92) !important;
+}
+
+body .confirmar:disabled,
+body .btn-confirmar:disabled,
+body #btn-confirmar:disabled {
+   background-color: var(--border-color) !important;
+   border-bottom-color: var(--border-dark) !important;
+   box-shadow: 0 4px 0 var(--border-dark) !important;
+   color: var(--text-muted) !important;
+   cursor: not-allowed !important;
+   opacity: 0.5 !important;
+}
+
+/* Feedbacks Semânticos: Verde estritamente Acerto, Vermelho estritamente Erro */
+body .btn-confirmar.sucesso,
+body .btn-confirmar.acerto {
+   background-color: #58cc02 !important;
+   border-bottom-color: #46a302 !important;
+   box-shadow: 0 4px 0 #46a302 !important;
+   color: #ffffff !important;
+}
+
+body .btn-confirmar.erro {
+   background-color: #ff4b4b !important;
+   border-bottom-color: #ea2b2b !important;
+   box-shadow: 0 4px 0 #ea2b2b !important;
+   color: #ffffff !important;
+}
+
+/* Botão de Dica (Amarelo / Dourado Padrão) */
+body .dica,
+body .btn-dica,
+body #btn-dica {
+   background-color: #ffc800 !important;
+   border-bottom-color: #e5a000 !important;
+   box-shadow: 0 4px 0 #e5a000 !important;
+   color: #ffffff !important;
+}
+
+body .dica:hover,
+body .btn-dica:hover,
+body #btn-dica:hover {
+   filter: brightness(1.08) !important;
+}
+
+body .dica:active,
+body .btn-dica:active,
+body #btn-dica:active {
+   filter: brightness(0.92) !important;
 }

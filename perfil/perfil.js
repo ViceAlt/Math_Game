@@ -92,7 +92,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     aplicarPreferenciasVisuais();
 
     if (LOGADO) {
-        await carregarDadosPerfil();
+        await Promise.all([
+            carregarDadosPerfil(),
+            carregarLojaAvatares()
+        ]);
     }
 });
 
@@ -243,6 +246,10 @@ function atualizarKpis({ pontuacaoTotal, estrelasTotal, fasesConcluidas, fasesPe
 
     if (elEstrelas) {
         elEstrelas.textContent = `${estrelasTotal} / ${TOTAL_ESTRELAS_MAX}`;
+    }
+    const elSaldo = document.getElementById('perfil-estrelas-saldo');
+    if (elSaldo) {
+        elSaldo.textContent = `Saldo: ${stateLojaAvatares.saldo} ⭐ disponíveis`;
     }
     if (elEstrelasPct) {
         const pctEstrelas = Math.round((estrelasTotal / TOTAL_ESTRELAS_MAX) * 100);
@@ -674,3 +681,507 @@ function aplicarPreferenciasVisuais() {
     if (daltonismo) document.body.classList.add(`daltonismo-${daltonismo}`);
     if (tonalidade && tonalidade !== 'padrao') document.body.classList.add(`tonalidade-${tonalidade}`);
 }
+
+// ─── Loja de Fotos de Perfil & Moeda de Estrelas (Alfred UI/UX) ─────────────
+const CHAVE_AVATARES_DESBLOQUEADOS = 'mg_avatares_desbloqueados';
+const CHAVE_AVATAR_EQUIPADO = 'mg_avatar_equipado';
+
+const stateLojaAvatares = {
+    saldo: 0,
+    totalConquistadas: 0,
+    totalGasto: 0,
+    fotoAtual: 'foto1.webp',
+    fotos: [],
+    fotoSelecionadaId: null,
+    carregado: false
+};
+
+/**
+ * Carrega os dados da loja de avatares e da carteira de estrelas.
+ */
+async function carregarLojaAvatares() {
+    let dadosOk = false;
+
+    try {
+        const resp = await fetch('../api/avatar/dados.php', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' },
+            credentials: 'same-origin'
+        });
+
+        if (resp.ok) {
+            const dados = await resp.json();
+            if (dados && dados.ok) {
+                stateLojaAvatares.saldo = Number(dados.saldo_estrelas || 0);
+                stateLojaAvatares.totalConquistadas = Number(dados.total_estrelas_conquistadas || 0);
+                stateLojaAvatares.totalGasto = Number(dados.total_gasto || 0);
+                stateLojaAvatares.fotoAtual = dados.foto_atual || 'foto1.webp';
+                stateLojaAvatares.fotos = dados.fotos || [];
+                dadosOk = true;
+
+                // Cache local para resiliência
+                localStorage.setItem(CHAVE_AVATAR_EQUIPADO, stateLojaAvatares.fotoAtual);
+                const desbloqueadas = stateLojaAvatares.fotos.filter(f => f.desbloqueada).map(f => f.id);
+                localStorage.setItem(CHAVE_AVATARES_DESBLOQUEADOS, JSON.stringify(desbloqueadas));
+            }
+        }
+    } catch (e) {
+        console.warn('MathGame Loja Avatares: Usando fallback local para carteira de estrelas.', e);
+    }
+
+    if (!dadosOk) {
+        carregarLojaAvataresLocal();
+    }
+
+    stateLojaAvatares.carregado = true;
+    atualizarSaldoEstrelasUI();
+    renderizarCarrosselAvatares();
+    configurarControlesCarrossel();
+}
+
+/**
+ * Fallback offline / local para gerenciar saldo e avatares se o servidor falhar.
+ */
+function carregarLojaAvataresLocal() {
+    // 1. Calcula estrelas acumuladas a partir do progresso local
+    let estrelasGanhas = 0;
+    try {
+        const rawProg = localStorage.getItem(CHAVE_PROGRESSO_FASES) || localStorage.getItem(CHAVE_PROGRESSO_OLD);
+        if (rawProg) {
+            const prog = JSON.parse(rawProg);
+            Object.values(prog).forEach(item => {
+                if (item && item.estrelas) estrelasGanhas += Math.min(3, Math.max(0, Number(item.estrelas)));
+            });
+        }
+    } catch (e) {
+        estrelasGanhas = 0;
+    }
+
+    // 2. Lê avatares comprados localmente
+    let desbloqueadas = ['foto1.webp'];
+    try {
+        const rawDesb = localStorage.getItem(CHAVE_AVATARES_DESBLOQUEADOS);
+        if (rawDesb) {
+            const arr = JSON.parse(rawDesb);
+            if (Array.isArray(arr)) desbloqueadas = Array.from(new Set(['foto1.webp', ...arr]));
+        }
+    } catch (e) {
+        desbloqueadas = ['foto1.webp'];
+    }
+
+    const fotoAtualSalva = localStorage.getItem(CHAVE_AVATAR_EQUIPADO) || 'foto1.webp';
+    stateLojaAvatares.fotoAtual = fotoAtualSalva;
+
+    // Foto 1 é grátis, cada outra foto comprada gastou 10 estrelas
+    const qtdCompradas = desbloqueadas.filter(f => f !== 'foto1.webp').length;
+    const totalGasto = qtdCompradas * 10;
+    const saldo = Math.max(0, estrelasGanhas - totalGasto);
+
+    stateLojaAvatares.totalConquistadas = estrelasGanhas;
+    stateLojaAvatares.totalGasto = totalGasto;
+    stateLojaAvatares.saldo = saldo;
+
+    // Monta lista de fotos (1 a 9)
+    stateLojaAvatares.fotos = [];
+    for (let i = 1; i <= 9; i++) {
+        const nome = `foto${i}.webp`;
+        const isPadrao = (i === 1);
+        const desbloq = isPadrao || desbloqueadas.includes(nome);
+        const equip = (nome === stateLojaAvatares.fotoAtual);
+
+        stateLojaAvatares.fotos.push({
+            id: nome,
+            numero: i,
+            titulo: isPadrao ? 'Foto 1 (Padrão)' : `Avatar #${i}`,
+            url: `../fotos/${nome}`,
+            preco: isPadrao ? 0 : 10,
+            padrao: isPadrao,
+            desbloqueada: desbloq,
+            equipada: equip,
+            disponivel: true
+        });
+    }
+}
+
+/**
+ * Atualiza os valores visuais do saldo de estrelas na tela (Badge e KPI).
+ */
+function atualizarSaldoEstrelasUI() {
+    const elSaldoValor = document.getElementById('avatar-saldo-valor');
+    if (elSaldoValor) {
+        elSaldoValor.textContent = stateLojaAvatares.saldo;
+    }
+
+    const elSaldoKpi = document.getElementById('perfil-estrelas-saldo');
+    if (elSaldoKpi) {
+        elSaldoKpi.textContent = `Saldo: ${stateLojaAvatares.saldo} ⭐ gastáveis`;
+    }
+}
+
+/**
+ * Renderiza os itens de avatar dentro do trilho do carrossel.
+ */
+function renderizarCarrosselAvatares() {
+    const track = document.getElementById('carrossel-avatares-track');
+    if (!track) return;
+
+    track.innerHTML = '';
+
+    // Se nenhuma foto estiver selecionada, seleciona a foto atualmente equipada
+    if (!stateLojaAvatares.fotoSelecionadaId) {
+        stateLojaAvatares.fotoSelecionadaId = stateLojaAvatares.fotoAtual;
+    }
+
+    stateLojaAvatares.fotos.forEach(foto => {
+        const card = document.createElement('div');
+        card.className = 'avatar-item-card';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `${foto.titulo}. ${foto.equipada ? 'Em uso' : (foto.desbloqueada ? 'Disponível' : 'Custa 10 estrelas')}`);
+        card.dataset.fotoId = foto.id;
+
+        if (foto.equipada) card.classList.add('equipada');
+        if (foto.id === stateLojaAvatares.fotoSelecionadaId) card.classList.add('selecionado');
+
+        // Badge de status
+        let badgeHtml = '';
+        if (foto.equipada) {
+            badgeHtml = '<span class="badge-item-status badge-equipada">Uso</span>';
+        } else if (foto.padrao) {
+            badgeHtml = '<span class="badge-item-status badge-padrao">Grátis</span>';
+        } else if (foto.desbloqueada) {
+            badgeHtml = '<span class="badge-item-status badge-adquirida">✓</span>';
+        } else {
+            badgeHtml = '<span class="badge-item-status badge-preco">10 ⭐</span>';
+        }
+
+        card.innerHTML = `
+            <div class="avatar-item-img-wrapper">
+                <img src="${foto.url}" alt="${foto.titulo}" width="60" height="60" loading="lazy">
+            </div>
+            ${badgeHtml}
+        `;
+
+        card.addEventListener('click', () => {
+            selecionarAvatar(foto.id);
+        });
+
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selecionarAvatar(foto.id);
+            }
+        });
+
+        track.appendChild(card);
+    });
+
+    // Atualiza a gaveta com o item selecionado
+    atualizarDrawerAvatarSelecionado();
+}
+
+/**
+ * Seleciona um avatar no carrossel, centraliza na visão e atualiza a gaveta de ação.
+ */
+function selecionarAvatar(fotoId) {
+    stateLojaAvatares.fotoSelecionadaId = fotoId;
+
+    const track = document.getElementById('carrossel-avatares-track');
+    if (track) {
+        const cards = track.querySelectorAll('.avatar-item-card');
+        cards.forEach(c => {
+            if (c.dataset.fotoId === fotoId) {
+                c.classList.add('selecionado');
+                c.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            } else {
+                c.classList.remove('selecionado');
+            }
+        });
+    }
+
+    atualizarDrawerAvatarSelecionado();
+}
+
+/**
+ * Atualiza os botões e informações da gaveta de ação para o avatar selecionado.
+ */
+function atualizarDrawerAvatarSelecionado() {
+    const foto = stateLojaAvatares.fotos.find(f => f.id === stateLojaAvatares.fotoSelecionadaId);
+    if (!foto) return;
+
+    const elMini = document.getElementById('avatar-selecionado-mini');
+    const elNome = document.getElementById('avatar-selecionado-nome');
+    const elStatus = document.getElementById('avatar-selecionado-status');
+
+    const btnComprar = document.getElementById('btn-comprar-avatar');
+    const btnComprarTexto = document.getElementById('btn-comprar-texto');
+    const btnEquipar = document.getElementById('btn-equipar-avatar');
+    const btnEquiparTexto = document.getElementById('btn-equipar-texto');
+    const badgeEmUso = document.getElementById('badge-avatar-em-uso');
+    const elFeedback = document.getElementById('avatar-feedback-msg');
+
+    if (elMini) {
+        elMini.src = foto.url;
+        elMini.alt = foto.titulo;
+    }
+
+    if (elNome) {
+        elNome.textContent = foto.titulo;
+    }
+
+    if (elFeedback) {
+        elFeedback.style.display = 'none';
+        elFeedback.className = 'avatar-feedback-msg';
+    }
+
+    // 1. Caso a foto já seja a foto em uso
+    if (foto.equipada) {
+        if (elStatus) elStatus.textContent = 'Este é o seu avatar ativo no momento.';
+        if (btnComprar) btnComprar.style.display = 'none';
+        if (btnEquipar) btnEquipar.style.display = 'none';
+        if (badgeEmUso) badgeEmUso.style.display = 'flex';
+        return;
+    }
+
+    // 2. Caso a foto esteja desbloqueada (incluindo Foto 1 padrão ou foto comprada)
+    if (foto.desbloqueada) {
+        if (elStatus) {
+            elStatus.textContent = foto.padrao
+                ? 'Foto padrão do jogo (gratuita e ilimitada).'
+                : 'Já adquirida em sua conta. Pronta para equipar!';
+        }
+        if (btnComprar) btnComprar.style.display = 'none';
+        if (badgeEmUso) badgeEmUso.style.display = 'none';
+
+        if (btnEquipar) {
+            btnEquipar.style.display = 'flex';
+            btnEquipar.disabled = false;
+            if (btnEquiparTexto) {
+                btnEquiparTexto.textContent = foto.padrao ? 'Voltar para Foto Padrão' : 'Equipar este Avatar';
+            }
+        }
+        return;
+    }
+
+    // 3. Caso a foto esteja bloqueada (precisa de 10 estrelas para comprar)
+    if (badgeEmUso) badgeEmUso.style.display = 'none';
+    if (btnEquipar) btnEquipar.style.display = 'none';
+
+    if (btnComprar) {
+        btnComprar.style.display = 'flex';
+        const temEstrelasSuficientes = stateLojaAvatares.saldo >= 10;
+
+        if (temEstrelasSuficientes) {
+            btnComprar.disabled = false;
+            if (btnComprarTexto) btnComprarTexto.textContent = 'Comprar por 10 Estrelas';
+            if (elStatus) elStatus.textContent = `Custo: 10 estrelas. Seu saldo: ${stateLojaAvatares.saldo} ⭐`;
+        } else {
+            btnComprar.disabled = true;
+            const faltam = 10 - stateLojaAvatares.saldo;
+            if (btnComprarTexto) btnComprarTexto.textContent = `Faltam ${faltam} ⭐ para comprar`;
+            if (elStatus) elStatus.textContent = `Custo: 10 estrelas. Jogue fases para conquistar mais ${faltam} ⭐!`;
+        }
+    }
+}
+
+/**
+ * Configura os botões de navegação e as ações de compra/equipar.
+ */
+function configurarControlesCarrossel() {
+    const btnAnt = document.getElementById('btn-carrossel-ant');
+    const btnProx = document.getElementById('btn-carrossel-prox');
+    const track = document.getElementById('carrossel-avatares-track');
+
+    if (btnAnt && track) {
+        btnAnt.onclick = () => track.scrollBy({ left: -140, behavior: 'smooth' });
+    }
+
+    if (btnProx && track) {
+        btnProx.onclick = () => track.scrollBy({ left: 140, behavior: 'smooth' });
+    }
+
+    const btnComprar = document.getElementById('btn-comprar-avatar');
+    if (btnComprar) {
+        btnComprar.onclick = executarCompraAvatar;
+    }
+
+    const btnEquipar = document.getElementById('btn-equipar-avatar');
+    if (btnEquipar) {
+        btnEquipar.onclick = executarEquiparAvatar;
+    }
+}
+
+/**
+ * Executa a compra de um avatar bloqueado por 10 estrelas.
+ */
+async function executarCompraAvatar() {
+    const foto = stateLojaAvatares.fotos.find(f => f.id === stateLojaAvatares.fotoSelecionadaId);
+    if (!foto || foto.desbloqueada) return;
+
+    const btnComprar = document.getElementById('btn-comprar-avatar');
+    const btnComprarTexto = document.getElementById('btn-comprar-texto');
+    const elFeedback = document.getElementById('avatar-feedback-msg');
+
+    if (btnComprar) btnComprar.disabled = true;
+    if (btnComprarTexto) btnComprarTexto.textContent = 'Processando compra...';
+
+    try {
+        const resp = await fetch('../api/avatar/comprar.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({ foto: foto.id })
+        });
+
+        const dados = await resp.json();
+
+        if (resp.ok && dados.ok) {
+            // Sucesso na API
+            stateLojaAvatares.saldo = Number(dados.saldo_estrelas !== undefined ? dados.saldo_estrelas : Math.max(0, stateLojaAvatares.saldo - 10));
+            foto.desbloqueada = true;
+            aplicarAvatarEquipado(foto.id);
+
+            // Atualiza cache local
+            const desbloqueadas = stateLojaAvatares.fotos.filter(f => f.desbloqueada).map(f => f.id);
+            localStorage.setItem(CHAVE_AVATARES_DESBLOQUEADOS, JSON.stringify(desbloqueadas));
+            localStorage.setItem(CHAVE_AVATAR_EQUIPADO, foto.id);
+
+            exibirFeedbackAvatar(dados.mensagem || 'Avatar adquirido e equipado com sucesso!', 'sucesso');
+        } else {
+            // Se falhou no backend (ex: offline no local)
+            if (!resp.ok && resp.status >= 500) {
+                // Fallback offline resiliente
+                if (stateLojaAvatares.saldo >= 10) {
+                    stateLojaAvatares.saldo -= 10;
+                    foto.desbloqueada = true;
+                    aplicarAvatarEquipado(foto.id);
+
+                    const desbloqueadas = stateLojaAvatares.fotos.filter(f => f.desbloqueada).map(f => f.id);
+                    localStorage.setItem(CHAVE_AVATARES_DESBLOQUEADOS, JSON.stringify(desbloqueadas));
+                    localStorage.setItem(CHAVE_AVATAR_EQUIPADO, foto.id);
+
+                    exibirFeedbackAvatar('Avatar adquirido e equipado com sucesso (modo offline)!', 'sucesso');
+                } else {
+                    exibirFeedbackAvatar(dados.erro || 'Estrelas insuficientes para comprar este avatar.', 'erro');
+                }
+            } else {
+                exibirFeedbackAvatar(dados.erro || 'Não foi possível concluir a compra.', 'erro');
+            }
+        }
+    } catch (e) {
+        console.warn('MathGame: Erro de rede ao comprar avatar. Tentando modo offline.', e);
+        if (stateLojaAvatares.saldo >= 10) {
+            stateLojaAvatares.saldo -= 10;
+            foto.desbloqueada = true;
+            aplicarAvatarEquipado(foto.id);
+
+            const desbloqueadas = stateLojaAvatares.fotos.filter(f => f.desbloqueada).map(f => f.id);
+            localStorage.setItem(CHAVE_AVATARES_DESBLOQUEADOS, JSON.stringify(desbloqueadas));
+            localStorage.setItem(CHAVE_AVATAR_EQUIPADO, foto.id);
+
+            exibirFeedbackAvatar('Avatar adquirido e equipado com sucesso!', 'sucesso');
+        } else {
+            exibirFeedbackAvatar('Falha ao conectar com o servidor para comprar o avatar.', 'erro');
+        }
+    }
+
+    atualizarSaldoEstrelasUI();
+    renderizarCarrosselAvatares();
+}
+
+/**
+ * Equipa um avatar já adquirido (ou a Foto 1 padrão).
+ */
+async function executarEquiparAvatar() {
+    const foto = stateLojaAvatares.fotos.find(f => f.id === stateLojaAvatares.fotoSelecionadaId);
+    if (!foto || !foto.desbloqueada) return;
+
+    const btnEquipar = document.getElementById('btn-equipar-avatar');
+    const btnEquiparTexto = document.getElementById('btn-equipar-texto');
+
+    if (btnEquipar) btnEquipar.disabled = true;
+    if (btnEquiparTexto) btnEquiparTexto.textContent = 'Equipando...';
+
+    try {
+        const resp = await fetch('../api/avatar/equipar.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({ foto: foto.id })
+        });
+
+        const dados = await resp.json();
+
+        if (resp.ok && dados.ok) {
+            aplicarAvatarEquipado(foto.id);
+            localStorage.setItem(CHAVE_AVATAR_EQUIPADO, foto.id);
+            exibirFeedbackAvatar(dados.mensagem || 'Avatar equipado com sucesso!', 'sucesso');
+        } else {
+            // Fallback offline
+            aplicarAvatarEquipado(foto.id);
+            localStorage.setItem(CHAVE_AVATAR_EQUIPADO, foto.id);
+            exibirFeedbackAvatar(foto.padrao ? 'Foto padrão restaurada!' : 'Avatar equipado com sucesso!', 'sucesso');
+        }
+    } catch (e) {
+        console.warn('MathGame: Falha de rede ao equipar avatar. Aplicando localmente.', e);
+        aplicarAvatarEquipado(foto.id);
+        localStorage.setItem(CHAVE_AVATAR_EQUIPADO, foto.id);
+        exibirFeedbackAvatar('Avatar equipado com sucesso!', 'sucesso');
+    }
+
+    renderizarCarrosselAvatares();
+}
+
+/**
+ * Atualiza o estado da foto equipada na tela e nos componentes do site.
+ */
+function aplicarAvatarEquipado(fotoId) {
+    stateLojaAvatares.fotoAtual = fotoId;
+
+    stateLojaAvatares.fotos.forEach(f => {
+        f.equipada = (f.id === fotoId);
+    });
+
+    const caminhoNovaFoto = `../fotos/${fotoId}`;
+
+    // Atualiza a foto principal do perfil com animação suave
+    const imgPerfil = document.getElementById('perfil-foto');
+    if (imgPerfil) {
+        imgPerfil.style.transform = 'scale(0.85) rotate(-5deg)';
+        setTimeout(() => {
+            imgPerfil.src = caminhoNovaFoto;
+            imgPerfil.style.transform = 'scale(1) rotate(0deg)';
+        }, 150);
+    }
+
+    // Atualiza a foto na navbar se estiver visível
+    const imgNav = document.querySelector('#nav-perfil-chip img');
+    if (imgNav) {
+        imgNav.src = caminhoNovaFoto;
+    }
+}
+
+/**
+ * Exibe mensagem de feedback visual (sucesso ou erro).
+ */
+function exibirFeedbackAvatar(msg, tipo = 'sucesso') {
+    const elFeedback = document.getElementById('avatar-feedback-msg');
+    if (!elFeedback) return;
+
+    elFeedback.textContent = msg;
+    elFeedback.className = `avatar-feedback-msg ${tipo}`;
+    elFeedback.style.display = 'block';
+
+    setTimeout(() => {
+        if (elFeedback && elFeedback.textContent === msg) {
+            elFeedback.style.display = 'none';
+        }
+    }, 4500);
+}
+

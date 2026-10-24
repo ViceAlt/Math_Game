@@ -141,18 +141,18 @@ body {
 .barra-progresso {
     height: 100%;
     width: 0%;
-    background-color: var(--duo-green);
+    background-color: #1cb0f6;
     border-radius: 10px;
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
     transition: width 0.35s ease-out, background-color 0.25s ease;
 }
 
 .barra-progresso.erro {
-    background-color: var(--duo-red) !important;
+    background-color: #ff4b4b !important;
 }
 
 .barra-progresso.acerto {
-    background-color: var(--duo-green) !important;
+    background-color: #58cc02 !important;
 }
 
 /* Layout Centralizado */
@@ -317,15 +317,15 @@ body {
     height: 54px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 5px solid var(--duo-green-shadow);
-    box-shadow: 0 5px 0 var(--duo-green-shadow);
+    border-bottom: 5px solid #1899d6;
+    box-shadow: 0 5px 0 #1899d6;
     text-align: center;
     font-size: 1.25rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
-    background-color: var(--duo-green);
+    background-color: #1cb0f6;
     color: #ffffff;
     transition: filter var(--button-hover-duration), transform 0.1s ease;
 }
@@ -352,29 +352,35 @@ body {
     max-width: 240px;
 }
 
-.btn-dica {
+.dica,
+.btn-dica,
+#btn-dica {
     width: 100%;
-    height: 44px;
+    height: 48px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 4px solid var(--duo-yellow-shadow);
-    box-shadow: 0 4px 0 var(--duo-yellow-shadow);
+    border-bottom: 4px solid #e5a000;
+    box-shadow: 0 4px 0 #e5a000;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
-    background-color: var(--duo-yellow);
+    background-color: #ffc800;
     color: #ffffff;
     transition: filter var(--button-hover-duration);
 }
 
-.btn-dica:hover {
+.dica:hover,
+.btn-dica:hover,
+#btn-dica:hover {
     filter: brightness(1.08);
 }
 
-.btn-dica:active {
+.dica:active,
+.btn-dica:active,
+#btn-dica:active {
     filter: brightness(0.92);
 }
 
