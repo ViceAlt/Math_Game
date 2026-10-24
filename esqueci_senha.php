@@ -157,12 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="main" id="main-content">
         <div class="auth-brand-logo">
             <a href="home/home.php" class="auth-brand-link" aria-label="Mantham - Início">
-                <span class="brand-badge-icon" aria-hidden="true">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"/>
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                    </svg>
-                </span>
                 <span class="brand-text"><span class="brand-man">Man</span><span class="brand-tham">tham</span></span>
             </a>
         </div>

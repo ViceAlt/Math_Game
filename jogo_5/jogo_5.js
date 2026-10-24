@@ -728,7 +728,7 @@ function aplicarAnguloGangorra(angulo) {
 
     if (badge) {
         if (Math.abs(delta) < 0.01) {
-            badge.textContent = 'Em Equilíbrio ✓';
+            badge.textContent = 'Em Equilíbrio';
             badge.classList.remove('desequilibrado');
             badge.classList.add('equilibrado');
         } else {
@@ -841,9 +841,9 @@ function atualizarBotaoDivisao() {
         const instrucao = document.createElement('p');
         instrucao.className = 'instrucao-arraste';
         if (ehExperiente) {
-            instrucao.innerHTML = '📝 <strong>Arraste</strong> os pesos e resolva a conta no papel!';
+            instrucao.innerHTML = '<strong>Arraste</strong> os pesos e resolva a conta no papel!';
         } else {
-            instrucao.innerHTML = '🖐️ <strong>Arraste</strong> ou clique nos pesos para equilibrar';
+            instrucao.innerHTML = '<strong>Arraste</strong> ou clique nos pesos para equilibrar';
         }
         sidebarContainer.appendChild(instrucao);
     }
@@ -1172,7 +1172,7 @@ function confirmarResposta() {
         if (botaoSelecionado) botaoSelecionado.classList.add('correta');
         if (btnConfirmar) {
             btnConfirmar.classList.add('sucesso');
-            btnConfirmar.textContent = 'Correto! ✓';
+            btnConfirmar.textContent = 'Correto!';
             btnConfirmar.disabled = true;
         }
         todosBotoes.forEach(b => b.disabled = true);
@@ -1319,7 +1319,7 @@ function exibirModalResultado(estrelas) {
     if (comentario) {
         if (estrelas === 3) comentario.textContent = 'Parabéns! Muito Bem!';
         else if (estrelas === 2) comentario.textContent = 'Boa tentativa, você está evoluindo!';
-        else if (estrelas === 1) comentario.textContent = 'Você está no caminho para ser uma estrela! ⭐';
+        else if (estrelas === 1) comentario.textContent = 'Você está no caminho para ser uma estrela!';
         else comentario.textContent = 'Você está no caminho para ser uma estrela!';
     }
 

@@ -123,6 +123,7 @@ $jsVersion  = file_exists(__DIR__ . '/home.js') ? filemtime(__DIR__ . '/home.js'
             <aside class="home-col-aside" aria-label="Painel lateral da conta">
                 <?php if ($logado): ?>
                     <!-- Card Perfil Lateral -->
+                    <div class="card-lateral card-perfil-lateral" id="card-perfil-lateral">
                         <?php
                         $fotoHome = $usuario['foto_url'] ?? '';
                         if (empty($fotoHome)) {

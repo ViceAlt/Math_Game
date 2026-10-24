@@ -127,7 +127,7 @@ $jsVersion  = file_exists(__DIR__ . '/perfil.js') ? filemtime(__DIR__ . '/perfil
                         <div class="loja-saldo-badge" id="avatar-saldo-badge" title="Seu saldo de estrelas para compras">
                             <?= icone_svg('star', 'icone-estrela-moeda', 18) ?>
                             <span class="saldo-numero" id="avatar-saldo-valor">0</span>
-                            <span class="saldo-sigla">⭐</span>
+                            <span class="saldo-sigla">estrelas</span>
                         </div>
                     </div>
 
@@ -220,7 +220,7 @@ $jsVersion  = file_exists(__DIR__ . '/perfil.js') ? filemtime(__DIR__ . '/perfil
                         <div class="kpi-info">
                             <span class="kpi-rotulo">Moeda & Estrelas</span>
                             <strong class="kpi-valor" id="perfil-estrelas">0 / 240</strong>
-                            <span class="kpi-legenda" id="perfil-estrelas-saldo">Saldo: 0 ⭐ disponíveis</span>
+                            <span class="kpi-legenda" id="perfil-estrelas-saldo">Saldo: 0 estrelas disponíveis</span>
                         </div>
                     </div>
 
@@ -244,7 +244,7 @@ $jsVersion  = file_exists(__DIR__ . '/perfil.js') ? filemtime(__DIR__ . '/perfil
                         <div class="kpi-info">
                             <span class="kpi-rotulo">Fases Perfeitas</span>
                             <strong class="kpi-valor" id="perfil-fases-perfeitas">0</strong>
-                            <span class="kpi-legenda">Nota máxima (3 ★)</span>
+                            <span class="kpi-legenda">Nota máxima (3 estrelas)</span>
                         </div>
                     </div>
                 </div>

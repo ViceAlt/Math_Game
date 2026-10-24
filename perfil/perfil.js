@@ -249,7 +249,7 @@ function atualizarKpis({ pontuacaoTotal, estrelasTotal, fasesConcluidas, fasesPe
     }
     const elSaldo = document.getElementById('perfil-estrelas-saldo');
     if (elSaldo) {
-        elSaldo.textContent = `Saldo: ${stateLojaAvatares.saldo} ⭐ disponíveis`;
+        elSaldo.textContent = `Saldo: ${stateLojaAvatares.saldo} estrelas disponíveis`;
     }
     if (elEstrelasPct) {
         const pctEstrelas = Math.round((estrelasTotal / TOTAL_ESTRELAS_MAX) * 100);
@@ -327,7 +327,7 @@ function renderizarDiagnosticoEvolucao(statsPilares, fasesConcluidas) {
                     </div>
                 </div>
                 <div class="ponto-atencao-item">
-                    <div class="ponto-atencao-icone">★</div>
+                    <div class="ponto-atencao-icone"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
                     <div class="ponto-atencao-info">
                         <h4>Conquiste até 3 Estrelas</h4>
                         <p>Quanto mais rápido e preciso, maior sua nota.</p>
@@ -399,7 +399,7 @@ function renderizarDiagnosticoEvolucao(statsPilares, fasesConcluidas) {
                     <div class="ponto-atencao-icone">1</div>
                     <div class="ponto-atencao-info">
                         <h4>Repetir Fase ${primeira.numero} (${primeira.ano}° Ano)</h4>
-                        <p>Atualmente com ${primeira.estrelas} ★. Refaça para conquistar 3 estrelas.</p>
+                        <p>Atualmente com ${primeira.estrelas} estrelas. Refaça para conquistar 3 estrelas.</p>
                     </div>
                 </div>
             `);
@@ -547,7 +547,7 @@ function renderizarMundosDesempenho(statsMundos) {
                 </div>
 
                 <div class="mundo-estrelas-linha">
-                    <span style="color: var(--duo-yellow-shadow);">★ ${dados.estrelas} estrelas</span>
+                    <span style="color: var(--duo-yellow-shadow); display: inline-flex; align-items: center; gap: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${dados.estrelas} estrelas</span>
                     <a href="../conteudos/conteudos.php?ano=${ano}" class="mundo-link-acessar">Ver Trilha →</a>
                 </div>
             </div>
@@ -590,7 +590,7 @@ function renderizarMissoesReforco(statsPilares, totalEstrelas, totalFases) {
             <div class="missao-progresso-linha">
                 <div class="missao-progresso-textos">
                     <span>Progresso</span>
-                    <span>${pilarFracoes.estrelas} / 24 ★</span>
+                    <span>${pilarFracoes.estrelas} / 24 estrelas</span>
                 </div>
                 <div class="missao-barra-bg">
                     <div class="missao-barra-fill" style="width: ${pilarFracoesPct}%;"></div>
@@ -611,7 +611,7 @@ function renderizarMissoesReforco(statsPilares, totalEstrelas, totalFases) {
             <div class="missao-progresso-linha">
                 <div class="missao-progresso-textos">
                     <span>Progresso</span>
-                    <span>${estrelasProgresso} / ${metaEstrelas} ★</span>
+                    <span>${estrelasProgresso} / ${metaEstrelas} estrelas</span>
                 </div>
                 <div class="missao-barra-bg">
                     <div class="missao-barra-fill" style="width: ${estrelasPct}%; background: var(--duo-yellow-shadow);"></div>
@@ -814,7 +814,7 @@ function atualizarSaldoEstrelasUI() {
 
     const elSaldoKpi = document.getElementById('perfil-estrelas-saldo');
     if (elSaldoKpi) {
-        elSaldoKpi.textContent = `Saldo: ${stateLojaAvatares.saldo} ⭐ gastáveis`;
+        elSaldoKpi.textContent = `Saldo: ${stateLojaAvatares.saldo} estrelas disponíveis`;
     }
 }
 
@@ -850,9 +850,9 @@ function renderizarCarrosselAvatares() {
         } else if (foto.padrao) {
             badgeHtml = '<span class="badge-item-status badge-padrao">Grátis</span>';
         } else if (foto.desbloqueada) {
-            badgeHtml = '<span class="badge-item-status badge-adquirida">✓</span>';
+            badgeHtml = '<span class="badge-item-status badge-adquirida"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>';
         } else {
-            badgeHtml = '<span class="badge-item-status badge-preco">10 ⭐</span>';
+            badgeHtml = '<span class="badge-item-status badge-preco">10 estrelas</span>';
         }
 
         card.innerHTML = `
@@ -974,12 +974,12 @@ function atualizarDrawerAvatarSelecionado() {
         if (temEstrelasSuficientes) {
             btnComprar.disabled = false;
             if (btnComprarTexto) btnComprarTexto.textContent = 'Comprar por 10 Estrelas';
-            if (elStatus) elStatus.textContent = `Custo: 10 estrelas. Seu saldo: ${stateLojaAvatares.saldo} ⭐`;
+            if (elStatus) elStatus.textContent = `Custo: 10 estrelas. Seu saldo: ${stateLojaAvatares.saldo} estrelas`;
         } else {
             btnComprar.disabled = true;
             const faltam = 10 - stateLojaAvatares.saldo;
-            if (btnComprarTexto) btnComprarTexto.textContent = `Faltam ${faltam} ⭐ para comprar`;
-            if (elStatus) elStatus.textContent = `Custo: 10 estrelas. Jogue fases para conquistar mais ${faltam} ⭐!`;
+            if (btnComprarTexto) btnComprarTexto.textContent = `Faltam ${faltam} estrelas para comprar`;
+            if (elStatus) elStatus.textContent = `Custo: 10 estrelas. Jogue fases para conquistar mais ${faltam} estrelas!`;
         }
     }
 }
