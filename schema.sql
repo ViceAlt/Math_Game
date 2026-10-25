@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     username    VARCHAR(50)  NOT NULL UNIQUE,
     email       VARCHAR(150) NOT NULL UNIQUE,
     senha_hash  VARCHAR(255) NOT NULL,
+    senha_alterada_em DATETIME NULL DEFAULT NULL,
     foto_url    VARCHAR(500)     NULL DEFAULT NULL,
     criado_em   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

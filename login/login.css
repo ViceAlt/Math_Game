@@ -253,6 +253,12 @@ button[type="submit"]:active,
     filter: brightness(0.92);
 }
 
+.aviso-sessao-persistente {
+    margin-top: 0.75rem;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
 .erro {
     color: var(--duo-red);
     font-size: 0.85rem;

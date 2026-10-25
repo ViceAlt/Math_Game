@@ -96,6 +96,7 @@ try {
         'foto_url'  => null,
     ];
     $_SESSION['logado_em'] = time();
+    sessao_criar_login_persistente($pdo, $novoId);
 
     http_response_code(201);
     echo json_encode([

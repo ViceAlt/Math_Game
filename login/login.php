@@ -69,6 +69,7 @@ $csrfToken   = csrf_gerar();
             <span class="erro" id="erro-login-geral" role="alert" aria-live="assertive"></span>
 
             <button type="submit" id="btn-entrar">Entrar</button>
+            <p class="aviso-sessao-persistente">Você permanecerá conectado neste dispositivo por até 30 dias.</p>
         </form>
 
         <p><a href="../esqueci_senha.php" id="link-esqueci-senha">Esqueci minha senha</a></p>

@@ -16,8 +16,9 @@ function sessao_iniciar(): void {
         return; // Sessão já ativa, não reinicia
     }
 
-    $eHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-           || (defined('APP_ENV') && APP_ENV === 'production');
+        $eHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
+            || (defined('APP_ENV') && APP_ENV === 'production');
 
     session_set_cookie_params([
         'lifetime' => 0,
@@ -37,7 +38,7 @@ function sessao_iniciar(): void {
 
 function sessao_cookie_seguro(): bool {
     return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
+        || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
         || (defined('APP_ENV') && APP_ENV === 'production');
 }
 
@@ -72,7 +73,7 @@ function sessao_criar_login_persistente(PDO $pdo, int $usuarioId): void {
     );
     $stmt->execute([$usuarioId, $seletor, hash('sha256', $validador), $expiraSql]);
 
-        $_SESSION['remember_selector'] = $seletor;
+    $_SESSION['remember_selector'] = $seletor;
     sessao_cookie_persistente($seletor . ':' . $validador, $expiraEm);
 }
 
@@ -139,7 +140,7 @@ function sessao_restaurar_login_persistente(): void {
             $registro['token_id'],
         ]);
 
-            $_SESSION['remember_selector'] = $novoSeletor;
+        $_SESSION['remember_selector'] = $novoSeletor;
         sessao_cookie_persistente($novoSeletor . ':' . $novoValidador, $expiraEm);
     } catch (\Throwable $e) {
         error_log('[Math Game] Falha ao restaurar login persistente: ' . $e->getMessage());
@@ -152,11 +153,12 @@ function sessao_revogar_login_persistente(PDO $pdo): void {
         $pdo->prepare('DELETE FROM login_persistente WHERE seletor = ?')->execute([$partes[1]]);
     }
 
+    $seletorSessao = $_SESSION['remember_selector'] ?? '';
+    if (preg_match('/^[a-f0-9]{32}$/', $seletorSessao)) {
+        $pdo->prepare('DELETE FROM login_persistente WHERE seletor = ?')->execute([$seletorSessao]);
+    }
+
     sessao_limpar_cookie_persistente();
-        $seletorSessao = $_SESSION['remember_selector'] ?? '';
-        if (preg_match('/^[a-f0-9]{32}$/', $seletorSessao)) {
-            $pdo->prepare('DELETE FROM login_persistente WHERE seletor = ?')->execute([$seletorSessao]);
-        }
 }
 
 /**

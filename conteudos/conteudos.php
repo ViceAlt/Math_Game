@@ -66,7 +66,7 @@ $jsVersion  = file_exists(__DIR__ . '/conteudos.js') ? filemtime(__DIR__ . '/con
                 </div>
 
             </div>
-
+            <br>
             <!-- Seletor de Mundos / Anos Letivos (Abas 3D) -->
             <nav class="seletor-mundos" role="tablist" aria-label="Selecione o ano letivo da trilha">
                 <button type="button" role="tab" class="btn-mundo-aba ativa" id="btn-ano-6" data-ano="6"

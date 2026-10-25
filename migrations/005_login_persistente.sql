@@ -1,9 +1,8 @@
 -- ============================================================
 -- Math Game - Migracao 005: Tokens para login persistente
+-- Execute com o banco da aplicacao selecionado.
 -- Os valores de validacao ficam armazenados somente como hash.
 -- ============================================================
-
-USE math_game;
 
 CREATE TABLE IF NOT EXISTS login_persistente (
     id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
