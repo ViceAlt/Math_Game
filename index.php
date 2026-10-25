@@ -1,6 +1,6 @@
 <?php
-$cssVersion = file_exists(__DIR__ . '/index.css') ? filemtime(__DIR__ . '/index/index.css') : time();
-$jsVersion = file_exists(__DIR__ . '/index.js') ? filemtime(__DIR__ . '/index/index.js') : time();
+$cssVersion = file_exists(__DIR__ . '/index/index.css') ? filemtime(__DIR__ . '/index/index.css') : time();
+$jsVersion = file_exists(__DIR__ . '/index/index.js') ? filemtime(__DIR__ . '/index/index.js') : time();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
