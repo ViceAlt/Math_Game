@@ -174,7 +174,7 @@ body {
 
 /* Imagem de Logo nas páginas de autenticação */
 .auth-brand-logo-img {
-    height: 64px;
+    height: 44.8px;
     width: auto;
     display: block;
     object-fit: contain;
