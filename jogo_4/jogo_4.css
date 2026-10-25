@@ -319,8 +319,8 @@ body {
     height: 54px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 5px solid #1899d6;
-    box-shadow: 0 5px 0 #1899d6;
+    border-bottom: 5px solid var(--duo-blue-shadow);
+    box-shadow: 0 5px 0 var(--duo-blue-shadow);
     text-align: center;
     font-size: 1.25rem;
     font-weight: 800;
@@ -361,8 +361,8 @@ body {
     height: 48px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 4px solid #e5a000;
-    box-shadow: 0 4px 0 #e5a000;
+    border-bottom: 4px solid var(--duo-yellow-shadow);
+    box-shadow: 0 4px 0 var(--duo-yellow-shadow);
     text-align: center;
     font-size: 1.05rem;
     font-weight: 800;

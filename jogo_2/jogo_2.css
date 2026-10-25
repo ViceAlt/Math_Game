@@ -466,8 +466,8 @@ body.tema-escuro .resultado-stats {
     height: 48px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 4px solid #1899d6;
-    box-shadow: 0 4px 0 #1899d6;
+    border-bottom: 4px solid var(--duo-blue-shadow);
+    box-shadow: 0 4px 0 var(--duo-blue-shadow);
     text-align: center;
     font-size: 1.1rem;
     font-weight: 800;

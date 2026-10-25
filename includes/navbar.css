@@ -202,7 +202,7 @@ html.tema-escuro .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
     background-color: rgba(28, 176, 246, 0.16);
     color: #38bdf8;
     border-color: #38bdf8;
-    box-shadow: 0 3px 0 #0284c7;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 /* ─── Botão Ativo da Top-bar por Tonalidade (Modo Claro e Modo Escuro) ────── */
@@ -222,7 +222,7 @@ body.tema-escuro .tonalidade-sunset .top-navbar-nav a[aria-current="page"] .top-
     background-color: rgba(255, 107, 53, 0.2);
     color: #ff8555;
     border-color: #ff8555;
-    box-shadow: 0 3px 0 #c74415;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 /* Ocean (Teal Oceânico + Menta) */
@@ -231,7 +231,7 @@ html.tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
     background-color: #e6f7fc;
     color: #0096c7;
     border-color: #0096c7;
-    box-shadow: 0 3px 0 #0077b6;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 body.tema-escuro.tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
@@ -240,7 +240,7 @@ body.tema-escuro .tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-n
     background-color: rgba(0, 150, 199, 0.2);
     color: #38bdf8;
     border-color: #38bdf8;
-    box-shadow: 0 3px 0 #0077b6;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 /* Earth (Âmbar Dourado + Terracota) */
@@ -249,7 +249,7 @@ html.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
     background-color: #fbf5e8;
     color: #d4a03c;
     border-color: #d4a03c;
-    box-shadow: 0 3px 0 #b8872e;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 body.tema-escuro.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
@@ -258,7 +258,7 @@ body.tema-escuro .tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-n
     background-color: rgba(212, 160, 60, 0.2);
     color: #e5b352;
     border-color: #e5b352;
-    box-shadow: 0 3px 0 #9e7121;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 /* Berry (Cereja Vibrante + Framboesa) */
@@ -267,7 +267,7 @@ html.tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
     background-color: #fdebf2;
     color: #e63981;
     border-color: #e63981;
-    box-shadow: 0 3px 0 #c0145c;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 body.tema-escuro.tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
@@ -276,7 +276,7 @@ body.tema-escuro .tonalidade-berry .top-navbar-nav a[aria-current="page"] .top-n
     background-color: rgba(230, 57, 129, 0.2);
     color: #f472b6;
     border-color: #f472b6;
-    box-shadow: 0 3px 0 #a2104d;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 /* Crimson (Rubi Vivo + Coral) */
@@ -285,7 +285,7 @@ html.tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
     background-color: #fee2e2;
     color: #dc2626;
     border-color: #dc2626;
-    box-shadow: 0 3px 0 #991b1b;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 body.tema-escuro.tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
@@ -294,7 +294,7 @@ body.tema-escuro .tonalidade-crimson .top-navbar-nav a[aria-current="page"] .top
     background-color: rgba(220, 38, 38, 0.2);
     color: #f87171;
     border-color: #f87171;
-    box-shadow: 0 3px 0 #991b1b;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 /* Arctic (Azul Petróleo + Ciano Gelo) */
@@ -303,7 +303,7 @@ html.tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
     background-color: #e0f7fa;
     color: #0891b2;
     border-color: #0891b2;
-    box-shadow: 0 3px 0 #0e7490;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 body.tema-escuro.tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
@@ -312,7 +312,7 @@ body.tema-escuro .tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-
     background-color: rgba(6, 182, 212, 0.2);
     color: #22d3ee;
     border-color: #22d3ee;
-    box-shadow: 0 3px 0 #0891b2;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 .top-navbar-nav a[aria-current="page"] .top-navbar-btn:active {

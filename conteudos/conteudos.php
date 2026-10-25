@@ -1,4 +1,6 @@
-<?php session_start();
+<?php
+require_once __DIR__ . '/../includes/sessao.php';
+sessao_iniciar();
 $usuario = $_SESSION['usuario'] ?? null;
 $logado  = $usuario !== null;
 

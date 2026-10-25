@@ -526,9 +526,9 @@ body {
 .btn-alternativa:hover:not(:disabled),
 .btn-alternativa.selecionada {
     border-color: #1cb0f6;
-    border-bottom-color: #1899d6;
+    border-bottom-color: var(--duo-blue-shadow);
     background-color: rgba(28, 176, 246, 0.08);
-    box-shadow: 0 4px 0 #1899d6;
+    box-shadow: 0 4px 0 var(--duo-blue-shadow);
 }
 
 .btn-alternativa:active:not(:disabled) {
@@ -587,8 +587,8 @@ body {
     height: 48px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 4px solid #1899d6;
-    box-shadow: 0 4px 0 #1899d6;
+    border-bottom: 4px solid var(--duo-blue-shadow);
+    box-shadow: 0 4px 0 var(--duo-blue-shadow);
     text-align: center;
     font-size: 1.1rem;
     font-weight: 800;

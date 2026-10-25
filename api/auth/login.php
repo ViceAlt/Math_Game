@@ -134,6 +134,8 @@ try {
     ];
     // Marca o horário do login para validação de sessão pós-troca de senha
     $_SESSION['logado_em'] = time();
+    sessao_revogar_login_persistente($pdo);
+    sessao_criar_login_persistente($pdo, (int) $usuario['id']);
 
     echo json_encode([
         'ok'      => true,

@@ -6,18 +6,18 @@
 
 header('Content-Type: application/json; charset=utf-8');
 
-session_start();
-session_unset();
-session_destroy();
+require_once __DIR__ . '/../../includes/sessao.php';
+require_once __DIR__ . '/../../conexao.php';
 
-// Invalida o cookie de sessão no navegador
-if (ini_get('session.use_cookies')) {
-    $params = session_get_cookie_params();
-    setcookie(
-        session_name(), '', time() - 42000,
-        $params['path'], $params['domain'],
-        $params['secure'], $params['httponly']
-    );
+sessao_iniciar();
+
+try {
+    sessao_revogar_login_persistente(getDB());
+} catch (\Throwable $e) {
+    error_log('[Math Game] Falha ao revogar login persistente: ' . $e->getMessage());
+    sessao_limpar_cookie_persistente();
 }
+
+sessao_destruir();
 
 echo json_encode(['ok' => true]);

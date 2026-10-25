@@ -1,4 +1,9 @@
-<?php session_start(); $usuario = $_SESSION['usuario'] ?? null; $logado = $usuario !== null; ?>
+<?php
+require_once __DIR__ . '/../includes/sessao.php';
+sessao_iniciar();
+$usuario = $_SESSION['usuario'] ?? null;
+$logado = $usuario !== null;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

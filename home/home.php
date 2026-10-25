@@ -3,7 +3,8 @@
  * home.php – Página inicial (Math Game)
  * Design Duolingo-like: cores vivas, 3D tátil, cantos suaves, sem emojis.
  */
-session_start();
+require_once __DIR__ . '/../includes/sessao.php';
+sessao_iniciar();
 $usuario = $_SESSION['usuario'] ?? null;
 $logado = $usuario !== null;
 

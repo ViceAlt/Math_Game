@@ -256,6 +256,10 @@ function recuperacao_redefinir_senha(int $usuarioId, int $tokenId, string $novaS
         );
         $stmtUser->execute([$novoHash, $usuarioId]);
 
+        // Invalida todos os dispositivos lembrados depois da troca de senha.
+        $pdo->prepare('DELETE FROM login_persistente WHERE usuario_id = ?')
+            ->execute([$usuarioId]);
+
         $pdo->commit();
 
         recuperacao_log("Senha redefinida com sucesso para usuario_id={$usuarioId} via token_id={$tokenId}", 'SUCCESS');

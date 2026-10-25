@@ -7,7 +7,8 @@
 
 header('Content-Type: application/json; charset=utf-8');
 
-session_start();
+require_once __DIR__ . '/../../includes/sessao.php';
+sessao_iniciar();
 
 require_once __DIR__ . '/../../conexao.php';
 

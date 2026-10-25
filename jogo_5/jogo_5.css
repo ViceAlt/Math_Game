@@ -583,7 +583,7 @@ body.tema-escuro .gangorra-prancha {
     height: 48px;
     background: var(--duo-orange);
     border: 2.5px solid var(--duo-orange-shadow);
-    border-bottom: 4px solid #b45309;
+    border-bottom: 4px solid var(--duo-orange-shadow);
     border-radius: var(--radius-sm);
     color: #ffffff;
     font-size: 1.35rem;
@@ -595,7 +595,7 @@ body.tema-escuro .gangorra-prancha {
 .peso-item.tipo-bloco {
     background: var(--duo-green);
     border: 2.5px solid var(--duo-green-shadow);
-    border-bottom: 4px solid #368202;
+    border-bottom: 4px solid var(--duo-green-shadow);
     border-radius: var(--radius-sm);
     color: #ffffff;
     font-weight: 900;
@@ -617,7 +617,7 @@ body.tema-escuro .gangorra-prancha {
 .peso-item.tipo-balao {
     background: var(--duo-green);
     border: 2.5px solid var(--duo-green-shadow);
-    border-bottom: 4px solid #368202;
+    border-bottom: 4px solid var(--duo-green-shadow);
     border-radius: var(--radius-sm);
     color: #ffffff;
     font-weight: 900;
@@ -928,7 +928,7 @@ body.tema-escuro .instrucao-arraste {
     height: 48px;
     border-radius: var(--radius-md);
     border: none;
-    border-bottom: 4px solid #1899d6;
+    border-bottom: 4px solid var(--duo-blue-shadow);
     background-color: #1cb0f6;
     color: #ffffff;
     font-size: 1.05rem;

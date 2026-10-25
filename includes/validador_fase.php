@@ -7,6 +7,7 @@
 
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../conexao.php';
+require_once __DIR__ . '/sessao.php';
 
 if (!function_exists('validarAcessoFaseServidor')) {
     /**
@@ -27,9 +28,7 @@ if (!function_exists('validarAcessoFaseServidor')) {
             return true;
         }
 
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        sessao_iniciar();
 
         $usuario = $_SESSION['usuario'] ?? null;
         // Visitantes só podem jogar a Fase 1 (degustação - Opção A)

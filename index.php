@@ -1,6 +1,17 @@
 <?php
+require_once __DIR__ . '/includes/sessao.php';
+sessao_iniciar();
+$usuario = $_SESSION['usuario'] ?? null;
 $cssVersion = file_exists(__DIR__ . '/index.css') ? filemtime(__DIR__ . '/index.css') : time();
 $jsVersion = file_exists(__DIR__ . '/index.js') ? filemtime(__DIR__ . '/index.js') : time();
+$fotoInicio = $usuario['foto_url'] ?? '';
+if (empty($fotoInicio)) {
+    $fotoInicioUrl = 'fotos/foto1.webp';
+} elseif (!str_starts_with($fotoInicio, 'http') && !str_starts_with($fotoInicio, '/')) {
+    $fotoInicioUrl = ltrim(str_replace('../', '', $fotoInicio), '/');
+} else {
+    $fotoInicioUrl = $fotoInicio;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -22,7 +33,16 @@ $jsVersion = file_exists(__DIR__ . '/index.js') ? filemtime(__DIR__ . '/index.js
         <a class="marca-apresentacao" href="index.php" aria-label="Mantham - página inicial">
             <img src="icons/logo.webp" alt="Mantham" width="160" height="40">
         </a>
-        <a class="link-entrar" href="login/login.php">Entrar</a>
+        <?php if ($usuario): ?>
+            <a class="conta-inicio" href="perfil/perfil.php" aria-label="Abrir perfil de <?= htmlspecialchars($usuario['username'], ENT_QUOTES, 'UTF-8') ?>">
+                <img src="<?= htmlspecialchars($fotoInicioUrl, ENT_QUOTES, 'UTF-8') ?>"
+                     alt="" width="34" height="34"
+                     onerror="this.src='fotos/foto1.webp'">
+                <span><?= htmlspecialchars($usuario['username'], ENT_QUOTES, 'UTF-8') ?></span>
+            </a>
+        <?php else: ?>
+            <a class="link-entrar" href="login/login.php">Entrar</a>
+        <?php endif; ?>
     </header>
 
     <main>

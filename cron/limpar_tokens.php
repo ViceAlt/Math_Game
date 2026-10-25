@@ -27,13 +27,17 @@ try {
         "DELETE FROM recuperacao_senha WHERE expira_em < DATE_SUB(NOW(), INTERVAL 24 HOUR)"
     );
 
+    $stmtLoginPersistente = $pdo->exec(
+        'DELETE FROM login_persistente WHERE expira_em < NOW()'
+    );
+
     // Remove tentativas de acesso com mais de 24 horas
     $stmtTentativas = $pdo->exec(
         "DELETE FROM tentativas_acesso WHERE criado_em < DATE_SUB(NOW(), INTERVAL 24 HOUR)"
     );
 
     $agora = date('Y-m-d H:i:s');
-    echo "[{$agora}] Limpeza concluída — tokens removidos: {$stmtTokens}, tentativas removidas: {$stmtTentativas}" . PHP_EOL;
+    echo "[{$agora}] Limpeza concluída — tokens de recuperação removidos: {$stmtTokens}, tokens persistentes removidos: {$stmtLoginPersistente}, tentativas removidas: {$stmtTentativas}" . PHP_EOL;
 
 } catch (\PDOException $e) {
     // Registra sem expor dados sensíveis
