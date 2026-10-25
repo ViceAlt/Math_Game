@@ -1,6 +1,6 @@
 <?php
-$cssVersion = file_exists(__DIR__ . '/index/index.css') ? filemtime(__DIR__ . '/index/index.css') : time();
-$jsVersion = file_exists(__DIR__ . '/index/index.js') ? filemtime(__DIR__ . '/index/index.js') : time();
+$cssVersion = file_exists(__DIR__ . '/index.css') ? filemtime(__DIR__ . '/index.css') : time();
+$jsVersion = file_exists(__DIR__ . '/index.js') ? filemtime(__DIR__ . '/index.js') : time();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -11,30 +11,30 @@ $jsVersion = file_exists(__DIR__ . '/index/index.js') ? filemtime(__DIR__ . '/in
     <meta name="description" content="Aprenda matemática se divertindo no Mantham. Explore jogos e trilhas do 6º ao 9º ano.">
     <meta name="theme-color" content="#ffffff">
     <title>Mantham | Matemática para aprender jogando</title>
-    <link rel="stylesheet" href="../tema.css">
+    <link rel="stylesheet" href="tema.css">
     <link rel="stylesheet" href="index.css?v=<?= $cssVersion ?>">
-    <script src="../tema.js"></script>
+    <script src="tema.js"></script>
 </head>
 
 <body class="pagina-apresentacao">
     <header class="barra-apresentacao">
         <span class="barra-espacador" aria-hidden="true"></span>
         <a class="marca-apresentacao" href="index.php" aria-label="Mantham - página inicial">
-            <img src="../icons/logo.webp" alt="Mantham" width="160" height="40">
+            <img src="icons/logo.webp" alt="Mantham" width="160" height="40">
         </a>
-        <a class="link-entrar" href="../login/login.php">Entrar</a>
+        <a class="link-entrar" href="login/login.php">Entrar</a>
     </header>
 
     <main>
         <section class="apresentacao-hero" aria-labelledby="titulo-principal">
-            <img class="imagem-grupo" src="../icons/group.webp" alt="Personagens do Mantham celebrando uma conquista matemática" width="600" height="400" fetchpriority="high">
+            <img class="imagem-grupo" src="icons/group.webp" alt="Personagens do Mantham celebrando uma conquista matemática" width="600" height="400" fetchpriority="high">
             <div class="texto-hero">
                 <p class="sobretitulo">Matemática para explorar</p>
                 <h1 id="titulo-principal">Aprenda matemática se divertindo no Mantham.</h1>
                 <p class="descricao-hero">Transforme cada desafio em uma conquista. Aprenda no seu ritmo com jogos e trilhas feitos para acompanhar você.</p>
                 <div class="acoes-hero">
-                    <a class="btn-duo btn-duo-green" href="../cadastro/cadastro.php">Criar conta</a>
-                    <a class="btn-duo btn-duo-outline" href="../home/home.php">Jogar agora</a>
+                    <a class="btn-duo btn-duo-green" href="cadastro/cadastro.php">Criar conta</a>
+                    <a class="btn-duo btn-duo-outline" href="home/home.php">Jogar agora</a>
                 </div>
             </div>
         </section>

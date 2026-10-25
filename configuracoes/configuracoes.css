@@ -305,7 +305,7 @@ body.tonalidade-arctic, html.tonalidade-arctic {
     gap: 3px;
     padding: 4px 5px;
     border-bottom: 1px solid var(--border-color);
-    background: #ffffff;
+    background: var(--bg-card);
 }
 
 .mp-brand {
@@ -319,21 +319,21 @@ body.tonalidade-arctic, html.tonalidade-arctic {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #cecece;
+    background: var(--border-dark);
     flex-shrink: 0;
     margin-left: auto;
 }
 
 /* Default light mode colors for mini pages */
 .mini-page {
-    background: #f7f7f7;
+    background: var(--bg-main);
 }
 
 .mp-nav-item {
     height: 5px;
     width: 14px;
     border-radius: 2px;
-    background: #e5e5e5;
+    background: var(--border-color);
 }
 
 .mp-content {
@@ -348,7 +348,7 @@ body.tonalidade-arctic, html.tonalidade-arctic {
     height: 6px;
     width: 60%;
     border-radius: 3px;
-    background: #3c3c3c;
+    background: var(--text-main);
 }
 
 .mp-cards {
@@ -360,8 +360,8 @@ body.tonalidade-arctic, html.tonalidade-arctic {
 .mp-card {
     flex: 1;
     border-radius: 4px;
-    border: 1px solid #e5e5e5;
-    background: #ffffff;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
 }
 
 .mp-btn-primary,
@@ -370,30 +370,30 @@ body.tonalidade-arctic, html.tonalidade-arctic {
     border-radius: 3px;
 }
 
-/* Dark mode: darken all mini pages to match */
+/* Dark mode: preview the same neutral palette used by the site. */
 body.tema-escuro .mini-page {
-    background: #131f24;
+    background: var(--bg-main);
 }
 
 body.tema-escuro .mp-topbar {
-    background: #202f36;
+    background: var(--bg-card);
 }
 
 body.tema-escuro .mp-avatar {
-    background: #4b5d67;
+    background: var(--border-dark);
 }
 
 body.tema-escuro .mp-nav-item {
-    background: #37464f;
+    background: var(--border-color);
 }
 
 body.tema-escuro .mp-header {
-    background: #f1f1f1;
+    background: var(--text-main);
 }
 
 body.tema-escuro .mp-card {
-    border-color: #37464f;
-    background: #202f36;
+    border-color: var(--border-color);
+    background: var(--bg-card);
 }
 
 /* ─── Per-tonality mini-page accent colors ────────────────────────────────── */

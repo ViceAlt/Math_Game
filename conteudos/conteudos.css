@@ -8,19 +8,19 @@
     --mundo-cor: var(--duo-green, #58cc02);
     --mundo-cor-shadow: var(--duo-green-shadow, #46a302);
     --mundo-cor-light: var(--duo-green-light, #eaf8dd);
-    --trilha-linha-fundo: #e5e5e5;
-    --trilha-bolinha-bloqueada: #e5e5e5;
-    --trilha-bloqueada-shadow: #cecece;
-    --trilha-bloqueada-borda: #cecece;
-    --trilha-bloqueada-icone: #777777;
+    --trilha-linha-fundo: var(--border-color);
+    --trilha-bolinha-bloqueada: var(--bg-card-alt);
+    --trilha-bloqueada-shadow: var(--border-dark);
+    --trilha-bloqueada-borda: var(--border-dark);
+    --trilha-bloqueada-icone: var(--text-muted);
 }
 
 body.tema-escuro {
-    --trilha-linha-fundo: #2b3940;
-    --trilha-bolinha-bloqueada: #202f36;
-    --trilha-bloqueada-shadow: #131f24;
-    --trilha-bloqueada-borda: #37464f;
-    --trilha-bloqueada-icone: #8496a0;
+    --trilha-linha-fundo: var(--border-color);
+    --trilha-bolinha-bloqueada: var(--bg-card);
+    --trilha-bloqueada-shadow: var(--bg-main);
+    --trilha-bloqueada-borda: var(--border-color);
+    --trilha-bloqueada-icone: var(--text-muted);
 }
 
 /* 6° Ano – Floresta dos Números */

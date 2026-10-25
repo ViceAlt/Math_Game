@@ -135,6 +135,7 @@ function proximaRodada() {
         currentTarget = filaFases[rodadaAtual];
     }
 
+    timerPontuacaoQuestao.iniciar();
     atualizarUI();
     renderPizzas();
 }
@@ -184,7 +185,8 @@ function onDecay() {
 
     if (acertou) {
         acertos++;
-        pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicadorPontos || 1));
+        const bonusTempo = timerPontuacaoQuestao.multiplicador();
+        pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicadorPontos || 1) * bonusTempo);
         if (barra) {
             barra.classList.remove('erro');
             barra.classList.add('acerto');

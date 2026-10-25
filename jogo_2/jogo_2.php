@@ -51,6 +51,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
                 <div class="texto_questao_div">
                     <p class="pergunta" id="pergunta-texto">Carregando questão...</p>
                 </div>
+                <p class="feedback-resposta" id="feedback-resposta" role="status" aria-live="polite" hidden></p>
                 <div class="button_position">
                     <button class="confirmar" id="btn-confirmar" onclick="verificarResposta()">Verificar</button>
                 </div>
@@ -77,6 +78,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </article>
     </dialog>
 
+    <script src="../includes/timer_pontuacao.js"></script>
     <script src="jogo_2.js"></script>
 </body>
 

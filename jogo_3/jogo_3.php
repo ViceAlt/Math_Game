@@ -109,6 +109,8 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
                 <div class="button_position">
                     <!-- Botão Confirmar (Etapa 1) -->
                     <button class="confirmar" id="btn-confirmar" onclick="confirmarForma()" disabled>Confirmar Forma</button>
+                    <!-- Botão Confirmar resposta (Etapa 2) -->
+                    <button class="confirmar" id="btn-confirmar-resposta" onclick="confirmarRespostaPergunta()" style="display: none;" disabled>Confirmar Resposta</button>
                     <!-- Botão Próxima Questão (Etapa 2) -->
                     <button class="proxima" id="btn-proxima" onclick="avancarQuestao()" style="display: none;">Próxima Questão</button>
                 </div>
@@ -137,6 +139,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </article>
     </dialog>
 
+    <script src="../includes/timer_pontuacao.js"></script>
     <script src="jogo_3.js"></script>
 </body>
 

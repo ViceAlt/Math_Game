@@ -31,6 +31,7 @@ let totalRodadas = CONFIG_DIFICULDADE[params.dificuldade]?.rodadas || 3;
 let pontuacao = 0;
 let acertosTotais = 0;
 let jogoAtivo = true;
+let questaoBloqueada = false;
 
 // Dados da rodada ativa
 let questaoAtual = null;
@@ -74,6 +75,12 @@ async function carregarNovaQuestao() {
     }
 
     const btnConfirmar = document.getElementById('btn-confirmar');
+    const feedbackResposta = document.getElementById('feedback-resposta');
+    questaoBloqueada = false;
+    if (feedbackResposta) {
+        feedbackResposta.hidden = true;
+        feedbackResposta.textContent = '';
+    }
     if (btnConfirmar) {
         btnConfirmar.disabled = false;
         btnConfirmar.textContent = 'Verificar';
@@ -89,6 +96,7 @@ async function carregarNovaQuestao() {
         if (data.ok) {
             questaoAtual = data;
             valoresAluno = {};
+            timerPontuacaoQuestao.iniciar();
 
             // Inicializa cada barra no valor 0
             questaoAtual.itens.forEach(item => {
@@ -257,7 +265,7 @@ function renderizarGraficoSVG() {
 
         // Eventos de Pointer para Arraste (Touch / Mouse / Stylus)
         const iniciarArraste = (e) => {
-            if (!jogoAtivo) return;
+            if (!jogoAtivo || questaoBloqueada) return;
             dragActive = true;
             itemSendoArrastado = item;
             gBarra.setPointerCapture(e.pointerId);
@@ -265,7 +273,7 @@ function renderizarGraficoSVG() {
         };
 
         const moverArraste = (e) => {
-            if (!dragActive || itemSendoArrastado !== item) return;
+            if (!dragActive || questaoBloqueada || itemSendoArrastado !== item) return;
             atualizarValorPeloPointer(e, index, item, chartBottomY, chartAreaHeight);
         };
 
@@ -290,6 +298,7 @@ function renderizarGraficoSVG() {
  * Converte a posição Y do ponteiro no SVG em um valor snapped no array do eixo.
  */
 function atualizarValorPeloPointer(e, index, item, chartBottomY, chartAreaHeight) {
+    if (questaoBloqueada) return;
     const svg = document.getElementById('svgGrafico');
     const pt = svg.createSVGPoint();
     pt.x = e.clientX;
@@ -366,8 +375,9 @@ function renderizarLegenda() {
 // ─── Validação com Backend ────────────────────────────────────────────────────
 
 async function verificarResposta() {
-    if (!jogoAtivo || !questaoAtual) return;
+    if (!jogoAtivo || !questaoAtual || questaoBloqueada) return;
 
+    questaoBloqueada = true;
     const btnConfirmar = document.getElementById('btn-confirmar');
     if (btnConfirmar) btnConfirmar.disabled = true;
 
@@ -382,12 +392,25 @@ async function verificarResposta() {
 
         if (res.ok) {
             aplicarFeedbackBarras(res.detalhes);
+            const feedbackResposta = document.getElementById('feedback-resposta');
+            if (feedbackResposta) {
+                if (res.acertou) {
+                    feedbackResposta.textContent = 'Muito bem! Todos os valores estão corretos.';
+                } else {
+                    const valoresCorretos = Object.entries(res.detalhes)
+                        .map(([item, detalhe]) => `${item}: ${detalhe.valorEsperado}`)
+                        .join(' · ');
+                    feedbackResposta.textContent = `Resposta correta: ${valoresCorretos}.`;
+                }
+                feedbackResposta.hidden = false;
+            }
 
             const barra = document.getElementById('barra-progresso');
 
             if (res.acertou) {
                 acertosTotais++;
-                pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1));
+                const bonusTempo = timerPontuacaoQuestao.multiplicador();
+                pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1) * bonusTempo);
                 if (barra) {
                     barra.classList.remove('erro');
                     barra.classList.add('acerto');
@@ -403,7 +426,7 @@ async function verificarResposta() {
             rodadaAtual++;
             atualizarBarraDeProgresso(rodadaAtual);
 
-            // Aguarda 1.5s com o feedback visual antes de avançar
+            // Mantém a resposta correta visível antes de carregar a próxima questão.
             setTimeout(() => {
                 if (barra) {
                     barra.classList.remove('erro');
@@ -411,10 +434,14 @@ async function verificarResposta() {
                 }
                 if (btnConfirmar) btnConfirmar.disabled = false;
                 carregarNovaQuestao();
-            }, 1500);
+            }, res.acertou ? 1200 : 2800);
+        } else {
+            questaoBloqueada = false;
+            if (btnConfirmar) btnConfirmar.disabled = false;
         }
     } catch (err) {
         console.error('Erro na verificação da resposta:', err);
+        questaoBloqueada = false;
         if (btnConfirmar) btnConfirmar.disabled = false;
     }
 }

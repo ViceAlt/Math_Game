@@ -77,9 +77,9 @@ body.tema-escuro .barra-apresentacao {
 
 .imagem-grupo {
     display: block;
-    width: min(100%, 470px);
+    width: min(100%, 600px);
     height: auto;
-    max-height: 340px;
+    max-height: 420px;
     object-fit: contain;
     animation: surgir 650ms ease-out both;
 }
@@ -288,8 +288,8 @@ body.revelacoes-ativas [data-reveal].visivel {
     }
 
     .imagem-grupo {
-        width: min(100%, 390px);
-        max-height: 280px;
+        width: min(100%, 500px);
+        max-height: 350px;
     }
 
     .texto-hero h1 {
@@ -315,7 +315,7 @@ body.revelacoes-ativas [data-reveal].visivel {
     }
 
     .imagem-grupo {
-        max-height: 230px;
+        max-height: 280px;
     }
 
     .texto-hero h1 {

@@ -155,6 +155,7 @@ function carregarNovaRodada() {
         return;
     }
 
+    timerPontuacaoQuestao.iniciar();
     passosEsperadosTotal += (equacaoAtual.passos_minimos || 1);
     historicoAcoes = [];
 
@@ -1109,6 +1110,11 @@ function exibirEscolhaMultipla(xCorreto) {
 
     respostaCorretaAtual = xCorreto;
     respostaSelecionada = null;
+    const feedbackResposta = document.getElementById('feedback-resposta');
+    if (feedbackResposta) {
+        feedbackResposta.hidden = true;
+        feedbackResposta.textContent = '';
+    }
 
     grid.innerHTML = '';
 
@@ -1146,6 +1152,36 @@ function exibirEscolhaMultipla(xCorreto) {
     area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+function formatarEquacaoBanco(equacao) {
+    const formatarLado = (lado) => {
+        const termos = [];
+        if (lado.x > 0) termos.push({ texto: lado.x === 1 ? 'x' : `${lado.x}x`, negativo: false });
+        if (lado.blocos > 0) termos.push({ texto: `${lado.blocos}`, negativo: false });
+        if (lado.baloes > 0) termos.push({ texto: `${lado.baloes}`, negativo: true });
+
+        if (termos.length === 0) return '0';
+        return termos.map((termo, indice) => {
+            const sinal = termo.negativo ? '−' : '+';
+            return indice === 0 ? (termo.negativo ? `${sinal}${termo.texto}` : termo.texto) : `${sinal} ${termo.texto}`;
+        }).join(' ');
+    };
+
+    return `${formatarLado(equacao.esq)} = ${formatarLado(equacao.dir)}`;
+}
+
+function formatarEquacaoIsolada(equacao) {
+    let coeficiente = equacao.esq.x - equacao.dir.x;
+    let resultado = (equacao.dir.blocos - equacao.dir.baloes) - (equacao.esq.blocos - equacao.esq.baloes);
+
+    if (coeficiente < 0) {
+        coeficiente *= -1;
+        resultado *= -1;
+    }
+
+    const termoX = coeficiente === 1 ? 'x' : `${coeficiente}x`;
+    return `${termoX} = ${resultado}; x = ${equacao.solucao}`;
+}
+
 function selecionarAlternativa(val, botaoClicado) {
     respostaSelecionada = val;
 
@@ -1178,31 +1214,39 @@ function confirmarResposta() {
         todosBotoes.forEach(b => b.disabled = true);
 
         acertosTotais++;
-        pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1));
+        const bonusTempo = timerPontuacaoQuestao.multiplicador();
+        pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1) * bonusTempo);
 
         setTimeout(() => {
             rodadaAtual++;
             carregarNovaRodada();
         }, 900);
     } else {
-        // Resposta Incorreta
+        // Revela a alternativa certa e a equação antes de avançar sem nova tentativa.
         if (botaoSelecionado) botaoSelecionado.classList.add('incorreta');
         if (btnConfirmar) {
             btnConfirmar.classList.add('erro');
-            btnConfirmar.textContent = 'Tente Novamente';
+            btnConfirmar.textContent = 'Resposta incorreta';
+            btnConfirmar.disabled = true;
         }
+        todosBotoes.forEach(b => b.disabled = true);
+        todosBotoes.forEach(b => {
+            if (Number(b.textContent.replace('x = ', '')) === respostaCorretaAtual) {
+                b.classList.add('correta');
+            }
+        });
         acoesDesequilibrantesTotal++;
-        exibirDica(`Quase! Observe a balança: temos x de um lado e ${respostaCorretaAtual} kg do outro.`);
+        const feedbackResposta = document.getElementById('feedback-resposta');
+        if (feedbackResposta) {
+            feedbackResposta.textContent = `Resposta correta. Equação: ${formatarEquacaoBanco(equacaoAtual)}. Isolando x: ${formatarEquacaoIsolada(equacaoAtual)}.`;
+            feedbackResposta.hidden = false;
+        }
+        respostaSelecionada = null;
 
         setTimeout(() => {
-            if (botaoSelecionado) botaoSelecionado.classList.remove('incorreta', 'selecionada');
-            if (btnConfirmar) {
-                btnConfirmar.classList.remove('erro');
-                btnConfirmar.textContent = 'Confirmar';
-                btnConfirmar.disabled = true;
-            }
-            respostaSelecionada = null;
-        }, 1100);
+            rodadaAtual++;
+            carregarNovaRodada();
+        }, 2800);
     }
 }
 // ─── Desfazer ────────────────────────────────────────────────────────────────

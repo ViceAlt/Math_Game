@@ -103,6 +103,7 @@ function iniciarQuestao() {
     questaoAtual = questoesPartida[questaoAtualIndex];
     respostasUsuario = {};
     aguardandoAvancoAposErro = false;
+    timerPontuacaoQuestao.iniciar();
     fecharPopover();
 
     const btnConfirmar = document.getElementById('btn-confirmar');
@@ -288,7 +289,8 @@ function confirmarResposta() {
         // Acertou de primeira
         acertos++;
         const mult = CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1;
-        pontuacao += Math.round(100 * mult);
+        const bonusTempo = timerPontuacaoQuestao.multiplicador();
+        pontuacao += Math.round(100 * mult * bonusTempo);
 
         if (barra) {
             barra.classList.remove('erro');

@@ -34,6 +34,13 @@ foreach ($equacoes as $idx => $eq) {
         continue;
     }
 
+    // O jogo não oferece respostas negativas nem zero para a incógnita.
+    if ($x <= 0) {
+        echo "[FAIL] Eq $id: Solução $x deve ser positiva!\n";
+        $erros++;
+        continue;
+    }
+
     // 2. Peso esquerdo vs direito com o valor oculto de x
     $pesoEsq = ($esq['x'] * $x) + $esq['blocos'] - $esq['baloes'];
     $pesoDir = ($dir['x'] * $x) + $dir['blocos'] - $dir['baloes'];

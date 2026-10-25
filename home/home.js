@@ -12,15 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Mapa de caminhos dos jogos por ID
-const JOGO_PATHS = {
-    1: '../jogo_1/jogo_1.php',
-    2: '../jogo_2/jogo_2.php',
-    3: '../jogo_3/jogo_3.php',
-    4: '../jogo_4/jogo_4.php',
-    5: '../jogo_5/jogo_5.php'
-};
-
 const JOGO_NOMES = {
     1: 'Fatia Maluca (Frações)',
     2: 'Gráfico em Ação (Estatística)',
@@ -100,7 +91,6 @@ function renderizarUltimoJogo(ultimo) {
         const nomeJogo = ultimo.nome_jogo || JOGO_NOMES[ultimo.jogo_id] || `Jogo ${ultimo.jogo_id}`;
         const ano = ultimo.ano_letivo || 6;
         const fase = ultimo.numero_fase || 1;
-        const path = ultimo.pasta_path || JOGO_PATHS[ultimo.jogo_id] || JOGO_PATHS[1];
 
         elNome.textContent = `${nomeJogo} – Fase ${fase} (${ano}° Ano)`;
         
@@ -117,7 +107,8 @@ function renderizarUltimoJogo(ultimo) {
 
         if (txtBtn) txtBtn.textContent = 'Repetir';
         btnAcao.onclick = () => {
-            window.location.href = `${path}?ano=${ano}&fase=${fase}&dificuldade=facil`;
+            const params = new URLSearchParams({ ano: String(ano), fase: String(fase) });
+            window.location.href = `../conteudos/conteudos.php?${params.toString()}`;
         };
     } else {
         const ultimoLocal = localStorage.getItem('mg_ultimo_jogo');

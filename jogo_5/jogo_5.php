@@ -125,6 +125,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
                     <div class="alternativas-grid" id="alternativas-grid" role="group" aria-label="Selecione o valor de x">
                         <!-- 4 botões de alternativas gerados via JS -->
                     </div>
+                    <p class="feedback-resposta" id="feedback-resposta" role="status" aria-live="polite" hidden></p>
                 </div>
 
                 <!-- Botão Confirmar Resposta posicionado na DIV lateral -->
@@ -168,6 +169,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </article>
     </dialog>
 
+    <script src="../includes/timer_pontuacao.js"></script>
     <script src="jogo_5.js"></script>
 </body>
 

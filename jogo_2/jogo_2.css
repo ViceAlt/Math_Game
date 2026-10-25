@@ -441,6 +441,19 @@ body.tema-escuro .resultado-stats {
     color: var(--duo-blue);
 }
 
+.feedback-resposta {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--duo-orange);
+    border-radius: var(--radius-md);
+    background: var(--duo-orange-light);
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.5;
+    text-align: left;
+}
+
 .button_position {
     display: flex;
     justify-content: center;

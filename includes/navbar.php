@@ -13,6 +13,7 @@ $estaLogado = $usuarioAtual !== null;
 $paginaAtual = basename($_SERVER['SCRIPT_NAME'] ?? '');
 
 $urlBase = rtrim(APP_URL, '/');
+$urlInicio = $urlBase . '/index.php';
 $urlHome = $urlBase . '/home/home.php';
 $urlConteudos = $urlBase . '/conteudos/conteudos.php';
 $urlJogos = $urlBase . '/jogos/jogos.php';
@@ -25,7 +26,7 @@ $urlLogin = $urlBase . '/login/login.php';
     <div class="top-navbar-container">
 
         <!-- Logo / Marca -->
-        <a href="<?= $urlHome ?>" class="top-navbar-brand" aria-label="Mantham - Página inicial">
+        <a href="<?= $urlInicio ?>" class="top-navbar-brand" aria-label="Mantham - Página inicial">
             <img src="<?= $urlBase ?>/icons/logo.webp" alt="Mantham" class="navbar-logo-img">
         </a>
 

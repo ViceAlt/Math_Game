@@ -858,6 +858,19 @@ body.tema-escuro .instrucao-arraste {
     gap: 8px;
 }
 
+.feedback-resposta {
+    margin-top: 0.8rem;
+    padding: 0.7rem;
+    border: 2px solid var(--duo-orange);
+    border-radius: var(--radius-sm);
+    background: var(--duo-orange-light);
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 800;
+    line-height: 1.5;
+    text-align: left;
+}
+
 .btn-alternativa {
     background: var(--bg-card);
     color: var(--text-main);

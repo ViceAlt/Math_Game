@@ -40,6 +40,8 @@ let pontuacao = 0;
 let acertos = 0;
 let etapaAtual = 1; // 1: Desenho, 2: Múltipla Escolha
 let jogoAtivo = true;
+let respostaPerguntaSelecionada = null;
+let botaoRespostaSelecionada = null;
 
 // Estado do Desenho SVG
 let corAtual = CORES_FORMAS[0];
@@ -122,6 +124,9 @@ function iniciarQuestao() {
 
     questaoAtual = questoesPartida[questaoAtualIndex];
     etapaAtual = 1;
+    respostaPerguntaSelecionada = null;
+    botaoRespostaSelecionada = null;
+    timerPontuacaoQuestao.iniciar();
     sortearNovaCor();
     limparDesenho();
 
@@ -134,6 +139,7 @@ function iniciarQuestao() {
     const elBadgeNome = document.getElementById('nomeFormaAlvo');
     const elMsg = document.getElementById('mensagemValidacao');
     const btnConfirmar = document.getElementById('btn-confirmar');
+    const btnConfirmarResposta = document.getElementById('btn-confirmar-resposta');
     const btnProxima = document.getElementById('btn-proxima');
     const altsContainer = document.getElementById('alternativasContainer');
 
@@ -153,6 +159,8 @@ function iniciarQuestao() {
 
     btnConfirmar.style.display = 'block';
     btnConfirmar.disabled = true;
+    btnConfirmarResposta.style.display = 'none';
+    btnConfirmarResposta.disabled = true;
     btnProxima.style.display = 'none';
 
     document.getElementById('statusTexto').textContent = 'Clique e arraste para desenhar cada lado da forma.';
@@ -707,6 +715,7 @@ function iniciarEtapa2() {
     const elInstrucao = document.getElementById('perguntaInstrucao');
     const elPergunta = document.getElementById('pergunta-texto');
     const btnConfirmar = document.getElementById('btn-confirmar');
+    const btnConfirmarResposta = document.getElementById('btn-confirmar-resposta');
     const altsContainer = document.getElementById('alternativasContainer');
     const statusTexto = document.getElementById('statusTexto');
 
@@ -715,6 +724,9 @@ function iniciarEtapa2() {
     statusTexto.textContent = `Forma criada: ${questaoAtual.nome}. Escolha a fórmula correta na lateral.`;
 
     btnConfirmar.style.display = 'none';
+    btnConfirmarResposta.style.display = 'block';
+    btnConfirmarResposta.disabled = true;
+    document.getElementById('btn-proxima').style.display = 'none';
 
     altsContainer.innerHTML = '';
     altsContainer.style.display = 'flex';
@@ -728,19 +740,37 @@ function iniciarEtapa2() {
             <span class="letra-alt">${letras[idx] || ''}</span>
             <span class="texto-alt">${alt}</span>
         `;
-        btn.onclick = () => responderPergunta(alt, btn);
+        btn.onclick = () => selecionarRespostaPergunta(alt, btn);
         altsContainer.appendChild(btn);
     });
 }
 
-function responderPergunta(respostaSelecionada, botaoClicado) {
+function selecionarRespostaPergunta(resposta, botaoClicado) {
     if (etapaAtual !== 2 || !jogoAtivo) return;
+
+    respostaPerguntaSelecionada = resposta;
+    botaoRespostaSelecionada = botaoClicado;
+    document.querySelectorAll('.btn-alternativa').forEach(btn => btn.classList.remove('selecionada'));
+    botaoClicado.classList.add('selecionada');
+
+    const btnConfirmarResposta = document.getElementById('btn-confirmar-resposta');
+    if (btnConfirmarResposta) btnConfirmarResposta.disabled = false;
+}
+
+function confirmarRespostaPergunta() {
+    if (etapaAtual !== 2 || !jogoAtivo || respostaPerguntaSelecionada === null) return;
 
     // Desativa todas as opções
     const botoes = document.querySelectorAll('.btn-alternativa');
     botoes.forEach(b => b.disabled = true);
 
-    const acertou = (respostaSelecionada === questaoAtual.respostaCorreta);
+    const btnConfirmarResposta = document.getElementById('btn-confirmar-resposta');
+    if (btnConfirmarResposta) {
+        btnConfirmarResposta.disabled = true;
+        btnConfirmarResposta.style.display = 'none';
+    }
+
+    const acertou = (respostaPerguntaSelecionada === questaoAtual.respostaCorreta);
     const barra = document.getElementById('barra-progresso');
     const elMsg = document.getElementById('mensagemValidacao');
 
@@ -749,7 +779,7 @@ function responderPergunta(respostaSelecionada, botaoClicado) {
         const texto = btn.querySelector('.texto-alt').textContent.trim();
         if (texto === questaoAtual.respostaCorreta.trim()) {
             btn.classList.add('correta');
-        } else if (btn === botaoClicado && !acertou) {
+        } else if (btn === botaoRespostaSelecionada && !acertou) {
             btn.classList.add('errada');
         }
     });
@@ -757,7 +787,8 @@ function responderPergunta(respostaSelecionada, botaoClicado) {
     if (acertou) {
         acertos++;
         const mult = CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1;
-        pontuacao += Math.round(100 * mult);
+        const bonusTempo = timerPontuacaoQuestao.multiplicador();
+        pontuacao += Math.round(100 * mult * bonusTempo);
         elMsg.textContent = 'Correto! Você acertou a fórmula!';
         elMsg.className = 'mensagem-validacao sucesso';
         elMsg.style.display = 'flex';

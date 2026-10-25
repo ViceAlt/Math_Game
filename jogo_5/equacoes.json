@@ -346,10 +346,10 @@
     "nivel": "experiente",
     "fases": [19],
     "esq": { "x": 1, "blocos": 4, "baloes": 0 },
-    "dir": { "x": 0, "blocos": 0, "baloes": 5 },
+    "dir": { "x": 0, "blocos": 18, "baloes": 5 },
     "solucao": 9,
     "passos_minimos": 2,
-    "dica": "Passe o balão −5 para a esquerda (vira +5). Subtraia: no papel x + 4 + 5 = 0? Não! Passe 4 para a direita: x = −5 − 4... Espere, a resposta é 9? Verifique: x + 4 = −(−5) → passe balão: x + 4 − (−5) → x = 9 − 4 = ... Dica: mova o balão e subtraia os blocos."
+    "dica": "Some os valores do lado direito: 18 − 5 = 13. Retire 4 dos dois lados para encontrar x = 9."
   },
   {
     "id": "e_8",
@@ -366,10 +366,10 @@
     "nivel": "experiente",
     "fases": [17],
     "esq": { "x": 2, "blocos": 10, "baloes": 0 },
-    "dir": { "x": 0, "blocos": 4, "baloes": 3 },
-    "solucao": 0,
-    "passos_minimos": 2,
-    "dica": "Passe o balão −3 para a esquerda (vira +3). Subtraia blocos. No papel: 2x + 13 = 4... Hmm."
+    "dir": { "x": 0, "blocos": 23, "baloes": 3 },
+    "solucao": 5,
+    "passos_minimos": 3,
+    "dica": "Some os valores do lado direito: 23 − 3 = 20. Retire 10 dos dois lados e divida por 2: x = 5."
   },
   {
     "id": "e_10",
@@ -396,10 +396,10 @@
     "nivel": "experiente",
     "fases": [19],
     "esq": { "x": 3, "blocos": 5, "baloes": 0 },
-    "dir": { "x": 0, "blocos": 2, "baloes": 4 },
+    "dir": { "x": 0, "blocos": 18, "baloes": 4 },
     "solucao": 3,
-    "passos_minimos": 2,
-    "dica": "Passe o balão −4 para a esquerda (vira +4). Subtraia os blocos no mesmo lado. No papel: 3x + 9 = 2... Hmm."
+    "passos_minimos": 3,
+    "dica": "Some os valores do lado direito: 18 − 4 = 14. Retire 5 dos dois lados e divida por 3: x = 3."
   },
   {
     "id": "bug_fix_1",

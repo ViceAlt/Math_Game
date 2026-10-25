@@ -82,6 +82,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </article>
     </dialog>
 
+    <script src="../includes/timer_pontuacao.js"></script>
     <script src="jogo_4.js"></script>
 </body>
 
