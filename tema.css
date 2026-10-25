@@ -59,14 +59,15 @@
    --cor-aviso: #ff9600;
    --cor-perigo: #ff4b4b;
 
-   /* Neutros Modo Claro (Padronizado com Jogos) */
+   /* Neutros Modo Claro (Paleta Slate – Padronizado com Perfil) */
    --bg-main: #f7f7f7;
    --bg-card: #ffffff;
-   --bg-card-subtle: #f1f1f1;
-   --text-main: #3c3c3c;
-   --text-muted: #777777;
-   --border-color: #e5e5e5;
-   --border-dark: #cecece;
+   --bg-card-alt: #f1f5f9;
+   --bg-card-subtle: #f8fafc;
+   --text-main: #2d3748;
+   --text-muted: #64748b;
+   --border-color: #e2e8f0;
+   --border-dark: #cbd5e1;
 
    /* Raios de Borda Consistentes */
    --radius-sm: 12px;
@@ -93,13 +94,14 @@
    -------------------------------------------------------------------------- */
 body.tema-escuro,
 html.tema-escuro {
-   --bg-main: #131f24;
-   --bg-card: #202f36;
-   --bg-card-subtle: #2b3940;
-   --text-main: #f1f1f1;
-   --text-muted: #8496a0;
-   --border-color: #37464f;
-   --border-dark: #4b5d67;
+   --bg-main: #0f172a;
+   --bg-card: #1e293b;
+   --bg-card-alt: #172033;
+   --bg-card-subtle: #0f172a;
+   --text-main: #f1f5f9;
+   --text-muted: #94a3b8;
+   --border-color: #334155;
+   --border-dark: #1e293b;
 
    --duo-green-light: rgba(88, 204, 2, 0.15);
    --duo-blue-light: rgba(28, 176, 246, 0.15);

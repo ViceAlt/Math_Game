@@ -176,7 +176,7 @@ $exibirFormulario = ($tokenValido !== null);
     <main class="main" id="main-content">
         <div class="auth-brand-logo">
             <a href="home/home.php" class="auth-brand-link" aria-label="Mantham - Início">
-                <span class="brand-text"><span class="brand-man">Man</span><span class="brand-tham">tham</span></span>
+                <img src="icons/logo.webp" alt="Mantham" class="auth-brand-logo-img">
             </a>
         </div>
 

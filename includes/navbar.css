@@ -133,6 +133,15 @@ body.tema-escuro .top-navbar {
     color: var(--cor-secundaria, var(--duo-blue));
 }
 
+/* Imagem de Logo na Navbar */
+.navbar-logo-img {
+    height: 40px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    transition: filter var(--transicao-rapida);
+}
+
 /* ─── Navegação Central ──────────────────────────────────────────────────────── */
 .top-navbar-nav {
     display: flex;

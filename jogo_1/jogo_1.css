@@ -14,10 +14,12 @@
 
     --bg-main: #f7f7f7;
     --bg-card: #ffffff;
-    --text-main: #3c3c3c;
-    --text-muted: #777777;
-    --border-color: #e5e5e5;
-    --border-dark: #cecece;
+    --bg-card-alt: #f1f5f9;
+    --bg-card-subtle: #f8fafc;
+    --text-main: #2d3748;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --border-dark: #cbd5e1;
 
     --radius-sm: 12px;
     --radius-md: 16px;
@@ -35,12 +37,14 @@
 }
 
 body.tema-escuro {
-    --bg-main: #131f24;
-    --bg-card: #202f36;
-    --text-main: #f1f1f1;
-    --text-muted: #8496a0;
-    --border-color: #37464f;
-    --border-dark: #4b5d67;
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-alt: #172033;
+    --bg-card-subtle: #0f172a;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --border-dark: #1e293b;
 
     --mesa-bg: #5c3d28;
     --mesa-bg-dark: #4a3220;

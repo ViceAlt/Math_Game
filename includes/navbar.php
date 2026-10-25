@@ -26,7 +26,7 @@ $urlLogin = $urlBase . '/login/login.php';
 
         <!-- Logo / Marca -->
         <a href="<?= $urlHome ?>" class="top-navbar-brand" aria-label="Mantham - Página inicial">
-            <span class="brand-text"><span class="brand-man">Man</span><span class="brand-tham">tham</span></span>
+            <img src="<?= $urlBase ?>/icons/logo.webp" alt="Mantham" class="navbar-logo-img">
         </a>
 
         <!-- Botão Mobile Hamburger -->
