@@ -31,7 +31,7 @@ require_once __DIR__ . '/../../conexao.php';
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/senha.php';
 require_once __DIR__ . '/../../includes/csrf.php';
-require_once __DIR__ . '/../../includes/recuperacao.php';
+require_once __DIR__ . '/../../includes/tentativas_acesso.php';
 require_once __DIR__ . '/../../includes/sessao.php';
 
 sessao_iniciar();
@@ -60,11 +60,11 @@ if (empty($emailOuUsername) || empty($senha)) {
 // Normaliza: trata como email se contiver '@', senão como username (retrocompatibilidade)
 $ehEmail = filter_var($emailOuUsername, FILTER_VALIDATE_EMAIL) !== false;
 $chaveLogin = $ehEmail ? strtolower($emailOuUsername) : $emailOuUsername;
-$ip = recuperacao_obter_ip();
+$ip = tentativas_obter_ip();
 $chaveRateLimit = strtolower($chaveLogin) . '|' . $ip;
 
 // ── Rate limiting de login ─────────────────────────────────────────────────────
-$tentativas = recuperacao_contar_tentativas('login', $chaveRateLimit, 15);
+$tentativas = tentativas_contar('login', $chaveRateLimit, 15);
 if ($tentativas >= 5) {
     http_response_code(429);
     echo json_encode(['ok' => false, 'erro' => 'Muitas tentativas. Aguarde alguns minutos e tente novamente.']);
@@ -93,7 +93,7 @@ try {
     // Se o usuário não existir, executa dummy hash para igualar tempo de resposta
     if (!$usuario) {
         verificar_dummy_hash($senha);
-        recuperacao_registrar_tentativa('login', $chaveRateLimit);
+        tentativas_registrar('login', $chaveRateLimit);
         http_response_code(401);
         echo json_encode(['ok' => false, 'erro' => 'Email ou senha incorretos.']);
         exit;
@@ -103,7 +103,7 @@ try {
     $senhaCorreta = verificar_senha($senha, $usuario['senha_hash']);
 
     if (!$senhaCorreta) {
-        recuperacao_registrar_tentativa('login', $chaveRateLimit);
+        tentativas_registrar('login', $chaveRateLimit);
         http_response_code(401);
         echo json_encode(['ok' => false, 'erro' => 'Email ou senha incorretos.']);
         exit;
@@ -119,7 +119,7 @@ try {
     }
 
     // Limpa as tentativas de login desta chave após sucesso
-    recuperacao_limpar_tentativas('login', $chaveRateLimit);
+    tentativas_limpar('login', $chaveRateLimit);
 
     // Regenera o ID de sessão para prevenir session fixation
     session_regenerate_id(true);
@@ -132,8 +132,6 @@ try {
         'foto_url'  => $usuario['foto_url'],
         'criado_em' => $usuario['criado_em'],
     ];
-    // Marca o horário do login para validação de sessão pós-troca de senha
-    $_SESSION['logado_em'] = time();
     sessao_revogar_login_persistente($pdo);
     sessao_criar_login_persistente($pdo, (int) $usuario['id']);
 

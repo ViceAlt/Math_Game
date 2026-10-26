@@ -126,7 +126,7 @@ body {
 .auth-brand-logo {
     display: flex;
     justify-content: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 2rem;
 }
 
 .auth-brand-link {
@@ -174,7 +174,7 @@ body {
 
 /* Imagem de Logo nas páginas de autenticação */
 .auth-brand-logo-img {
-    height: 44.8px;
+    height: 40.32px;
     width: auto;
     display: block;
     object-fit: contain;
