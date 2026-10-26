@@ -64,15 +64,15 @@ $ip = recuperacao_obter_ip();
 $chaveRateLimit = strtolower($chaveLogin) . '|' . $ip;
 
 // ── Rate limiting de login ─────────────────────────────────────────────────────
-$tentativas = recuperacao_contar_tentativas('login', $chaveRateLimit, 15);
-if ($tentativas >= 5) {
-    http_response_code(429);
-    echo json_encode(['ok' => false, 'erro' => 'Muitas tentativas. Aguarde alguns minutos e tente novamente.']);
-    exit;
-}
-
-// ── Autenticação ──────────────────────────────────────────────────────────────
 try {
+    $tentativas = recuperacao_contar_tentativas('login', $chaveRateLimit, 15);
+    if ($tentativas >= 5) {
+        http_response_code(429);
+        echo json_encode(['ok' => false, 'erro' => 'Muitas tentativas. Aguarde alguns minutos e tente novamente.']);
+        exit;
+    }
+
+    // ── Autenticação ──────────────────────────────────────────────────────────
     $pdo = getDB();
 
     // Busca por email ou username dependendo do que foi informado

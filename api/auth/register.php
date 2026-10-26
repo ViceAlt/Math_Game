@@ -113,9 +113,9 @@ try {
 } catch (\PDOException $e) {
     error_log('[Math Game] Erro ao cadastrar usuário: ' . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['ok' => false, 'erro' => 'Erro interno ao cadastrar usuário.']);
+    echo json_encode(['ok' => false, 'erro' => 'Serviço de cadastro indisponível. Verifique a configuração do banco de dados.']);
 } catch (\Throwable $e) {
     error_log('[Math Game] Erro ao preparar cadastro: ' . $e->getMessage());
-    http_response_code(500);
-    echo json_encode(['ok' => false, 'erro' => 'Erro interno ao cadastrar usuário.']);
+    http_response_code(503);
+    echo json_encode(['ok' => false, 'erro' => 'Servidor sem configuração ou dependência necessária para o cadastro. Verifique os logs PHP.']);
 }

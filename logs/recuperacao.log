@@ -28,3 +28,4 @@
 [2026-10-14 17:04:25] [INFO] [::1] Link de redefinição montado: http://localhost/Math_Game/redefinir_senha.php?token=***REDACTED***b9249c118634b2059de70b88c99b42a9
 [2026-10-14 17:04:25] [INFO] [::1] Iniciando envio para 'vitor.landin@aluno.senai.br' via SMTP (127.0.0.1:1025, auth=nao, secure='nenhuma', from='nao-responda@mathgame.local')
 [2026-10-14 17:04:26] [SUCCESS] [::1] E-mail enviado com sucesso para 'vitor.landin@aluno.senai.br'!
+[2026-10-26 03:40:55] [ERROR] [127.0.0.1] Erro ao contar tentativas_acesso (login): SQLSTATE[HY000] [1045] Access denied for user 'b4_42774075'@'localhost' (using password: YES)
