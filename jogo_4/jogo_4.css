@@ -1,0 +1,553 @@
+/* jogo_4.css - Estilo para o Jogo 4 (Sucessores e Antecessores) */
+
+:root {
+    --duo-green: #58cc02;
+    --duo-green-shadow: #46a302;
+    --duo-blue: #1cb0f6;
+    --duo-blue-shadow: #1899d6;
+    --duo-yellow: #ffc800;
+    --duo-yellow-shadow: #e5b200;
+    --duo-orange: #ff9600;
+    --duo-orange-shadow: #e58700;
+    --duo-red: #ff4b4b;
+    --duo-red-shadow: #ea2b2b;
+
+    --bg-main: #f7f7f7;
+    --bg-card: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --border-dark: #cbd5e1;
+
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+}
+
+body.tema-escuro {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-alt: #172033;
+    --bg-card-subtle: #0f172a;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --border-dark: #1e293b;
+}
+
+/* Modos de daltonismo */
+/* Tonalidades */
+body.tonalidade-sunset {
+    --duo-blue: #ff6b35;
+    --duo-blue-shadow: #e05520;
+    --duo-green: #e8475f;
+    --duo-green-shadow: #c93549;
+}
+
+body.tonalidade-ocean {
+    --duo-blue: #0096c7;
+    --duo-blue-shadow: #0077b6;
+    --duo-green: #06d6a0;
+    --duo-green-shadow: #05b384;
+}
+
+body.tonalidade-earth {
+    --duo-blue: #d4a03c;
+    --duo-blue-shadow: #b8872e;
+    --duo-green: #c45e3a;
+    --duo-green-shadow: #a44d2e;
+}
+
+body.tonalidade-berry, html.tonalidade-berry {
+    --duo-blue: #e63981;
+    --duo-blue-shadow: #c0145c;
+    --duo-green: #7a285f;
+    --duo-green-shadow: #67164c;
+}
+
+body.tonalidade-crimson, html.tonalidade-crimson {
+    --duo-blue: #dc2626;
+    --duo-blue-shadow: #991b1b;
+    --duo-green: #f43f5e;
+    --duo-green-shadow: #be123c;
+}
+
+body.tonalidade-arctic, html.tonalidade-arctic {
+    --duo-blue: #0284c7;
+    --duo-blue-shadow: #0369a1;
+    --duo-green: #06b6d4;
+    --duo-green-shadow: #0891b2;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Bar: Sair + Progresso */
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 24px;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+#btn-sair-jogo {
+    background-color: var(--duo-red);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0.45rem 1.1rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    border-bottom: 4px solid var(--duo-red-shadow);
+    box-shadow: 0 4px 0 var(--duo-red-shadow);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-sair-jogo:hover {
+    filter: brightness(1.08);
+}
+
+#btn-sair-jogo:active {
+    filter: brightness(0.92);
+}
+
+.barra-progresso-container {
+    flex: 1;
+    max-width: 600px;
+    height: 16px;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.barra-progresso {
+    height: 100%;
+    width: 0%;
+    background-color: #1cb0f6;
+    border-radius: 10px;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+    transition: width 0.35s ease-out, background-color 0.25s ease;
+}
+
+.barra-progresso.erro {
+    background-color: #ff4b4b !important;
+}
+
+.barra-progresso.acerto {
+    background-color: #58cc02 !important;
+}
+
+/* Layout Centralizado */
+.game-layout.centralizado {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.card-questao-container {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+}
+
+/* Dica flutuante */
+.dica-flutuante {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff3c4;
+    color: #855d00;
+    border: 2px solid var(--duo-yellow, #ffc800);
+    border-radius: 9999px;
+    padding: 0.45rem 1.25rem;
+    font-weight: 800;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    z-index: 50;
+    animation: fadeInDica 0.25s ease;
+    text-align: center;
+    max-width: 90%;
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeInDica {
+    from { opacity: 0; transform: translate(-50%, -8px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Card Principal do Enunciado */
+.enunciado-card {
+    width: 100%;
+    background-color: var(--bg-card);
+    border: 3px solid var(--border-color);
+    border-bottom: 8px solid var(--border-dark);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    padding: 40px 36px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.instrucao-topo {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.enunciado-texto {
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 2.1;
+    color: var(--text-main);
+    display: inline;
+    text-align: center;
+    word-break: normal;
+}
+
+/* Quadrado de Escolha Inline no Texto */
+.campo-escolha {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 130px;
+    height: 52px;
+    padding: 0 16px;
+    margin: 0 8px;
+    vertical-align: middle;
+    background-color: var(--bg-main);
+    border: 3px solid var(--duo-blue);
+    border-bottom: 5px solid var(--duo-blue-shadow);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 0 var(--duo-blue-shadow);
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--duo-blue);
+    user-select: none;
+    transition: filter var(--button-hover-duration), border-color 0.2s ease, background-color 0.2s ease;
+    position: relative;
+}
+
+.campo-escolha:hover {
+    filter: brightness(1.05);
+}
+
+.campo-escolha:active,
+.campo-escolha.aberto {
+    filter: brightness(0.95);
+}
+
+.campo-escolha.vazio {
+    background-color: rgba(28, 176, 246, 0.08);
+    color: transparent;
+}
+
+.campo-escolha.vazio::after {
+    content: '?';
+    color: var(--duo-blue);
+    font-size: 1.6rem;
+    opacity: 0.7;
+}
+
+/* Indicador de Erro e Correção */
+.campo-escolha.piscar-erro {
+    animation: shakeError 0.45s ease-in-out infinite alternate;
+    border-color: var(--duo-red) !important;
+    border-bottom-color: var(--duo-red-shadow) !important;
+    box-shadow: 0 4px 0 var(--duo-red-shadow) !important;
+    color: var(--duo-red) !important;
+    background-color: rgba(255, 75, 75, 0.15) !important;
+}
+
+.campo-escolha.corrigido {
+    border-color: var(--duo-green) !important;
+    border-bottom-color: var(--duo-green-shadow) !important;
+    box-shadow: 0 4px 0 var(--duo-green-shadow) !important;
+    color: var(--duo-green) !important;
+    background-color: rgba(88, 204, 2, 0.15) !important;
+    transition: all 0.3s ease;
+}
+
+@keyframes shakeError {
+    0% { transform: translateX(-4px); }
+    100% { transform: translateX(4px); }
+}
+
+/* Botões de Ação */
+.acao-principal {
+    width: 100%;
+    max-width: 420px;
+}
+
+.btn-confirmar {
+    width: 100%;
+    height: 54px;
+    border-radius: var(--radius-md);
+    border: none;
+    border-bottom: 5px solid var(--duo-blue-shadow);
+    box-shadow: 0 5px 0 var(--duo-blue-shadow);
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    background-color: #1cb0f6;
+    color: #ffffff;
+    transition: filter var(--button-hover-duration), transform 0.1s ease;
+}
+
+.btn-confirmar:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background-color: var(--border-color);
+    border-bottom: 5px solid var(--border-dark);
+    box-shadow: 0 5px 0 var(--border-dark);
+    color: var(--text-muted);
+}
+
+.btn-confirmar:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+
+.btn-confirmar:active:not(:disabled) {
+    filter: brightness(0.92);
+}
+
+.acao-dica {
+    width: 100%;
+    max-width: 240px;
+}
+
+.dica,
+.btn-dica,
+#btn-dica {
+    width: 100%;
+    height: 48px;
+    border-radius: var(--radius-md);
+    border: none;
+    border-bottom: 4px solid var(--duo-yellow-shadow);
+    box-shadow: 0 4px 0 var(--duo-yellow-shadow);
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    background-color: #ffc800;
+    color: #ffffff;
+    transition: filter var(--button-hover-duration);
+}
+
+.dica:hover,
+.btn-dica:hover,
+#btn-dica:hover {
+    filter: brightness(1.08);
+}
+
+.dica:active,
+.btn-dica:active,
+#btn-dica:active {
+    filter: brightness(0.92);
+}
+
+/* Popover Flutuante de Opções */
+.popover-escolha {
+    position: fixed;
+    z-index: 99999;
+    background-color: var(--bg-card);
+    border: 3px solid var(--duo-blue);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22), 0 4px 0 var(--duo-blue-shadow);
+    padding: 8px;
+    min-width: 160px;
+    animation: popupIn 0.18s ease-out;
+}
+
+@keyframes popupIn {
+    from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.popover-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.popover-item {
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    cursor: pointer;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    transition: filter var(--button-hover-duration), background-color 0.15s ease, color 0.15s ease;
+}
+
+.popover-item.selecionado {
+    background-color: var(--duo-blue);
+    color: #ffffff;
+}
+
+/* Modal de Resultado Final */
+dialog#modal-resultado {
+    margin: auto;
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem 2rem;
+    background: var(--bg-card);
+    color: var(--text-main);
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 6px 0 var(--border-color);
+    text-align: center;
+}
+
+dialog#modal-resultado::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.modal-resultado-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+#modal-resultado-titulo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--duo-green);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resultado-estrelas {
+    font-size: 2.6rem;
+    letter-spacing: 4px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.resultado-stats {
+    background: rgba(0, 0, 0, 0.03);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+body.tema-escuro .resultado-stats {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.resultado-stats p {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.resultado-stats strong {
+    color: var(--text-main);
+    font-size: 1.25rem;
+}
+
+.resultado-comentario {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--duo-green);
+    margin: 0;
+    text-align: center;
+}
+
+#btn-modal-ok {
+    width: 100%;
+    min-width: 200px;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: none;
+    border-bottom: 4px solid var(--duo-green-shadow);
+    box-shadow: 0 4px 0 var(--duo-green-shadow);
+    background-color: var(--duo-green);
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: filter var(--button-hover-duration);
+}
+
+#btn-modal-ok:hover {
+    filter: brightness(1.08);
+}
+
+#btn-modal-ok:active {
+    filter: brightness(0.92);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .enunciado-card {
+        padding: 28px 20px;
+    }
+
+    .enunciado-texto {
+        font-size: 1.35rem;
+        line-height: 2.2;
+    }
+
+    .campo-escolha {
+        min-width: 110px;
+        height: 46px;
+        font-size: 1.25rem;
+        margin: 0 4px;
+    }
+
+    .popover-item {
+        font-size: 1.1rem;
+        padding: 9px 14px;
+    }
+}

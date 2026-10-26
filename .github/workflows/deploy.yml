@@ -1,0 +1,61 @@
+name: Deploy via FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Publicar no servidor
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências PHP (Composer)
+        run: composer install --no-dev --prefer-dist --optimize-autoloader
+
+      - name: Criar arquivo .env de produção
+        run: |
+          cat << 'EOF' > .env
+          APP_ENV=production
+          APP_URL=http://mantham.web1337.net
+
+          DB_HOST=${{ secrets.DB_HOST || 'sql113.byethost4.com' }}
+          DB_PORT=3306
+          DB_NAME=${{ secrets.DB_NAME || 'b4_42774075_math_game' }}
+          DB_USER=${{ secrets.DB_USER || 'b4_42774075' }}
+          DB_PASS=${{ secrets.DB_PASS || 'senai@571' }}
+          DB_CHARSET=utf8mb4
+
+          SMTP_HOST=${{ secrets.SMTP_HOST || '' }}
+          SMTP_PORT=${{ secrets.SMTP_PORT || 587 }}
+          SMTP_AUTH=${{ secrets.SMTP_AUTH || 'true' }}
+          SMTP_USER=${{ secrets.SMTP_USER || '' }}
+          SMTP_PASS=${{ secrets.SMTP_PASS || '' }}
+          SMTP_SECURE=${{ secrets.SMTP_SECURE || 'tls' }}
+          SMTP_FROM_EMAIL=${{ secrets.SMTP_FROM_EMAIL || 'nao-responda@mantham.web1337.net' }}
+          SMTP_FROM_NAME="${{ secrets.SMTP_FROM_NAME || 'Mantham' }}"
+          SMTP_DEBUG=true
+
+          BREVO_API_KEY=${{ secrets.BREVO_API_KEY || '' }}
+          RESEND_API_KEY=${{ secrets.RESEND_API_KEY || '' }}
+          FALLBACK_PHP_MAIL=true
+          TOKEN_EXPIRACAO_MINUTOS=60
+          EOF
+
+      - name: Publicar via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: mantham.web1337.net/htdocs/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/database/**

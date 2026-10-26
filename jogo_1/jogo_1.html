@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo de Frações com Pizza - Mantham">
+    <title>Frações com Pizza | Mantham</title>
+    <link rel="stylesheet" href="../tema.css">
+    <link rel="stylesheet" href="jogo_1.css">
+    <script src="../tema.js"></script>
+</head>
+
+<body>
+    <!-- Top bar: Exit + Progress -->
+    <header class="top-bar">
+        <button id="btn-sair-jogo" onclick="voltarPaginaAnterior()">Sair</button>
+        <div class="barra-progresso-container">
+            <div class="barra-progresso" id="barra-progresso"></div>
+        </div>
+    </header>
+
+    <!-- Main game layout -->
+    <main class="game-layout">
+        <!-- Left/Center: Wooden table with pizza + undo -->
+        <section class="mesa-madeira">
+            <!-- Dica flutuante -->
+            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
+                <span class="dica-texto" id="dica-texto"></span>
+            </div>
+            <div class="pizzas-area" id="pizzasArea"></div>
+            <button id="btn-desfazer" class="btn-desfazer" onclick="desfazerUltimaFatia()">Desfazer</button>
+        </section>
+
+        <!-- Right sidebar: Question + Hint -->
+        <aside class="sidebar">
+            <div class="pergunta_div">
+                <text>Coma a quantidade de fatias da pizza na fração equivalente a:</text>
+                <div class="fracao_div">
+                    <p class="pergunta" id="pergunta-texto">
+                        1/2
+                    </p>
+                </div>
+                <div class="button_position">
+                    <button class="confirmar" id="btn-confirmar" onclick="onDecay()">Confirmar</button>
+                </div>
+            </div>
+            <div class="button_position">
+                <button class="dica" id="btn-dica" onclick="solicitarDica()">Dica</button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Modal de Resultado Final -->
+    <dialog id="modal-resultado" aria-labelledby="modal-resultado-titulo">
+        <article class="modal-resultado-conteudo">
+            <h2 id="modal-resultado-titulo">Fim de Jogo!</h2>
+            <div class="resultado-estrelas" id="modal-estrelas-display" aria-label="Estrelas conquistadas"></div>
+            <div class="resultado-stats">
+                <p>Pontuação: <strong id="modal-pontuacao-valor">0</strong> pts</p>
+                <p>Acertos: <strong id="modal-acertos-valor">0/0</strong></p>
+            </div>
+            <p class="resultado-comentario" id="modal-comentario-valor"></p>
+            <footer>
+                <button type="button" id="btn-modal-ok" onclick="voltarPaginaAnterior()">OK</button>
+            </footer>
+        </article>
+    </dialog>
+
+    <script src="../includes/timer_pontuacao.js"></script>
+    <script src="jogo_1.js"></script>
+</body>
+
+</html>

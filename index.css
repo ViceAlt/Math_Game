@@ -1,0 +1,429 @@
+body.pagina-apresentacao {
+    padding-top: 70px;
+    background-color: var(--bg-main);
+}
+
+.barra-apresentacao {
+    position: fixed;
+    z-index: 950;
+    inset: 0 0 auto;
+    height: 70px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    background: var(--bg-card);
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 4px 0 var(--border-color);
+}
+
+body.tema-escuro .barra-apresentacao {
+    box-shadow: 0 4px 0 var(--border-dark);
+}
+
+.barra-espacador {
+    min-width: 48px;
+}
+
+.marca-apresentacao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter var(--transicao-rapida);
+}
+
+.marca-apresentacao:hover {
+    filter: brightness(1.08);
+}
+
+.marca-apresentacao img {
+    display: block;
+    width: auto;
+    height: 28px;
+    object-fit: contain;
+}
+
+.link-entrar {
+    justify-self: end;
+    color: var(--duo-blue-shadow);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.link-entrar:hover {
+    color: var(--duo-blue);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.conta-inicio {
+    justify-self: end;
+    display: inline-flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.conta-inicio img {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    background: var(--bg-card-subtle);
+    object-fit: cover;
+}
+
+.conta-inicio span {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.conta-inicio:hover span {
+    color: var(--duo-blue);
+}
+
+.link-entrar:focus-visible,
+.marca-apresentacao:focus-visible,
+.conta-inicio:focus-visible {
+    outline: 3px solid var(--duo-blue);
+    outline-offset: 5px;
+    border-radius: 4px;
+}
+
+.apresentacao-hero {
+    width: min(100% - 2rem, 1080px);
+    margin: 0 auto;
+    padding: 2rem 0 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.imagem-grupo {
+    display: block;
+    width: min(100%, 600px);
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    animation: surgir 650ms ease-out both;
+}
+
+.texto-hero {
+    width: min(100%, 760px);
+    margin-top: 0.7rem;
+    animation: surgir 650ms 100ms ease-out both;
+}
+
+.sobretitulo {
+    color: var(--duo-green-shadow);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.texto-hero h1 {
+    margin: 0.45rem auto 0.8rem;
+    max-width: 720px;
+    font-size: 2.25rem;
+    color: var(--text-main);
+}
+
+.descricao-hero {
+    max-width: 620px;
+    margin: 0 auto;
+    color: var(--text-muted);
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.65;
+}
+
+.acoes-hero {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.6rem;
+}
+
+.acoes-hero .btn-duo {
+    min-width: 180px;
+}
+
+.secao-anos {
+    padding: 4rem max(1rem, calc((100% - 1080px) / 2)) 4.5rem;
+    background-color: var(--bg-card);
+    border-top: 2px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.cabecalho-secao {
+    max-width: 680px;
+    margin: 0 auto 2rem;
+    text-align: center;
+}
+
+.cabecalho-secao h2 {
+    margin: 0.45rem 0 0.55rem;
+    font-size: 1.8rem;
+}
+
+.cabecalho-secao > p:last-child {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.grade-anos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.card-ano {
+    display: flex;
+    min-height: 170px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1.1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: 0 4px 0 var(--border-color);
+    transition: transform var(--transicao-rapida), box-shadow var(--transicao-rapida);
+}
+
+.card-ano:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 0 var(--border-color);
+}
+
+.numero-ano {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+.card-ano h3 {
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.card-ano p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.card-ano-verde .numero-ano {
+    color: var(--duo-green-shadow);
+    background: var(--duo-green-light);
+}
+
+.card-ano-laranja .numero-ano {
+    color: var(--duo-orange-shadow);
+    background: var(--duo-orange-light);
+}
+
+.card-ano-azul .numero-ano {
+    color: var(--duo-blue-shadow);
+    background: var(--duo-blue-light);
+}
+
+.card-ano-amarelo .numero-ano {
+    color: var(--duo-yellow-shadow);
+    background: var(--duo-yellow-light);
+}
+
+.faixa-progresso {
+    display: grid;
+    width: min(100% - 2rem, 1080px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0 auto;
+    padding: 2.5rem 0;
+}
+
+.dado-progresso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    text-align: center;
+}
+
+.dado-progresso + .dado-progresso {
+    border-left: 2px solid var(--border-color);
+}
+
+.dado-progresso strong {
+    color: var(--duo-blue-shadow);
+    font-size: 1.15rem;
+    font-weight: 900;
+}
+
+.dado-progresso span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.rodape-apresentacao {
+    padding: 1.25rem 1rem;
+    border-top: 2px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+body.revelacoes-ativas [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 400ms ease, transform 400ms ease;
+}
+
+body.revelacoes-ativas [data-reveal].visivel {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes surgir {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 760px) {
+    .apresentacao-hero {
+        padding-top: 1.25rem;
+        padding-bottom: 3rem;
+    }
+
+    .imagem-grupo {
+        width: min(100%, 500px);
+        max-height: 350px;
+    }
+
+    .texto-hero h1 {
+        font-size: 1.85rem;
+    }
+
+    .grade-anos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card-ano {
+        min-height: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .barra-apresentacao {
+        padding: 0 1rem;
+    }
+
+    .link-entrar {
+        font-size: 0.78rem;
+    }
+
+    .conta-inicio {
+        gap: 0.35rem;
+        font-size: 0.78rem;
+    }
+
+    .conta-inicio img {
+        width: 30px;
+        height: 30px;
+        flex-basis: 30px;
+    }
+
+    .conta-inicio span {
+        max-width: 90px;
+    }
+
+    .imagem-grupo {
+        max-height: 280px;
+    }
+
+    .texto-hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .descricao-hero {
+        font-size: 1rem;
+    }
+
+    .acoes-hero {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .acoes-hero .btn-duo {
+        width: 100%;
+    }
+
+    .secao-anos {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    .cabecalho-secao h2 {
+        font-size: 1.5rem;
+    }
+
+    .grade-anos {
+        gap: 0.75rem;
+    }
+
+    .card-ano {
+        min-height: 180px;
+        padding: 0.9rem;
+    }
+
+    .card-ano p {
+        font-size: 0.82rem;
+    }
+
+    .faixa-progresso {
+        grid-template-columns: 1fr;
+        padding: 1.5rem 0;
+    }
+
+    .dado-progresso + .dado-progresso {
+        border-top: 2px solid var(--border-color);
+        border-left: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

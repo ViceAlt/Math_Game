@@ -1,0 +1,280 @@
+/* cadastro.css - Duolingo Style */
+
+:root {
+    --duo-green: #58cc02;
+    --duo-green-shadow: #46a302;
+    --duo-green-hover: #61df02;
+    --duo-blue: #1cb0f6;
+    --duo-blue-shadow: #1899d6;
+    --duo-red: #ff4b4b;
+    --duo-red-shadow: #ea2b2b;
+
+    --bg-main: #f7f7f7;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f1f5f9;
+    --bg-card-subtle: #f8fafc;
+    --text-main: #2d3748;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --border-dark: #cbd5e1;
+
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+}
+
+body.tema-escuro {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-alt: #172033;
+    --bg-card-subtle: #0f172a;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --border-dark: #1e293b;
+}
+
+/* ─── Tonalidades ─────────────────────────────────────────────────────────── */
+body.tonalidade-sunset {
+    --duo-blue: #ff6b35;
+    --duo-blue-shadow: #e05520;
+    --duo-green: #e8475f;
+    --duo-green-shadow: #c93549;
+}
+
+body.tonalidade-ocean {
+    --duo-blue: #0096c7;
+    --duo-blue-shadow: #0077b6;
+    --duo-green: #06d6a0;
+    --duo-green-shadow: #05b384;
+}
+
+body.tonalidade-earth {
+    --duo-blue: #d4a03c;
+    --duo-blue-shadow: #b8872e;
+    --duo-green: #c45e3a;
+    --duo-green-shadow: #a44d2e;
+}
+
+body.tonalidade-berry, html.tonalidade-berry {
+    --duo-blue: #e63981;
+    --duo-blue-shadow: #c0145c;
+    --duo-green: #7a285f;
+    --duo-green-shadow: #67164c;
+}
+
+body.tonalidade-crimson, html.tonalidade-crimson {
+    --duo-blue: #dc2626;
+    --duo-blue-shadow: #991b1b;
+    --duo-green: #f43f5e;
+    --duo-green-shadow: #be123c;
+}
+
+body.tonalidade-arctic, html.tonalidade-arctic {
+    --duo-blue: #0284c7;
+    --duo-blue-shadow: #0369a1;
+    --duo-green: #06b6d4;
+    --duo-green-shadow: #0891b2;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+/* Fonte da Logo Mantham (logo.ttf da pasta fonts) */
+@font-face {
+    font-family: 'LogoFont';
+    src: url('../fonts/logo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Talina';
+    src: url('../fonts/logo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.main {
+    width: 100%;
+    max-width: 440px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 0 var(--border-color);
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+/* Logo Mantham nas páginas de autenticação */
+.auth-brand-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.auth-brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    transition: filter var(--transicao-rapida, 0.15s ease);
+}
+
+.auth-brand-link:hover {
+    filter: brightness(1.08);
+}
+
+.auth-brand-link .brand-badge-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
+    background: var(--cor-primaria, var(--duo-green));
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 0 var(--duo-green-shadow);
+    flex-shrink: 0;
+}
+
+.auth-brand-link .brand-text {
+    font-family: 'LogoFont', 'Talina', var(--font-family);
+    font-size: 1.85rem;
+    font-weight: normal;
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+    letter-spacing: 0.5px;
+}
+
+.auth-brand-link .brand-man {
+    color: var(--cor-primaria, var(--duo-green));
+}
+
+.auth-brand-link .brand-tham {
+    color: var(--cor-secundaria, var(--duo-blue));
+}
+
+/* Imagem de Logo nas páginas de autenticação */
+.auth-brand-logo-img {
+    height: 44.8px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    transition: filter var(--transicao-rapida, 0.15s ease);
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1.75rem;
+    color: var(--text-main);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 0.5rem;
+}
+
+label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: var(--duo-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.25);
+}
+
+button[type="submit"],
+#btn-cadastrar {
+    width: 100%;
+    margin-top: 1rem;
+    background-color: var(--duo-green);
+    color: #ffffff;
+    padding: 0.9rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    border-bottom: 4px solid var(--duo-green-shadow);
+    box-shadow: 0 4px 0 var(--duo-green-shadow);
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    transition: filter var(--button-hover-duration);
+}
+
+button[type="submit"]:hover,
+#btn-cadastrar:hover {
+    filter: brightness(1.08);
+}
+
+button[type="submit"]:active,
+#btn-cadastrar:active {
+    filter: brightness(0.92);
+}
+
+.erro {
+    color: var(--duo-red);
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+p {
+    margin-top: 1.75rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+a {
+    color: var(--duo-blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
