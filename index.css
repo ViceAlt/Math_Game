@@ -58,42 +58,8 @@ body.tema-escuro .barra-apresentacao {
     text-underline-offset: 4px;
 }
 
-.conta-inicio {
-    justify-self: end;
-    display: inline-flex;
-    min-width: 0;
-    align-items: center;
-    gap: 0.55rem;
-    color: var(--text-main);
-    font-size: 0.9rem;
-    font-weight: 800;
-    text-decoration: none;
-}
-
-.conta-inicio img {
-    width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    background: var(--bg-card-subtle);
-    object-fit: cover;
-}
-
-.conta-inicio span {
-    max-width: 140px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.conta-inicio:hover span {
-    color: var(--duo-blue);
-}
-
 .link-entrar:focus-visible,
-.marca-apresentacao:focus-visible,
-.conta-inicio:focus-visible {
+.marca-apresentacao:focus-visible {
     outline: 3px solid var(--duo-blue);
     outline-offset: 5px;
     border-radius: 4px;
@@ -346,21 +312,6 @@ body.revelacoes-ativas [data-reveal].visivel {
 
     .link-entrar {
         font-size: 0.78rem;
-    }
-
-    .conta-inicio {
-        gap: 0.35rem;
-        font-size: 0.78rem;
-    }
-
-    .conta-inicio img {
-        width: 30px;
-        height: 30px;
-        flex-basis: 30px;
-    }
-
-    .conta-inicio span {
-        max-width: 90px;
     }
 
     .imagem-grupo {

@@ -113,16 +113,6 @@ html.tema-escuro {
    --card-shadow-hover: 0 6px 0 var(--border-dark);
 }
 
-html.tema-escuro body.tema-escuro {
-   --border-dark: #475569;
-   --duo-green-shadow: color-mix(in srgb, var(--duo-green), white 28%);
-   --duo-blue-shadow: color-mix(in srgb, var(--duo-blue), white 28%);
-   --duo-yellow-shadow: color-mix(in srgb, var(--duo-yellow), white 28%);
-   --duo-orange-shadow: color-mix(in srgb, var(--duo-orange), white 28%);
-   --duo-red-shadow: color-mix(in srgb, var(--duo-red), white 28%);
-   --duo-teal-shadow: color-mix(in srgb, var(--duo-teal), white 28%);
-}
-
 /* --------------------------------------------------------------------------
    TONALIDADES OPCIONAIS (Ajustes de Acento)
    -------------------------------------------------------------------------- */
@@ -470,8 +460,8 @@ body #btn-confirmar:not(:disabled),
 body .proxima:not(:disabled),
 body #btn-proxima:not(:disabled) {
    background-color: #1cb0f6 !important;
-   border-bottom-color: var(--duo-blue-shadow) !important;
-   box-shadow: 0 4px 0 var(--duo-blue-shadow) !important;
+   border-bottom-color: #1899d6 !important;
+   box-shadow: 0 4px 0 #1899d6 !important;
    color: #ffffff !important;
 }
 
@@ -507,15 +497,15 @@ body #btn-confirmar:disabled {
 body .btn-confirmar.sucesso,
 body .btn-confirmar.acerto {
    background-color: #58cc02 !important;
-   border-bottom-color: var(--duo-green-shadow) !important;
-   box-shadow: 0 4px 0 var(--duo-green-shadow) !important;
+   border-bottom-color: #46a302 !important;
+   box-shadow: 0 4px 0 #46a302 !important;
    color: #ffffff !important;
 }
 
 body .btn-confirmar.erro {
    background-color: #ff4b4b !important;
-   border-bottom-color: var(--duo-red-shadow) !important;
-   box-shadow: 0 4px 0 var(--duo-red-shadow) !important;
+   border-bottom-color: #ea2b2b !important;
+   box-shadow: 0 4px 0 #ea2b2b !important;
    color: #ffffff !important;
 }
 
@@ -524,8 +514,8 @@ body .dica,
 body .btn-dica,
 body #btn-dica {
    background-color: #ffc800 !important;
-   border-bottom-color: var(--duo-yellow-shadow) !important;
-   box-shadow: 0 4px 0 var(--duo-yellow-shadow) !important;
+   border-bottom-color: #e5a000 !important;
+   box-shadow: 0 4px 0 #e5a000 !important;
    color: #ffffff !important;
 }
 
