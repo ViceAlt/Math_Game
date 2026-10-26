@@ -184,7 +184,7 @@ function sessao_revogar_login_persistente(PDO $pdo): void {
  */
 function sessao_exigir_login(string $redirectApos = ''): void {
     if (empty($_SESSION['usuario'])) {
-        $destino = '/login/login.php';
+        $destino = rtrim(APP_URL, '/') . '/login/login.php';
         if ($redirectApos) {
             $destino .= '?redirect=' . urlencode($redirectApos);
         }
@@ -230,7 +230,7 @@ function sessao_verificar_validade(): void {
         // Sessão foi iniciada antes da troca de senha → invalida
         if ($alteradaEm > $logadoEm) {
             sessao_destruir();
-            header('Location: /login/login.php?aviso=senha_alterada');
+            header('Location: ' . rtrim(APP_URL, '/') . '/login/login.php?aviso=senha_alterada');
             exit;
         }
 
