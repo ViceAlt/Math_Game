@@ -20,20 +20,11 @@ Options -Indexes -MultiViews
 </IfModule>
 
 <IfModule mod_alias.c>
-    RedirectMatch 404 "(?i)(?:^|/)(?:\.git|\.github|\.agent|vendor|migrations|sql|includes|logs)(?:/|$)"
+    RedirectMatch 404 "(?i)(?:^|/)(?:\.git|\.github|\.agent|vendor|migrations|sql|logs)(?:/|$)"
 </IfModule>
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^(?:\.git|\.github|\.agent|vendor|migrations|sql|includes|logs)(?:/|$) - [F,L,NC]
-
-    RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
-    RewriteCond %{THE_REQUEST} \s/+(.+?)\.php(?:[?\s]) [NC]
-    RewriteCond %{REQUEST_URI} !^.*/api/ [NC]
-    RewriteRule ^(.+)\.php$ $1 [R=301,L,NE]
-
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME}.php -f
-    RewriteRule ^(.+?)/?$ $1.php [L]
+    RewriteRule ^(?:\.git|\.github|\.agent|vendor|migrations|sql|logs)(?:/|$) - [F,L,NC]
+    RewriteRule ^includes/.*\.php$ - [F,L,NC]
 </IfModule>
