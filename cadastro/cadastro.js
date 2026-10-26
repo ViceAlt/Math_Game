@@ -48,7 +48,12 @@ async function handleCadastro(e) {
             body: JSON.stringify({ username, email, senha, csrf_token: csrf })
         });
 
-        const data = await resposta.json();
+        let data;
+        try {
+            data = await resposta.json();
+        } catch (_) {
+            throw new Error(`O servidor respondeu com HTTP ${resposta.status}, mas não retornou JSON. Verifique a rota da API e os logs do PHP.`);
+        }
 
         if (resposta.ok && data.ok) {
             window.location.href = redirect;
@@ -65,7 +70,7 @@ async function handleCadastro(e) {
             }
         }
     } catch (err) {
-        exibirErro('erro-geral', 'Erro de conexão com o servidor.');
+        exibirErro('erro-geral', err.message || 'Não foi possível acessar a API de cadastro. Verifique se o servidor está ativo e se o caminho do site está correto.');
     } finally {
         btnSubmit.disabled = false;
         btnSubmit.textContent = 'Criar Conta';

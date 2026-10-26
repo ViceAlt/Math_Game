@@ -145,5 +145,9 @@ try {
 } catch (\PDOException $e) {
     error_log('[Math Game] Erro no login: ' . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['ok' => false, 'erro' => 'Erro interno ao autenticar.']);
+    echo json_encode(['ok' => false, 'erro' => 'Serviço de autenticação indisponível. Verifique a conexão e a configuração do banco de dados.']);
+} catch (\Throwable $e) {
+    error_log('[Math Game] Falha de configuração no login: ' . $e->getMessage());
+    http_response_code(503);
+    echo json_encode(['ok' => false, 'erro' => 'Servidor sem configuração de banco de dados. Configure DB_HOST, DB_NAME, DB_USER e DB_PASS no ambiente privado.']);
 }

@@ -53,7 +53,12 @@ async function handleLogin(e) {
             body: JSON.stringify({ email, senha, csrf_token: csrf })
         });
 
-        const data = await resposta.json();
+        let data;
+        try {
+            data = await resposta.json();
+        } catch (_) {
+            throw new Error(`O servidor respondeu com HTTP ${resposta.status}, mas não retornou JSON. Verifique a rota da API e os logs do PHP.`);
+        }
 
         if (resposta.ok && data.ok) {
             window.location.href = redirect;
@@ -61,7 +66,7 @@ async function handleLogin(e) {
             exibirErro('erro-login-geral', data.erro || 'Falha ao autenticar.');
         }
     } catch (err) {
-        exibirErro('erro-login-geral', 'Erro de conexão com o servidor.');
+        exibirErro('erro-login-geral', err.message || 'Não foi possível acessar a API de login. Verifique se o servidor está ativo e se o caminho do site está correto.');
     } finally {
         btnSubmit.disabled = false;
         btnSubmit.textContent = 'Entrar';
