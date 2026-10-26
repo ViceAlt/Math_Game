@@ -19,8 +19,11 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email       VARCHAR(150) NOT NULL UNIQUE,
     senha_hash  VARCHAR(255) NOT NULL,
     senha_alterada_em DATETIME NULL DEFAULT NULL,
+    recovery_secret_encrypted TEXT NULL,
+    recovery_secret_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NULL,
     foto_url    VARCHAR(500)     NULL DEFAULT NULL,
-    criado_em   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+    criado_em   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_usuarios_recovery_secret_hash (recovery_secret_hash)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------

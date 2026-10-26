@@ -6,7 +6,11 @@ if (!empty($_SESSION['usuario'])) {
     header('Location: ../home/home.php');
     exit;
 }
-$redirect    = htmlspecialchars($_GET['redirect'] ?? '../home/home.php');
+$redirect    = $_GET['redirect'] ?? '../home/home.php';
+if (!is_string($redirect) || preg_match('#^(?:[a-z][a-z0-9+.-]*:|//|\\\\)#i', $redirect) || preg_match('/[\r\n]/', $redirect)) {
+    $redirect = '../home/home.php';
+}
+$redirect = htmlspecialchars($redirect, ENT_QUOTES, 'UTF-8');
 $aviso       = htmlspecialchars($_GET['aviso'] ?? '');
 $csrfToken   = csrf_gerar();
 ?>

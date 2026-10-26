@@ -1,4 +1,9 @@
 <?php
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+    exit;
+}
+
 /**
  * scratch_teste_fluxo.php
  * Script automatizado de validação completa do fluxo de recuperação de senha.

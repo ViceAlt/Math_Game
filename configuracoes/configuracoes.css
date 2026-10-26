@@ -572,3 +572,45 @@ body.tema-escuro .mp-card {
 .mp-arctic .mp-card:last-child {
     border-color: #0284c7;
 }
+
+.secret-id-explicacao {
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+}
+
+.secret-id-linha {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.secret-id-linha code {
+    display: block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    padding: .75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.secret-id-linha button {
+    padding: .7rem 1rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--duo-blue);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#secret-id-status,
+.secret-id-erro {
+    display: block;
+    margin-top: .65rem;
+    color: var(--text-muted);
+}

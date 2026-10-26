@@ -7,7 +7,8 @@
 
 // ── 1. Carregador de variáveis de ambiente (.env) ───────────────────────────
 (function () {
-    $envFiles = [__DIR__ . '/.env', __DIR__ . '/.env.local'];
+    $privateConfigDir = dirname(__DIR__, 3) . '/private/Math_Game';
+    $envFiles = [$privateConfigDir . '/.env', $privateConfigDir . '/.env.local'];
     foreach ($envFiles as $envFile) {
         if (!file_exists($envFile) || !is_readable($envFile)) {
             continue;
@@ -59,6 +60,8 @@ if (!function_exists('app_env')) {
     }
 }
 
+if (!defined('APP_ENV')) define('APP_ENV', app_env('APP_ENV', 'production'));
+
 // ── 2. URL Base da Aplicação (APP_URL) ───────────────────────────────────────
 if (!defined('APP_URL')) {
     $configUrl = app_env('APP_URL');
@@ -70,7 +73,7 @@ if (!defined('APP_URL')) {
             || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443)
             || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
         $protocol = $isHttps ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $host = $_SERVER['SERVER_NAME'] ?? 'localhost';
 
         if (PHP_SAPI === 'cli') {
             define('APP_URL', 'http://localhost/Math_Game');
@@ -87,11 +90,11 @@ if (!defined('APP_URL')) {
 }
 
 // ── 3. Banco de Dados MySQL ─────────────────────────────────────────────────
-if (!defined('DB_HOST')) define('DB_HOST', app_env('DB_HOST', 'sql113.byethost4.com'));
+if (!defined('DB_HOST')) define('DB_HOST', app_env('DB_HOST', APP_ENV === 'production' ? '' : '127.0.0.1'));
 if (!defined('DB_PORT')) define('DB_PORT', app_env('DB_PORT', '3306'));
-if (!defined('DB_NAME')) define('DB_NAME', app_env('DB_NAME', 'b4_42774075_math_game'));
-if (!defined('DB_USER')) define('DB_USER', app_env('DB_USER', 'b4_42774075'));
-if (!defined('DB_PASS')) define('DB_PASS', app_env('DB_PASS', 'senai@571'));
+if (!defined('DB_NAME')) define('DB_NAME', app_env('DB_NAME', APP_ENV === 'production' ? '' : 'math_game'));
+if (!defined('DB_USER')) define('DB_USER', app_env('DB_USER', APP_ENV === 'production' ? '' : 'root'));
+if (!defined('DB_PASS')) define('DB_PASS', app_env('DB_PASS', ''));
 if (!defined('DB_CHARSET')) define('DB_CHARSET', app_env('DB_CHARSET', 'utf8mb4'));
 
 // ── 4. Configurações de Envio de E-mail (PHPMailer, APIs e Fallback mail()) ─
@@ -132,7 +135,7 @@ if (!defined('FALLBACK_PHP_MAIL')) {
 
 // Ativa log detalhado do SMTP para diagnóstico (grava em logs/recuperacao.log)
 if (!defined('SMTP_DEBUG')) {
-    $debugVal = app_env('SMTP_DEBUG', 'true');
+    $debugVal = app_env('SMTP_DEBUG', 'false');
     define('SMTP_DEBUG', filter_var($debugVal, FILTER_VALIDATE_BOOLEAN));
 }
 
@@ -140,10 +143,9 @@ if (!defined('SMTP_DEBUG')) {
 if (!defined('TOKEN_EXPIRACAO_MINUTOS')) {
     define('TOKEN_EXPIRACAO_MINUTOS', (int) app_env('TOKEN_EXPIRACAO_MINUTOS', 60));
 }
+if (!defined('RECOVERY_SECRET_KEY')) define('RECOVERY_SECRET_KEY', (string) app_env('RECOVERY_SECRET_KEY', ''));
 
 // ── 5. Ambiente e Tratamento de Erros ───────────────────────────────────────
-if (!defined('APP_ENV')) define('APP_ENV', app_env('APP_ENV', 'development'));
-
 if (defined('APP_ENV') && APP_ENV === 'production') {
     ini_set('display_errors', '0');
     ini_set('display_startup_errors', '0');

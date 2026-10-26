@@ -1,21 +1,13 @@
 <?php
-/**
- * esqueci_senha.php
- * Formulário de solicitação de recuperação de senha.
- * Segue o mesmo padrão visual do login e cadastro, com logs seguros e mensagens genéricas.
- */
-
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/sessao.php';
 require_once __DIR__ . '/includes/csrf.php';
 require_once __DIR__ . '/includes/logger.php';
 require_once __DIR__ . '/includes/recuperacao.php';
-require_once __DIR__ . '/includes/email.php';
+require_once __DIR__ . '/includes/senha.php';
 require_once __DIR__ . '/includes/icones.php';
 
 sessao_iniciar();
-
-// Se o usuário já estiver logado, redireciona para a home
 if (!empty($_SESSION['usuario'])) {
     header('Location: home/home.php');
     exit;
@@ -23,83 +15,111 @@ if (!empty($_SESSION['usuario'])) {
 
 $csrfToken = csrf_gerar();
 $mensagem = '';
-$tipoMensagem = 'sucesso'; // 'sucesso' ou 'erro'
+$tipoMensagem = 'sucesso';
+$etapaSenha = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $csrfEnviado = $_POST['csrf_token'] ?? '';
-
-    // Valida CSRF
-    if (!csrf_validar($csrfEnviado)) {
-        recuperacao_log('Tentativa de solicitação de senha rejeitada: CSRF inválido', 'WARNING');
+    if (!csrf_validar($_POST['csrf_token'] ?? '')) {
         $mensagem = 'Requisição expirada ou inválida. Recarregue a página e tente novamente.';
         $tipoMensagem = 'erro';
-    } else {
+    } elseif (($_POST['acao'] ?? '') === 'validar') {
+        $username = trim($_POST['username'] ?? '');
         $email = strtolower(trim($_POST['email'] ?? ''));
+        $secret = trim($_POST['secret_id'] ?? '');
         $ip = recuperacao_obter_ip();
+        $etapaSenha = false;
 
-        recuperacao_log("Recebida solicitação de redefinição para o e-mail: '{$email}'", 'INFO');
-
-        // Valida formato do email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            recuperacao_log("Formato de e-mail inválido recebido: '{$email}'", 'WARNING');
-            // Mantém mensagem genérica por segurança
-            $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
+        if (strlen($username) < 3 || strlen($username) > 50 || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($secret) < 20 || strlen($secret) > 100) {
+            $mensagem = 'Os dados não correspondem a uma conta válida. Confira as informações e tente novamente.';
+            $tipoMensagem = 'erro';
+        } elseif (recuperacao_rate_limit_atingido($email, $ip)) {
+            $mensagem = 'Muitas tentativas. Aguarde e tente novamente mais tarde.';
+            $tipoMensagem = 'erro';
         } else {
+            recuperacao_registrar_tentativa('recuperacao', $email);
+            recuperacao_registrar_tentativa('recuperacao_ip', $ip);
+
             try {
-                // Rate limit: verifica se o limite foi excedido
-                if (recuperacao_rate_limit_atingido($email, $ip)) {
-                    // Mensagem genérica para não revelar existência nem alertar atacantes
-                    $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
+                $pdo = getDB();
+                $stmt = $pdo->prepare(
+                    'SELECT id, recovery_secret_hash FROM usuarios WHERE username = ? AND LOWER(email) = ? LIMIT 1'
+                );
+                $stmt->execute([$username, $email]);
+                $usuario = $stmt->fetch();
+                $hashInformado = hash('sha256', $secret);
+                $hashArmazenado = is_array($usuario) && is_string($usuario['recovery_secret_hash'] ?? null)
+                    ? $usuario['recovery_secret_hash']
+                    : str_repeat('0', 64);
+                $segredoValido = hash_equals($hashArmazenado, $hashInformado);
+
+                if (!$usuario || empty($usuario['recovery_secret_hash']) || !$segredoValido) {
+                    $mensagem = 'Os dados não correspondem a uma conta válida. Confira as informações e tente novamente.';
+                    $tipoMensagem = 'erro';
                 } else {
-                    // Registra a tentativa para AMBOS (e-mail e IP)
-                    recuperacao_registrar_tentativa('recuperacao', $email);
-                    recuperacao_registrar_tentativa('recuperacao_ip', $ip);
-
-                    // Busca o usuário via prepared statement
-                    $pdo = getDB();
-                    $stmt = $pdo->prepare(
-                        'SELECT id, username, email FROM usuarios WHERE email = ? LIMIT 1'
-                    );
-                    $stmt->execute([$email]);
-                    $usuario = $stmt->fetch();
-
-                    if ($usuario) {
-                        recuperacao_log("Usuário localizado: id={$usuario['id']}, username='{$usuario['username']}'", 'INFO');
-
-                        // Gera token seguro (apenas o hash é gravado no banco)
-                        $token = recuperacao_gerar_token((int) $usuario['id'], $ip);
-                        $link = rtrim(APP_URL, '/') . '/redefinir_senha.php?token=' . urlencode($token);
-
-                        recuperacao_log("Link de redefinição montado: " . preg_replace('/token=[a-f0-9]{32}/', 'token=***REDACTED***', $link), 'INFO');
-
-                        // Dispara o e-mail (API HTTPS, SMTP ou mail() nativo)
-                        $enviado = email_enviar_recuperacao($usuario['email'], $usuario['username'], $link);
-
-                        if (!$enviado) {
-                            recuperacao_log("AVISO DE CONTINGÊNCIA: O servidor não conseguiu despachar o e-mail para '{$usuario['email']}'. Link gerado para acesso imediato: {$link}", 'WARNING');
-                        }
-                    } else {
-                        recuperacao_log("E-mail '{$email}' não encontrado na base de usuários. Nenhuma mensagem enviada.", 'INFO');
-                    }
-
-                    // Limpeza periódica de registros antigos
-                    recuperacao_limpar_dados_antigos();
-
-                    // Resposta sempre genérica na interface
-                    $mensagem = 'Se esse e-mail estiver cadastrado, enviaremos um link para redefinir a senha.';
+                    session_regenerate_id(true);
+                    $_SESSION['recovery_user_id'] = (int) $usuario['id'];
+                    $_SESSION['recovery_expires_at'] = time() + 600;
+                    $etapaSenha = true;
+                    $csrfToken = csrf_regenerar();
                 }
-            } catch (\PDOException $e) {
-                recuperacao_log("Erro de banco de dados em esqueci_senha.php: " . $e->getMessage(), 'ERROR');
-                $mensagem = 'Não foi possível processar sua solicitação no momento. Tente novamente mais tarde.';
-                $tipoMensagem = 'erro';
-            } catch (\Throwable $e) {
-                recuperacao_log("Erro geral em esqueci_senha.php: " . $e->getMessage(), 'ERROR');
-                $mensagem = 'Não foi possível processar sua solicitação no momento. Tente novamente mais tarde.';
+            } catch (Throwable $e) {
+                recuperacao_log('Erro ao validar identificador de recuperação: ' . $e->getMessage(), 'ERROR');
+                $mensagem = 'Não foi possível validar os dados agora. Tente novamente mais tarde.';
                 $tipoMensagem = 'erro';
             }
         }
+    } elseif (($_POST['acao'] ?? '') === 'redefinir') {
+        $usuarioId = (int) ($_SESSION['recovery_user_id'] ?? 0);
+        $expiraEm = (int) ($_SESSION['recovery_expires_at'] ?? 0);
+        $etapaSenha = $usuarioId > 0 && $expiraEm >= time();
+        $novaSenha = $_POST['nova_senha'] ?? '';
+        $confirmaSenha = $_POST['confirma_senha'] ?? '';
 
-        // Regenera o token CSRF após o processamento
+        if (!$etapaSenha) {
+            unset($_SESSION['recovery_user_id'], $_SESSION['recovery_expires_at']);
+            $mensagem = 'A validação expirou. Informe novamente os dados e o identificador de recuperação.';
+            $tipoMensagem = 'erro';
+        } else {
+            $erroSenha = validar_forca_senha($novaSenha);
+            if ($erroSenha !== null) {
+                $mensagem = $erroSenha;
+                $tipoMensagem = 'erro';
+            } elseif ($novaSenha !== $confirmaSenha) {
+                $mensagem = 'As senhas informadas não conferem.';
+                $tipoMensagem = 'erro';
+            } else {
+                try {
+                    $pdo = getDB();
+                    $pdo->beginTransaction();
+                    $stmt = $pdo->prepare('UPDATE usuarios SET senha_hash = ?, senha_alterada_em = NOW() WHERE id = ?');
+                    $stmt->execute([gerar_hash_senha($novaSenha), $usuarioId]);
+                    $pdo->prepare('DELETE FROM login_persistente WHERE usuario_id = ?')->execute([$usuarioId]);
+                    $pdo->prepare('UPDATE recuperacao_senha SET usado_em = NOW() WHERE usuario_id = ? AND usado_em IS NULL')
+                        ->execute([$usuarioId]);
+                    $pdo->commit();
+
+                    unset($_SESSION['recovery_user_id'], $_SESSION['recovery_expires_at']);
+                    session_regenerate_id(true);
+                    header('Location: login/login.php?aviso=senha_redefinida');
+                    exit;
+                } catch (Throwable $e) {
+                    if (isset($pdo) && $pdo->inTransaction()) {
+                        $pdo->rollBack();
+                    }
+                    recuperacao_log('Erro ao redefinir senha via identificador: ' . $e->getMessage(), 'ERROR');
+                    $mensagem = 'Não foi possível alterar a senha agora. Tente novamente mais tarde.';
+                    $tipoMensagem = 'erro';
+                }
+            }
+        }
+    } else {
+        $mensagem = 'Requisição inválida. Tente novamente.';
+        $tipoMensagem = 'erro';
+    }
+
+    if ($tipoMensagem === 'erro') {
+        $etapaSenha = (int) ($_SESSION['recovery_user_id'] ?? 0) > 0
+            && (int) ($_SESSION['recovery_expires_at'] ?? 0) >= time();
         $csrfToken = csrf_regenerar();
     }
 }
@@ -163,34 +183,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <h1>Recuperar Senha</h1>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
-            Informe seu e-mail cadastrado e enviaremos um link seguro para criar uma nova senha.
+            Informe seu nome de usuário, e-mail e identificador secreto para redefinir a senha nesta página.
         </p>
 
         <?php if ($mensagem): ?>
-            <?php if ($tipoMensagem === 'sucesso'): ?>
-                <div class="aviso-sucesso" role="status" aria-live="polite">
-                    <?= icone_svg('mail', 'icone-inline', 18) ?> <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
-                </div>
-            <?php else: ?>
-                <div class="aviso-erro-card" role="alert" aria-live="assertive">
-                    <?= icone_svg('warning', 'icone-inline', 18) ?> <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
-                </div>
-            <?php endif; ?>
+            <div class="<?= $tipoMensagem === 'sucesso' ? 'aviso-sucesso' : 'aviso-erro-card' ?>" role="<?= $tipoMensagem === 'sucesso' ? 'status' : 'alert' ?>" aria-live="polite">
+                <?= icone_svg($tipoMensagem === 'sucesso' ? 'mail' : 'warning', 'icone-inline', 18) ?>
+                <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
+            </div>
         <?php endif; ?>
 
-        <?php if (!$mensagem || $tipoMensagem === 'erro'): ?>
+        <?php if ($etapaSenha): ?>
+            <form method="POST" action="esqueci_senha.php" novalidate>
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="acao" value="redefinir">
+                <div class="form-group">
+                    <label for="nova-senha">Nova senha</label>
+                    <input type="password" id="nova-senha" name="nova_senha" autocomplete="new-password" minlength="8" maxlength="72" required placeholder="Mínimo de 8 caracteres">
+                </div>
+                <div class="form-group">
+                    <label for="confirma-senha">Confirmar nova senha</label>
+                    <input type="password" id="confirma-senha" name="confirma_senha" autocomplete="new-password" minlength="8" maxlength="72" required placeholder="Repita a nova senha">
+                </div>
+                <button type="submit">Salvar nova senha</button>
+            </form>
+        <?php elseif (!$mensagem || $tipoMensagem === 'erro'): ?>
             <form id="form-esqueci" method="POST" action="esqueci_senha.php" novalidate>
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="acao" value="validar">
 
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" autocomplete="email" required aria-required="true"
+                    <label for="username">Nome de usuário</label>
+                    <input type="text" id="username" name="username" autocomplete="username" minlength="3" maxlength="50" required
+                        placeholder="Seu nome de usuário">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail cadastrado</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required
                         placeholder="Seu e-mail cadastrado">
+                </div>
+
+                <div class="form-group">
+                    <label for="secret-id">Identificador secreto</label>
+                    <input type="text" id="secret-id" name="secret_id" autocomplete="off" required maxlength="100"
+                        placeholder="MG-...">
                 </div>
 
                 <span class="erro" id="erro-geral" role="alert" aria-live="assertive"></span>
 
-                <button type="submit" id="btn-enviar">Enviar link</button>
+                <button type="submit" id="btn-enviar">Validar e continuar</button>
             </form>
         <?php endif; ?>
 

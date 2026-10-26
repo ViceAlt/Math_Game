@@ -1,4 +1,9 @@
 <?php
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+    exit;
+}
+
 /**
  * test_email.php
  * Painel de Diagnóstico e Teste de Envio de E-mails

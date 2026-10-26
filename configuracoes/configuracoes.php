@@ -1,8 +1,34 @@
 <?php
 require_once __DIR__ . '/../includes/sessao.php';
+require_once __DIR__ . '/../includes/secret_id.php';
+require_once __DIR__ . '/../conexao.php';
 sessao_iniciar();
 $usuario = $_SESSION['usuario'] ?? null;
 $logado = $usuario !== null;
+$secretId = null;
+$secretError = '';
+
+if ($logado) {
+    try {
+        $pdo = getDB();
+        $stmt = $pdo->prepare('SELECT recovery_secret_encrypted FROM usuarios WHERE id = ? LIMIT 1');
+        $stmt->execute([(int) $usuario['id']]);
+        $encryptedSecret = $stmt->fetchColumn();
+
+        if (!$encryptedSecret) {
+            $secretId = secret_id_criar($pdo, (int) $usuario['id']);
+        } else {
+            $secretId = secret_id_decifrar((string) $encryptedSecret);
+        }
+
+        if ($secretId === null) {
+            throw new RuntimeException('Não foi possível descriptografar o segredo.');
+        }
+    } catch (Throwable $e) {
+        error_log('[Math Game] Erro ao carregar identificador de recuperação: ' . $e->getMessage());
+        $secretError = 'O identificador ainda não está disponível. Verifique a configuração do servidor.';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,6 +49,22 @@ $logado = $usuario !== null;
 
     <main class="main" id="main-content">
         <h1>Configurações</h1>
+
+        <?php if ($logado): ?>
+        <section aria-labelledby="titulo-secret-id">
+            <h2 id="titulo-secret-id">Identificador de recuperação</h2>
+            <p class="secret-id-explicacao">Este código é único e fixo para sua conta. Use-o junto com seu nome de usuário e e-mail em “Esqueci minha senha” para abrir a redefinição sem depender de envio de e-mail. Guarde-o em local seguro e não compartilhe.</p>
+            <?php if ($secretId !== null): ?>
+                <div class="secret-id-linha">
+                    <code id="secret-id-valor"><?= htmlspecialchars($secretId, ENT_QUOTES, 'UTF-8') ?></code>
+                    <button type="button" id="copiar-secret-id" aria-label="Copiar identificador de recuperação" title="Copiar identificador">Copiar</button>
+                </div>
+                <span id="secret-id-status" role="status" aria-live="polite"></span>
+            <?php else: ?>
+                <p class="secret-id-erro" role="alert"><?= htmlspecialchars($secretError, ENT_QUOTES, 'UTF-8') ?></p>
+            <?php endif; ?>
+        </section>
+        <?php endif; ?>
 
         <section aria-labelledby="titulo-aparencia">
             <h2 id="titulo-aparencia">Aparência</h2>
@@ -240,5 +282,17 @@ $logado = $usuario !== null;
     </script>
     <script src="../includes/modal-perfil.js"></script>
     <script src="configuracoes.js"></script>
+    <?php if ($logado && $secretId !== null): ?>
+    <script>
+        document.getElementById('copiar-secret-id')?.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(document.getElementById('secret-id-valor').textContent);
+                document.getElementById('secret-id-status').textContent = 'Identificador copiado.';
+            } catch (_) {
+                document.getElementById('secret-id-status').textContent = 'Não foi possível copiar. Selecione o código manualmente.';
+            }
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

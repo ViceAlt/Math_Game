@@ -23,6 +23,7 @@ require_once __DIR__ . '/../../conexao.php';
 require_once __DIR__ . '/../../includes/senha.php';
 require_once __DIR__ . '/../../includes/csrf.php';
 require_once __DIR__ . '/../../includes/sessao.php';
+require_once __DIR__ . '/../../includes/secret_id.php';
 
 sessao_iniciar();
 
@@ -80,11 +81,16 @@ try {
 
     // Hash seguro com bcrypt (custo 12) — nunca armazena senha em texto puro
     $senhaHash = gerar_hash_senha($senha);
+    $secretId = secret_id_gerar();
+    $secretEncrypted = secret_id_cifrar($secretId);
+    $secretHash = hash('sha256', $secretId);
 
     $stmt = $pdo->prepare(
-        'INSERT INTO usuarios (username, email, senha_hash, criado_em) VALUES (?, ?, ?, NOW())'
+        'INSERT INTO usuarios
+            (username, email, senha_hash, recovery_secret_encrypted, recovery_secret_hash, criado_em)
+         VALUES (?, ?, ?, ?, ?, NOW())'
     );
-    $stmt->execute([$username, $email, $senhaHash]);
+    $stmt->execute([$username, $email, $senhaHash, $secretEncrypted, $secretHash]);
     $novoId = (int) $pdo->lastInsertId();
 
     // Inicia sessão automaticamente após cadastro com regeneração de ID
@@ -106,6 +112,10 @@ try {
 
 } catch (\PDOException $e) {
     error_log('[Math Game] Erro ao cadastrar usuário: ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(['ok' => false, 'erro' => 'Erro interno ao cadastrar usuário.']);
+} catch (\Throwable $e) {
+    error_log('[Math Game] Erro ao preparar cadastro: ' . $e->getMessage());
     http_response_code(500);
     echo json_encode(['ok' => false, 'erro' => 'Erro interno ao cadastrar usuário.']);
 }

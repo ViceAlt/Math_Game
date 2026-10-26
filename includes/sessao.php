@@ -16,6 +16,20 @@ function sessao_iniciar(): void {
         return; // Sessão já ativa, não reinicia
     }
 
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    ini_set('session.cookie_httponly', '1');
+
+    if (!headers_sent()) {
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: SAMEORIGIN');
+        header('Referrer-Policy: strict-origin-when-cross-origin');
+        header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+        if (APP_ENV === 'production' && sessao_cookie_seguro()) {
+            header('Strict-Transport-Security: max-age=31536000');
+        }
+    }
+
         $eHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
             || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
             || (defined('APP_ENV') && APP_ENV === 'production');

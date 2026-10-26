@@ -7,16 +7,13 @@
 
 require_once __DIR__ . '/config.php';
 
-if (!defined('DB_HOST')) define('DB_HOST', 'sql113.byethost4.com');
-if (!defined('DB_PORT')) define('DB_PORT', '3306');
-if (!defined('DB_NAME')) define('DB_NAME', 'b4_42774075_math_game');
-if (!defined('DB_USER')) define('DB_USER', 'b4_42774075');
-if (!defined('DB_PASS')) define('DB_PASS', 'senai@571');
-if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
-
 function getDB(): PDO {
     static $pdo = null;
     if ($pdo !== null) return $pdo;
+
+    if (DB_HOST === '' || DB_NAME === '' || DB_USER === '' || (APP_ENV === 'production' && DB_PASS === '')) {
+        throw new RuntimeException('Configure DB_HOST, DB_NAME, DB_USER e, em produção, DB_PASS no ambiente.');
+    }
 
     $dsn = sprintf(
         'mysql:host=%s;port=%s;dbname=%s;charset=%s',

@@ -1,4 +1,9 @@
 <?php
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+    exit;
+}
+
 /**
  * test_api.php
  * Executa testes básicos nas rotas de API para garantir funcionamento de login, cadastro, etc.
