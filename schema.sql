@@ -18,9 +18,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
     username    VARCHAR(50)  NOT NULL UNIQUE,
     email       VARCHAR(150) NOT NULL UNIQUE,
     senha_hash  VARCHAR(255) NOT NULL,
+<<<<<<< HEAD
     senha_alterada_em DATETIME NULL DEFAULT NULL,
     recovery_secret_encrypted TEXT NULL,
     recovery_secret_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NULL,
+=======
+>>>>>>> parent of 31bb2c7 (Comm)
     foto_url    VARCHAR(500)     NULL DEFAULT NULL,
     criado_em   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uq_usuarios_recovery_secret_hash (recovery_secret_hash)
