@@ -1,8 +1,0 @@
-/vendor/
-/.env
-/.env.*
-!/.env.example
-/logs/*.log
-scratch/
-scratch_check_db.php
-
