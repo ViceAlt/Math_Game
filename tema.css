@@ -147,11 +147,11 @@ html.tonalidade-ocean {
 body.tonalidade-earth,
 html.tonalidade-earth {
    /* Lilás: Violeta intenso + Lilás suave */
-   --duo-blue: #8b5cf6;
-   --duo-blue-shadow: #6d28d9;
-   --duo-blue-light: #f3e8ff;
-   --duo-green: #a855f7;
-   --duo-green-shadow: #9333ea;
+   --duo-blue: #7c3aed;
+   --duo-blue-shadow: #5b21b6;
+   --duo-blue-light: #ede9fe;
+   --duo-green: #c4b5fd;
+   --duo-green-shadow: #a78bfa;
 }
 
 body.tonalidade-berry,
@@ -630,26 +630,33 @@ html.daltonismo-alto-contraste :is(section, article, main, aside, nav, header, f
 }
 
 html.daltonismo-alto-contraste :is(button, .btn-duo, .confirmar, .btn-confirmar, .proxima, .dica, .btn-dica) {
-   background-color: #ffff00 !important;
+   background-color: #000000 !important;
    background-image: none !important;
-   border: 2px solid #ffffff !important;
-   color: #000000 !important;
+   border: 3px solid #ffff00 !important;
+   color: #ffffff !important;
    text-shadow: none !important;
+   box-shadow: 0 4px 0 #ffff00 !important;
 }
 
 html.daltonismo-alto-contraste :is(.btn-duo-blue, .confirmar, .btn-confirmar, .proxima) {
-   background-color: #00ffff !important;
-   color: #000000 !important;
+   background-color: #000000 !important;
+   border-color: #00ffff !important;
+   box-shadow: 0 4px 0 #00bcbc !important;
+   color: #ffffff !important;
 }
 
 html.daltonismo-alto-contraste :is(.btn-duo-green, .sucesso, .acerto) {
-   background-color: #ffff00 !important;
-   color: #000000 !important;
+   background-color: #000000 !important;
+   border-color: #ffff00 !important;
+   box-shadow: 0 4px 0 #cccc00 !important;
+   color: #ffffff !important;
 }
 
 html.daltonismo-alto-contraste :is(.btn-duo-orange, .dica, .btn-dica, #btn-dica) {
-   background-color: #ff9900 !important;
-   color: #000000 !important;
+   background-color: #000000 !important;
+   border-color: #ff9900 !important;
+   box-shadow: 0 4px 0 #cc7700 !important;
+   color: #ffffff !important;
 }
 
 html.daltonismo-alto-contraste :is(.erro, .perigo, .btn-confirmar.erro) {

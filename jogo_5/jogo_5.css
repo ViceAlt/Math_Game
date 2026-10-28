@@ -1183,3 +1183,11 @@ body.tema-escuro .resultado-stats {
         min-height: 320px;
     }
 }
+
+body.tonalidade-earth {
+    --duo-blue: #7c3aed;
+    --duo-blue-shadow: #5b21b6;
+    --duo-blue-light: #ede9fe;
+    --duo-green: #c4b5fd;
+    --duo-green-shadow: #a78bfa;
+}

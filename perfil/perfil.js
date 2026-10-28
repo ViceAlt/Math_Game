@@ -721,6 +721,7 @@ async function carregarLojaAvatares() {
 
                 // Cache local para resiliência
                 localStorage.setItem(CHAVE_AVATAR_EQUIPADO, stateLojaAvatares.fotoAtual);
+                localStorage.setItem('mg_avatares_cache', JSON.stringify(stateLojaAvatares.fotos));
                 const desbloqueadas = stateLojaAvatares.fotos.filter(f => f.desbloqueada).map(f => f.id);
                 localStorage.setItem(CHAVE_AVATARES_DESBLOQUEADOS, JSON.stringify(desbloqueadas));
             }
@@ -791,10 +792,16 @@ function carregarLojaAvataresLocal() {
         fotosCacheadas = [];
     }
 
-    stateLojaAvatares.fotos = fotosCacheadas.map(foto => ({
-        ...fotosCacheadas,
-        desbloqueada: foto.padrao || desbloqueadas.includes(foto.id),
-        equipada: foto.id === stateLojaAvatares.fotoAtual
+    stateLojaAvatares.fotos = fotosCacheadas.map((foto) => ({
+        id: foto.id,
+        numero: foto.numero,
+        titulo: foto.titulo,
+        url: foto.url,
+        preco: foto.preco,
+        padrao: foto.padrao,
+        desbloqueada: Boolean(foto.padrao) || desbloqueadas.includes(foto.id),
+        equipada: foto.id === stateLojaAvatares.fotoAtual,
+        disponivel: foto.disponivel !== false
     }));
 }
 
@@ -832,28 +839,19 @@ function renderizarCarrosselAvatares() {
         card.className = 'avatar-item-card';
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', `${fotos[0].titulo}. ${fotos[0].equipada ? 'Em uso' : (fotos[0].desbloqueada ? 'Disponível' : 'Custa 10 estrelas')}`);
+        card.setAttribute('aria-label', `${foto.titulo}. ${foto.equipada ? 'Em uso' : (foto.desbloqueada ? 'Disponível' : 'Custa 10 estrelas')}`);
         card.dataset.fotoId = foto.id;
+        if (foto.equipada) card.classList.add('equipada');
+        if (foto.id === stateLojaAvatares.fotoSelecionadaId) card.classList.add('selecionado');
 
-        if (fotos[0].equipada) card.classList.add('equipada');
-        if (fotos[0].id === stateLojaAvatares.fotoSelecionadaId) card.classList.add('selecionado');
-
-        // Badge de status
         let badgeHtml = '';
-        if (fotos[0].equipada) {
-            badgeHtml = '<span class="badge-item-status badge-equipada">Uso</span>';
-        } else if (fotos[0].padrao) {
-            badgeHtml = '<span class="badge-item-status badge-padrao">Grátis</span>';
-        } else if (fotos[0].desbloqueada) {
-            badgeHtml = '<span class="badge-item-status badge-adquirida"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>';
-        } else {
-            badgeHtml = '<span class="badge-item-status badge-preco">10 estrelas</span>';
-        }
+        if (foto.equipada) badgeHtml = '<span class="badge-item-status badge-equipada">Uso</span>';
+        else if (foto.padrao) badgeHtml = '<span class="badge-item-status badge-padrao">Grátis</span>';
+        else if (foto.desbloqueada) badgeHtml = '<span class="badge-item-status badge-adquirida">Adquirido</span>';
+        else badgeHtml = '<span class="badge-item-status badge-preco">10 estrelas</span>';
 
         card.innerHTML = `
-            <div class="avatar-item-img-wrapper">
-                <img src="${fotos[0].url}" alt="${fotos[0].titulo}" width="60" height="60" loading="lazy">
-            </div>
+            <div class="avatar-item-img-wrapper"><img src="${foto.url}" alt="${foto.titulo}" width="60" height="60" loading="lazy"></div>
             ${badgeHtml}
         `;
 

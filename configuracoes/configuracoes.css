@@ -179,11 +179,11 @@ body.tonalidade-ocean, html.tonalidade-ocean {
 
 /* Lilás: Violeta intenso + Lilás suave */
 body.tonalidade-earth, html.tonalidade-earth {
-    --duo-blue: #8b5cf6;
-    --duo-blue-shadow: #6d28d9;
-    --duo-blue-light: #f3e8ff;
-    --duo-green: #a855f7;
-    --duo-green-shadow: #9333ea;
+    --duo-blue: #7c3aed;
+    --duo-blue-shadow: #5b21b6;
+    --duo-blue-light: #ede9fe;
+    --duo-green: #c4b5fd;
+    --duo-green-shadow: #a78bfa;
 }
 
 /* Crimson: Rubi vibrante + Coral intenso */
@@ -212,6 +212,23 @@ body.tonalidade-berry, html.tonalidade-berry {
     --duo-green: #7a285f;
     --duo-green-shadow: #67164c;
 }
+
+/* Amethyst: violeta profundo + lilás claro */
+body.tonalidade-earth, html.tonalidade-earth {
+    --duo-blue: #7c3aed;
+    --duo-blue-shadow: #5b21b6;
+    --duo-blue-light: #ede9fe;
+    --duo-green: #c4b5fd;
+    --duo-green-shadow: #a78bfa;
+}
+
+/* Berry */
+.mp-berry .mp-nav-active { background: #e63981; }
+.mp-berry .mp-brand { background: #7a285f; }
+.mp-berry .mp-btn-primary { background: #7a285f; }
+.mp-berry .mp-btn-secondary { background: #e63981; }
+.mp-berry .mp-card:first-child { border-color: #7a285f; }
+.mp-berry .mp-card:last-child { border-color: #e63981; }
 
 /* ─── Tonalidade UI (Configurações) ───────────────────────────────────────── */
 
@@ -522,3 +539,11 @@ body.tema-escuro .mp-card {
 .mp-arctic .mp-card:last-child {
     border-color: #0284c7;
 }
+
+/* Amethyst */
+.mp-earth .mp-nav-active { background: #7c3aed; }
+.mp-earth .mp-brand { background: #c4b5fd; }
+.mp-earth .mp-btn-primary { background: #c4b5fd; }
+.mp-earth .mp-btn-secondary { background: #7c3aed; }
+.mp-earth .mp-card:first-child { border-color: #c4b5fd; }
+.mp-earth .mp-card:last-child { border-color: #7c3aed; }

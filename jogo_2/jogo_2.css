@@ -65,10 +65,10 @@ body.tonalidade-ocean {
 }
 
 body.tonalidade-earth {
-    --duo-blue: #8b5cf6;
-    --duo-blue-shadow: #6d28d9;
-    --duo-green: #a855f7;
-    --duo-green-shadow: #9333ea;
+    --duo-blue: #7c3aed;
+    --duo-blue-shadow: #5b21b6;
+    --duo-green: #c4b5fd;
+    --duo-green-shadow: #a78bfa;
 }
 
 body.tonalidade-berry, html.tonalidade-berry {
