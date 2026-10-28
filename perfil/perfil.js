@@ -721,6 +721,7 @@ async function carregarLojaAvatares() {
 
                 // Cache local para resiliência
                 localStorage.setItem(CHAVE_AVATAR_EQUIPADO, stateLojaAvatares.fotoAtual);
+                localStorage.setItem('mg_avatares_cache', JSON.stringify(stateLojaAvatares.fotos));
                 const desbloqueadas = stateLojaAvatares.fotos.filter(f => f.desbloqueada).map(f => f.id);
                 localStorage.setItem(CHAVE_AVATARES_DESBLOQUEADOS, JSON.stringify(desbloqueadas));
             }
@@ -781,26 +782,27 @@ function carregarLojaAvataresLocal() {
     stateLojaAvatares.totalGasto = totalGasto;
     stateLojaAvatares.saldo = saldo;
 
-    // Monta lista de fotos (1 a 9)
-    stateLojaAvatares.fotos = [];
-    for (let i = 1; i <= 9; i++) {
-        const nome = `foto${i}.webp`;
-        const isPadrao = (i === 1);
-        const desbloq = isPadrao || desbloqueadas.includes(nome);
-        const equip = (nome === stateLojaAvatares.fotoAtual);
-
-        stateLojaAvatares.fotos.push({
-            id: nome,
-            numero: i,
-            titulo: isPadrao ? 'Foto 1 (Padrão)' : `Avatar #${i}`,
-            url: `../fotos/${nome}`,
-            preco: isPadrao ? 0 : 10,
-            padrao: isPadrao,
-            desbloqueada: desbloq,
-            equipada: equip,
-            disponivel: true
-        });
+    // Monta lista automaticamente com os avatares disponíveis na pasta fotos.
+    // O fallback não consegue ler o diretório do navegador, então usa o cache
+    // recebido da API quando ele estiver disponível.
+    let fotosCacheadas = [];
+    try {
+        fotosCacheadas = JSON.parse(localStorage.getItem('mg_avatares_cache') || '[]');
+    } catch (e) {
+        fotosCacheadas = [];
     }
+
+    stateLojaAvatares.fotos = fotosCacheadas.map((foto) => ({
+        id: foto.id,
+        numero: foto.numero,
+        titulo: foto.titulo,
+        url: foto.url,
+        preco: foto.preco,
+        padrao: foto.padrao,
+        desbloqueada: Boolean(foto.padrao) || desbloqueadas.includes(foto.id),
+        equipada: foto.id === stateLojaAvatares.fotoAtual,
+        disponivel: foto.disponivel !== false
+    }));
 }
 
 /**
@@ -839,26 +841,17 @@ function renderizarCarrosselAvatares() {
         card.setAttribute('tabindex', '0');
         card.setAttribute('aria-label', `${foto.titulo}. ${foto.equipada ? 'Em uso' : (foto.desbloqueada ? 'Disponível' : 'Custa 10 estrelas')}`);
         card.dataset.fotoId = foto.id;
-
         if (foto.equipada) card.classList.add('equipada');
         if (foto.id === stateLojaAvatares.fotoSelecionadaId) card.classList.add('selecionado');
 
-        // Badge de status
         let badgeHtml = '';
-        if (foto.equipada) {
-            badgeHtml = '<span class="badge-item-status badge-equipada">Uso</span>';
-        } else if (foto.padrao) {
-            badgeHtml = '<span class="badge-item-status badge-padrao">Grátis</span>';
-        } else if (foto.desbloqueada) {
-            badgeHtml = '<span class="badge-item-status badge-adquirida"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>';
-        } else {
-            badgeHtml = '<span class="badge-item-status badge-preco">10 estrelas</span>';
-        }
+        if (foto.equipada) badgeHtml = '<span class="badge-item-status badge-equipada">Uso</span>';
+        else if (foto.padrao) badgeHtml = '<span class="badge-item-status badge-padrao">Grátis</span>';
+        else if (foto.desbloqueada) badgeHtml = '<span class="badge-item-status badge-adquirida">Adquirido</span>';
+        else badgeHtml = '<span class="badge-item-status badge-preco">10 estrelas</span>';
 
         card.innerHTML = `
-            <div class="avatar-item-img-wrapper">
-                <img src="${foto.url}" alt="${foto.titulo}" width="60" height="60" loading="lazy">
-            </div>
+            <div class="avatar-item-img-wrapper"><img src="${foto.url}" alt="${foto.titulo}" width="60" height="60" loading="lazy"></div>
             ${badgeHtml}
         `;
 

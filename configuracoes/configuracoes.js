@@ -15,7 +15,7 @@ const CHAVE_USUARIO    = 'mg_usuario';
 const CLASSES_TONALIDADE = ['tonalidade-sunset', 'tonalidade-ocean', 'tonalidade-earth', 'tonalidade-berry', 'tonalidade-crimson', 'tonalidade-arctic'];
 
 /** Classes de daltonismo aplicáveis ao HTML e ao body */
-const CLASSES_DALTONISMO = ['daltonismo-protanopia', 'daltonismo-deuteranopia', 'daltonismo-tritanopia'];
+const CLASSES_DALTONISMO = ['daltonismo-protanopia', 'daltonismo-deuteranopia', 'daltonismo-tritanopia', 'daltonismo-alto-contraste'];
 
 // ─── Inicialização ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -112,9 +112,11 @@ function atualizarCardTonalidade(tonalidade) {
 
 /**
  * Aplica o modo de daltonismo selecionado.
- * @param {string} modo - 'nenhum' | 'protanopia' | 'deuteranopia' | 'tritanopia'
+ * @param {string} modo - 'nenhum' | 'protanopia' | 'deuteranopia' | 'tritanopia' | 'alto-contraste'
  */
 function selecionarDaltonismo(modo) {
+    if (!MODOS_DALTONISMO.includes(modo)) return;
+
     aplicarClasseDaltonismo(modo);
 
     if (modo === 'nenhum') {
@@ -124,7 +126,10 @@ function selecionarDaltonismo(modo) {
     }
 }
 
+const MODOS_DALTONISMO = ['nenhum', 'protanopia', 'deuteranopia', 'tritanopia', 'alto-contraste'];
+
 function aplicarClasseDaltonismo(modo) {
+    if (!MODOS_DALTONISMO.includes(modo)) modo = 'nenhum';
     const alvos = [document.documentElement, document.body];
     CLASSES_DALTONISMO.forEach(cls => alvos.forEach(el => el.classList.remove(cls)));
 

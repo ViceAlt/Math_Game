@@ -2,7 +2,7 @@
 /**
  * cron/limpar_tokens.php
  * Script de limpeza oportunista ou via cron job.
- * Remove tokens de recuperação expirados e tentativas de acesso com mais de 24 horas.
+ * Remove tokens persistentes expirados e tentativas de acesso com mais de 24 horas.
  *
  * Uso com cron (exemplo — a cada hora):
  *   0 * * * * php /caminho/para/Math_Game/cron/limpar_tokens.php >> /var/log/mathgame_cron.log 2>&1
@@ -22,11 +22,6 @@ require_once __DIR__ . '/../conexao.php';
 $pdo = getDB();
 
 try {
-    // Remove tokens de recuperação expirados há mais de 24 horas
-    $stmtTokens = $pdo->exec(
-        "DELETE FROM recuperacao_senha WHERE expira_em < DATE_SUB(NOW(), INTERVAL 24 HOUR)"
-    );
-
     $stmtLoginPersistente = $pdo->exec(
         'DELETE FROM login_persistente WHERE expira_em < NOW()'
     );
@@ -37,7 +32,7 @@ try {
     );
 
     $agora = date('Y-m-d H:i:s');
-    echo "[{$agora}] Limpeza concluída — tokens de recuperação removidos: {$stmtTokens}, tokens persistentes removidos: {$stmtLoginPersistente}, tentativas removidas: {$stmtTentativas}" . PHP_EOL;
+    echo "[{$agora}] Limpeza concluída — tokens persistentes removidos: {$stmtLoginPersistente}, tentativas removidas: {$stmtTentativas}" . PHP_EOL;
 
 } catch (\PDOException $e) {
     // Registra sem expor dados sensíveis

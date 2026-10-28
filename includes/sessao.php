@@ -89,9 +89,8 @@ function sessao_restaurar_login_persistente(): void {
         require_once __DIR__ . '/../conexao.php';
         $pdo = getDB();
         $stmt = $pdo->prepare(
-            'SELECT lp.id AS token_id, lp.usuario_id, lp.validador_hash, lp.criado_em, lp.expira_em,
-                    u.id, u.username, u.email, u.foto_url, u.criado_em AS usuario_criado_em,
-                    u.senha_alterada_em
+                'SELECT lp.id AS token_id, lp.usuario_id, lp.validador_hash, lp.criado_em, lp.expira_em,
+                    u.id, u.username, u.email, u.foto_url, u.criado_em AS usuario_criado_em
              FROM login_persistente lp
              JOIN usuarios u ON u.id = lp.usuario_id
              WHERE lp.seletor = ? LIMIT 1'
@@ -102,10 +101,6 @@ function sessao_restaurar_login_persistente(): void {
         $valido = $registro
             && strtotime($registro['expira_em']) > time()
             && hash_equals($registro['validador_hash'], hash('sha256', $partes[2]));
-
-        if ($valido && !empty($registro['senha_alterada_em'])) {
-            $valido = strtotime($registro['senha_alterada_em']) <= strtotime($registro['criado_em']);
-        }
 
         if (!$valido) {
             if ($registro) {
@@ -162,7 +157,6 @@ function sessao_revogar_login_persistente(PDO $pdo): void {
 /**
  * Exige que o usuário esteja autenticado.
  * Se não estiver, redireciona para o login.
- * Também verifica se a senha foi alterada depois do login (invalida sessão antiga).
  *
  * @param string $redirectApos URL para onde redirecionar após login.
  */
@@ -174,52 +168,6 @@ function sessao_exigir_login(string $redirectApos = ''): void {
         }
         header('Location: ' . $destino);
         exit;
-    }
-
-    // Verifica se a senha foi alterada após o início desta sessão
-    sessao_verificar_validade();
-}
-
-/**
- * Verifica se a sessão está obsoleta comparando o horário de login
- * com o campo senha_alterada_em do banco. Se a senha foi alterada
- * depois do login, a sessão é destruída e o usuário é redirecionado.
- */
-function sessao_verificar_validade(): void {
-    // Se a sessão não tem horário de login registrado, registra agora
-    if (empty($_SESSION['logado_em'])) {
-        $_SESSION['logado_em'] = time();
-        return;
-    }
-
-    $usuarioId = (int) ($_SESSION['usuario']['id'] ?? 0);
-    if ($usuarioId <= 0) {
-        return;
-    }
-
-    try {
-        require_once __DIR__ . '/../conexao.php';
-        $pdo  = getDB();
-        $stmt = $pdo->prepare('SELECT senha_alterada_em FROM usuarios WHERE id = ? LIMIT 1');
-        $stmt->execute([$usuarioId]);
-        $row = $stmt->fetch();
-
-        if (!$row || $row['senha_alterada_em'] === null) {
-            return;
-        }
-
-        $alteradaEm = strtotime($row['senha_alterada_em']);
-        $logadoEm   = (int) $_SESSION['logado_em'];
-
-        // Sessão foi iniciada antes da troca de senha → invalida
-        if ($alteradaEm > $logadoEm) {
-            sessao_destruir();
-            header('Location: /login/login.php?aviso=senha_alterada');
-            exit;
-        }
-
-    } catch (\PDOException) {
-        // Falha silenciosa: não derruba a sessão por erro de banco
     }
 }
 
