@@ -228,6 +228,8 @@ $logado = $usuario !== null;
                               onchange="selecionarDaltonismo('deuteranopia')"> Deuteranopia (dificuldade com verde)</label>
                 <label><input type="radio" name="daltonismo" id="dal-tritanopia" value="tritanopia"
                               onchange="selecionarDaltonismo('tritanopia')"> Tritanopia (dificuldade com azul)</label>
+                <label><input type="radio" name="daltonismo" id="dal-alto-contraste" value="alto-contraste"
+                              onchange="selecionarDaltonismo('alto-contraste')"> Alto contraste</label>
             </div>
         </section>
     </main>

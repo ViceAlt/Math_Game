@@ -21,7 +21,8 @@
     const CLASSES_DALTONISMO = [
         'daltonismo-protanopia',
         'daltonismo-deuteranopia',
-        'daltonismo-tritanopia'
+        'daltonismo-tritanopia',
+        'daltonismo-alto-contraste'
     ];
 
     function aplicarPreferenciasVisuais() {
@@ -50,8 +51,9 @@
                 }
 
                 // 3. Daltonismo
+                const modoDaltonismoValido = daltonismo && CLASSES_DALTONISMO.includes(`daltonismo-${daltonismo}`);
                 CLASSES_DALTONISMO.forEach(cls => el.classList.remove(cls));
-                if (daltonismo && daltonismo !== 'nenhum') {
+                if (modoDaltonismoValido) {
                     el.classList.add(`daltonismo-${daltonismo}`);
                 }
             });
