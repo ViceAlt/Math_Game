@@ -177,22 +177,13 @@ body.tonalidade-ocean, html.tonalidade-ocean {
     --duo-green-shadow: #05b384;
 }
 
-/* Earth: Âmbar dourado + Terracota */
+/* Lilás: Violeta intenso + Lilás suave */
 body.tonalidade-earth, html.tonalidade-earth {
-    --duo-blue: #d4a03c;
-    --duo-blue-shadow: #b8872e;
-    --duo-blue-light: #fbf5e8;
-    --duo-green: #c45e3a;
-    --duo-green-shadow: #a44d2e;
-}
-
-/* Berry: Cereja vibrante + Rubi quente (sem tons violeta/magenta) */
-body.tonalidade-berry, html.tonalidade-berry {
-    --duo-blue: #e63981;
-    --duo-blue-shadow: #c0145c;
-    --duo-blue-light: #fdebf2;
-    --duo-green: #7a285f;
-    --duo-green-shadow: #67164c;
+    --duo-blue: #8b5cf6;
+    --duo-blue-shadow: #6d28d9;
+    --duo-blue-light: #f3e8ff;
+    --duo-green: #a855f7;
+    --duo-green-shadow: #9333ea;
 }
 
 /* Crimson: Rubi vibrante + Coral intenso */
@@ -211,6 +202,15 @@ body.tonalidade-arctic, html.tonalidade-arctic {
     --duo-blue-light: #e0f7fa;
     --duo-green: #06b6d4;
     --duo-green-shadow: #0891b2;
+}
+
+/* Berry: Cereja vibrante + Rubi quente */
+body.tonalidade-berry, html.tonalidade-berry {
+    --duo-blue: #e63981;
+    --duo-blue-shadow: #c0145c;
+    --duo-blue-light: #fdebf2;
+    --duo-green: #7a285f;
+    --duo-green-shadow: #67164c;
 }
 
 /* ─── Tonalidade UI (Configurações) ───────────────────────────────────────── */
@@ -471,56 +471,6 @@ body.tema-escuro .mp-card {
 
 .mp-ocean .mp-card:last-child {
     border-color: #0096c7;
-}
-
-/* Earth (Âmbar + Terracota) */
-.mp-earth .mp-nav-active {
-    background: #d4a03c;
-}
-
-.mp-earth .mp-brand {
-    background: #c45e3a;
-}
-
-.mp-earth .mp-btn-primary {
-    background: #c45e3a;
-}
-
-.mp-earth .mp-btn-secondary {
-    background: #d4a03c;
-}
-
-.mp-earth .mp-card:first-child {
-    border-color: #c45e3a;
-}
-
-.mp-earth .mp-card:last-child {
-    border-color: #d4a03c;
-}
-
-/* Berry (Cereja + Rubi) */
-.mp-berry .mp-nav-active {
-    background: #e63981;
-}
-
-.mp-berry .mp-brand {
-    background: #7a285f;
-}
-
-.mp-berry .mp-btn-primary {
-    background: #7a285f;
-}
-
-.mp-berry .mp-btn-secondary {
-    background: #e63981;
-}
-
-.mp-berry .mp-card:first-child {
-    border-color: #7a285f;
-}
-
-.mp-berry .mp-card:last-child {
-    border-color: #e63981;
 }
 
 /* Crimson (Rubi + Coral) */

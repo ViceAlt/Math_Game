@@ -146,11 +146,12 @@ html.tonalidade-ocean {
 
 body.tonalidade-earth,
 html.tonalidade-earth {
-   --duo-blue: #d4a03c;
-   --duo-blue-shadow: #b8872e;
-   --duo-blue-light: #fbf5e8;
-   --duo-green: #c45e3a;
-   --duo-green-shadow: #a44d2e;
+   /* Lilás: Violeta intenso + Lilás suave */
+   --duo-blue: #8b5cf6;
+   --duo-blue-shadow: #6d28d9;
+   --duo-blue-light: #f3e8ff;
+   --duo-green: #a855f7;
+   --duo-green-shadow: #9333ea;
 }
 
 body.tonalidade-berry,
@@ -472,7 +473,8 @@ html.daltonismo-alto-contraste :focus-visible {
 
 html.daltonismo-alto-contraste a {
    color: #00ffff !important;
-   text-decoration: underline;
+   background-color: #000000 !important;
+   text-decoration: underline !important;
 }
 
 html.daltonismo-alto-contraste button,
@@ -599,4 +601,123 @@ body .dica:active,
 body .btn-dica:active,
 body #btn-dica:active {
    filter: brightness(0.92) !important;
+}
+
+/* --------------------------------------------------------------------------
+   ALTO CONTRASTE: PARES DE TEXTO/FUNDO SEGUROS
+   -------------------------------------------------------------------------- */
+html.daltonismo-alto-contraste body,
+html.daltonismo-alto-contraste body.tema-escuro {
+   background: #000000 !important;
+   color: #ffffff !important;
+}
+
+html.daltonismo-alto-contraste :is(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, small) {
+   color: #ffffff !important;
+   background-color: transparent !important;
+}
+
+html.daltonismo-alto-contraste a {
+   color: #ffff00 !important;
+   background-color: #000000 !important;
+   text-decoration: underline !important;
+}
+
+html.daltonismo-alto-contraste :is(section, article, main, aside, nav, header, footer, .card, .config-item, .panel, .modal, .conteudo) {
+   background-color: #000000 !important;
+   color: #ffffff !important;
+   border-color: #ffffff !important;
+}
+
+html.daltonismo-alto-contraste :is(button, .btn-duo, .confirmar, .btn-confirmar, .proxima, .dica, .btn-dica) {
+   background-color: #ffff00 !important;
+   background-image: none !important;
+   border: 2px solid #ffffff !important;
+   color: #000000 !important;
+   text-shadow: none !important;
+}
+
+html.daltonismo-alto-contraste :is(.btn-duo-blue, .confirmar, .btn-confirmar, .proxima) {
+   background-color: #00ffff !important;
+   color: #000000 !important;
+}
+
+html.daltonismo-alto-contraste :is(.btn-duo-green, .sucesso, .acerto) {
+   background-color: #ffff00 !important;
+   color: #000000 !important;
+}
+
+html.daltonismo-alto-contraste :is(.btn-duo-orange, .dica, .btn-dica, #btn-dica) {
+   background-color: #ff9900 !important;
+   color: #000000 !important;
+}
+
+html.daltonismo-alto-contraste :is(.erro, .perigo, .btn-confirmar.erro) {
+   background-color: #8b0000 !important;
+   color: #ffffff !important;
+   border-color: #ffffff !important;
+}
+
+html.daltonismo-alto-contraste :is(.erro, .perigo, .btn-confirmar.erro) :is(span, strong, b, small, label) {
+   color: #ffffff !important;
+   background-color: transparent !important;
+}
+
+html.daltonismo-alto-contraste :is(.btn-duo-outline, .btn-duo-neutral) {
+   background-color: #000000 !important;
+   color: #ffffff !important;
+   border-color: #ffffff !important;
+}
+
+html.daltonismo-alto-contraste :is(button, .btn-duo, .confirmar, .btn-confirmar, .proxima, .dica, .btn-dica):hover:not(:disabled) {
+   filter: none !important;
+   background-color: #ffffff !important;
+   color: #000000 !important;
+}
+
+html.daltonismo-alto-contraste :is(input, select, textarea) {
+   background-color: #000000 !important;
+   color: #ffffff !important;
+   border: 2px solid #ffffff !important;
+   caret-color: #ffff00 !important;
+}
+
+html.daltonismo-alto-contraste input::placeholder,
+html.daltonismo-alto-contraste textarea::placeholder {
+   color: #ffffff !important;
+   opacity: 0.85;
+}
+
+html.daltonismo-alto-contraste input[type="radio"] {
+   background-color: #000000 !important;
+   border: 2px solid #ffffff !important;
+}
+
+html.daltonismo-alto-contraste input[type="radio"]:checked {
+   background-color: #ffff00 !important;
+   box-shadow: inset 0 0 0 4px #000000 !important;
+}
+
+html.daltonismo-alto-contraste input[type="checkbox"][role="switch"] {
+   background-color: #000000 !important;
+   border: 2px solid #ffffff !important;
+}
+
+html.daltonismo-alto-contraste input[type="checkbox"][role="switch"]::before {
+   background-color: #ffffff !important;
+   border: 1px solid #000000;
+}
+
+html.daltonismo-alto-contraste input[type="checkbox"][role="switch"]:checked {
+   background-color: #ffff00 !important;
+}
+
+html.daltonismo-alto-contraste input[type="checkbox"][role="switch"]:checked::before {
+   background-color: #000000 !important;
+   border-color: #ffffff;
+}
+
+html.daltonismo-alto-contraste :focus-visible {
+   outline: 3px solid #ffff00 !important;
+   outline-offset: 4px;
 }
