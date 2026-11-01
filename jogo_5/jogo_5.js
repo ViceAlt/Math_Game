@@ -105,6 +105,7 @@ function iniciarJogo() {
     rodadaAtual = 0;
     pontuacao = 0;
     acertosTotais = 0;
+    dicasUsadasJogo5 = 0;
     passosRealizadosTotal = 0;
     passosEsperadosTotal = 0;
     acoesDesequilibrantesTotal = 0;
@@ -1277,7 +1278,7 @@ function desfazerUltimaAcao() {
 
 // ─── Dicas ───────────────────────────────────────────────────────────────────
 let dicaIndiceJogo5 = 0;
-let dicaTimerJogo5 = null;
+let dicasUsadasJogo5 = 0;
 
 function solicitarDica() {
     const dicaEq = equacaoAtual?.dica || "Retire a mesma quantidade de ambos os lados para isolar o x!";
@@ -1293,25 +1294,11 @@ function solicitarDica() {
 }
 
 function exibirDica(msg) {
-    const el = document.getElementById('dica-flutuante');
-    const texto = document.getElementById('dica-texto');
-    if (el && texto) {
-        texto.textContent = msg;
-        el.style.display = 'flex';
-        if (dicaTimerJogo5) clearTimeout(dicaTimerJogo5);
-        dicaTimerJogo5 = setTimeout(() => {
-            el.style.display = 'none';
-        }, 5500);
-    }
+    if (window.abrirDicaOverlay(msg)) dicasUsadasJogo5++;
 }
 
 function ocultarDica() {
-    const el = document.getElementById('dica-flutuante');
-    if (el) el.style.display = 'none';
-    if (dicaTimerJogo5) {
-        clearTimeout(dicaTimerJogo5);
-        dicaTimerJogo5 = null;
-    }
+    window.fecharDicaOverlay();
 }
 
 // ─── Fim de Jogo ─────────────────────────────────────────────────────────────
@@ -1331,6 +1318,7 @@ function finalizarJogo() {
         }
     }
 
+    estrelas = Math.max(0, estrelas - dicasUsadasJogo5);
     exibirModalResultado(estrelas);
     gravarResultado(estrelas);
 }

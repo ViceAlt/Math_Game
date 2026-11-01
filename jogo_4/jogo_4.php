@@ -16,6 +16,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     <meta name="description" content="Sucessores e Antecessores - Mantham">
     <title>Sucessores e Antecessores | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
+    <link rel="stylesheet" href="../includes/dica-overlay.css">
     <link rel="stylesheet" href="jogo_4.css">
     <script src="../tema.js"></script>
 </head>
@@ -32,10 +33,15 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     <!-- Main game layout centralizado -->
     <main class="game-layout centralizado">
         <section class="card-questao-container">
-            <!-- Dica flutuante -->
-            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
-                <span class="dica-texto" id="dica-texto"></span>
-            </div>
+            <dialog class="dica-overlay" id="dica-flutuante" aria-label="Dica do jogo" aria-describedby="dica-texto">
+                <div class="dica-composicao">
+                    <img class="dica-personagem" id="dica-personagem" src="" alt="" aria-hidden="true">
+                    <section class="dica-balao">
+                        <p class="dica-texto" id="dica-texto"></p>
+                        <button type="button" class="confirmar dica-entendi" onclick="ocultarDica()">Entendi</button>
+                    </section>
+                </div>
+            </dialog>
             <!-- Box do Enunciado Principal em tamanho grande -->
             <div class="enunciado-card">
                 <p class="instrucao-topo" id="instrucao-topo">Complete a frase escolhendo as opções corretas:</p>
@@ -83,6 +89,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     </dialog>
 
     <script src="../includes/timer_pontuacao.js"></script>
+    <script src="../includes/dica-overlay.js"></script>
     <script src="jogo_4.js"></script>
 </body>
 

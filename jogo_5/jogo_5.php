@@ -16,6 +16,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     <meta name="description" content="A Balança de Equilíbrio - Equações do 1º Grau - Mantham">
     <title>A Balança de Equilíbrio | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
+    <link rel="stylesheet" href="../includes/dica-overlay.css">
     <link rel="stylesheet" href="jogo_5.css">
     <script src="../tema.js"></script>
     <script src="../includes/icones.js"></script>
@@ -36,11 +37,15 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         <!-- Mesa da Gangorra (Esquerda) -->
         <section class="mesa-jogo" aria-label="Gangorra de Equilíbrio Interativa">
             
-            <!-- Toast de Dica Flutuante -->
-            <!-- Dica flutuante -->
-            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
-                <span class="dica-texto" id="dica-texto">Mantenha a gangorra sempre equilibrada!</span>
-            </div>
+            <dialog class="dica-overlay" id="dica-flutuante" aria-label="Dica do jogo" aria-describedby="dica-texto">
+                <div class="dica-composicao">
+                    <img class="dica-personagem" id="dica-personagem" src="" alt="" aria-hidden="true">
+                    <section class="dica-balao">
+                        <p class="dica-texto" id="dica-texto"></p>
+                        <button type="button" class="confirmar dica-entendi" onclick="ocultarDica()">Entendi</button>
+                    </section>
+                </div>
+            </dialog>
 
             <!-- Painel de Divisão Algébrica Acima da Balança -->
             <div class="painel-divisao-balanca" id="painel-divisao-balanca" style="display: none;" role="region" aria-label="Operação de Divisão">
@@ -170,6 +175,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     </dialog>
 
     <script src="../includes/timer_pontuacao.js"></script>
+    <script src="../includes/dica-overlay.js"></script>
     <script src="jogo_5.js"></script>
 </body>
 

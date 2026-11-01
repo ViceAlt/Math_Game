@@ -100,6 +100,7 @@ async function carregarPartida() {
             questaoAtualIndex = 0;
             pontuacao = 0;
             acertos = 0;
+            dicasUsadasJogo3 = 0;
             jogoAtivo = true;
             atualizarBarraProgresso(0);
             iniciarQuestao();
@@ -841,7 +842,7 @@ function atualizarBarraProgresso(concluidas) {
 
 // ─── Dicas Flutuantes ────────────────────────────────────────────────────────
 let dicaIndiceJogo3 = 0;
-let dicaTimerJogo3 = null;
+let dicasUsadasJogo3 = 0;
 
 function solicitarDica() {
     if (!questaoAtual) return;
@@ -906,32 +907,18 @@ function solicitarDica() {
 const mostrarDica = solicitarDica;
 
 function exibirDica(msg) {
-    const el = document.getElementById('dica-flutuante');
-    const texto = document.getElementById('dica-texto');
-    if (el && texto) {
-        texto.textContent = msg;
-        el.style.display = 'flex';
-        if (dicaTimerJogo3) clearTimeout(dicaTimerJogo3);
-        dicaTimerJogo3 = setTimeout(() => {
-            el.style.display = 'none';
-        }, 5500);
-    }
+    if (window.abrirDicaOverlay(msg)) dicasUsadasJogo3++;
 }
 
 function ocultarDica() {
-    const el = document.getElementById('dica-flutuante');
-    if (el) el.style.display = 'none';
-    if (dicaTimerJogo3) {
-        clearTimeout(dicaTimerJogo3);
-        dicaTimerJogo3 = null;
-    }
+    window.fecharDicaOverlay();
 }
 
 // ─── Finalização da Partida e Gravação de Progresso ───────────────────────────
 function finalizarJogo() {
     jogoAtivo = false;
     const total = questoesPartida.length;
-    const estrelas = calcularEstrelas(acertos, total);
+    const estrelas = Math.max(0, calcularEstrelas(acertos, total) - dicasUsadasJogo3);
 
     exibirResultado(estrelas, total);
     verificarSessaoEGravar(estrelas);
