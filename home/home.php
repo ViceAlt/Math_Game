@@ -34,6 +34,11 @@ $jsVersion  = file_exists(__DIR__ . '/home.js') ? filemtime(__DIR__ . '/home.js'
 
     <!-- ===== CONTEÚDO PRINCIPAL ===== -->
     <main class="main home-main" id="main-content">
+        <header class="cabecalho-pagina">
+            <h1 class="titulo-pagina">Início</h1>
+            <p class="descricao-pagina">Acesse seus jogos, retome a trilha e acompanhe seu progresso em matemática.</p>
+        </header>
+
         <div class="home-layout">
 
             <!-- Coluna Principal (Esquerda) -->

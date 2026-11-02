@@ -30,6 +30,11 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </div>
     </header>
 
+    <header class="cabecalho-pagina cabecalho-pagina-jogo">
+        <h1 class="titulo-pagina">Formas e Geometria</h1>
+        <p class="descricao-pagina">Desenhe figuras e explore conceitos de perímetro, área e propriedades geométricas.</p>
+    </header>
+
     <!-- Main game layout -->
     <main class="game-layout">
         <!-- Área de Desenho da Forma (SVG) -->

@@ -22,7 +22,10 @@ $logado = $usuario !== null;
     <?php require __DIR__ . '/../includes/navbar.php'; ?>
 
     <main class="main" id="main-content">
-        <h1>Configurações</h1>
+        <header class="cabecalho-pagina">
+            <h1 class="titulo-pagina">Configurações</h1>
+            <p class="descricao-pagina">Personalize a aparência e os recursos de acessibilidade da plataforma.</p>
+        </header>
 
         <section aria-labelledby="titulo-aparencia">
             <h2 id="titulo-aparencia">Aparência</h2>

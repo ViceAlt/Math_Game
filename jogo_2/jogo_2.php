@@ -30,6 +30,11 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </div>
     </header>
 
+    <header class="cabecalho-pagina cabecalho-pagina-jogo">
+        <h1 class="titulo-pagina">Gráfico de Barras</h1>
+        <p class="descricao-pagina">Interprete os dados e monte gráficos de barras para resolver cada desafio.</p>
+    </header>
+
     <!-- Main game layout -->
     <main class="game-layout">
         <!-- Area do Gráfico em SVG -->

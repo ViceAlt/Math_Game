@@ -31,6 +31,11 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </div>
     </header>
 
+    <header class="cabecalho-pagina cabecalho-pagina-jogo">
+        <h1 class="titulo-pagina">A Balança de Equilíbrio</h1>
+        <p class="descricao-pagina">Resolva equações do primeiro grau mantendo os dois lados em equilíbrio.</p>
+    </header>
+
     <!-- Layout padrão: Mesa de jogo na esquerda + Sidebar na direita -->
     <main class="game-layout">
 

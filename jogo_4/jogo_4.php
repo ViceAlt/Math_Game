@@ -30,6 +30,11 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </div>
     </header>
 
+    <header class="cabecalho-pagina cabecalho-pagina-jogo">
+        <h1 class="titulo-pagina">Sucessores e Antecessores</h1>
+        <p class="descricao-pagina">Complete as sequências numéricas identificando o número anterior ou seguinte.</p>
+    </header>
+
     <!-- Main game layout centralizado -->
     <main class="game-layout centralizado">
         <section class="card-questao-container">

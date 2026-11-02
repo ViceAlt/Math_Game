@@ -22,8 +22,10 @@ $logado = $usuario !== null;
     <?php require __DIR__ . '/../includes/navbar.php'; ?>
 
     <main class="main" id="main-content">
-        <h1>Jogos</h1>
-        <p>Jogue livremente para treinar. A pontuação aqui é local e não afeta seu progresso na trilha.</p>
+        <header class="cabecalho-pagina">
+            <h1 class="titulo-pagina">Jogos</h1>
+            <p class="descricao-pagina">Jogue livremente para treinar. A pontuação aqui é local e não afeta seu progresso na trilha.</p>
+        </header>
 
         <section class="grade-jogos" id="grade-jogos" aria-label="Catálogo de jogos disponíveis">
 
