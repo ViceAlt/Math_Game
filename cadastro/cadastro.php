@@ -24,12 +24,6 @@ $csrfToken = csrf_gerar();
 <body>
 
     <main class="main" id="main-content">
-        <div class="auth-brand-logo">
-            <a href="../index.php" class="auth-brand-link" aria-label="Mantham - Início">
-                <img src="../icons/logo.webp" alt="Mantham" class="auth-brand-logo-img">
-            </a>
-        </div>
-
         <h1>Criar Conta</h1>
 
         <form id="form-cadastro" novalidate aria-label="Formulário de cadastro">

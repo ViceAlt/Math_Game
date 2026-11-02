@@ -7,6 +7,7 @@
     <meta name="description" content="Jogo de Frações com Pizza - Mantham">
     <title>Frações com Pizza | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
+    <link rel="stylesheet" href="../includes/dica-overlay.css">
     <link rel="stylesheet" href="jogo_1.css">
     <script src="../tema.js"></script>
 </head>
@@ -20,14 +21,15 @@
         </div>
     </header>
 
+    <header class="cabecalho-pagina cabecalho-pagina-jogo">
+        <h1 class="titulo-pagina">Frações com Pizza</h1>
+        <p class="descricao-pagina">Represente frações selecionando as fatias corretas da pizza.</p>
+    </header>
+
     <!-- Main game layout -->
     <main class="game-layout">
         <!-- Left/Center: Wooden table with pizza + undo -->
         <section class="mesa-madeira">
-            <!-- Dica flutuante -->
-            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
-                <span class="dica-texto" id="dica-texto"></span>
-            </div>
             <div class="pizzas-area" id="pizzasArea"></div>
             <button id="btn-desfazer" class="btn-desfazer" onclick="desfazerUltimaFatia()">Desfazer</button>
         </section>
@@ -51,6 +53,16 @@
         </aside>
     </main>
 
+    <dialog class="dica-overlay" id="dica-flutuante" aria-label="Dica do jogo" aria-describedby="dica-texto">
+        <div class="dica-composicao">
+            <img class="dica-personagem" id="dica-personagem" src="" alt="" aria-hidden="true">
+            <section class="dica-balao">
+                <p class="dica-texto" id="dica-texto"></p>
+                <button type="button" class="confirmar dica-entendi" onclick="ocultarDica()">Entendi</button>
+            </section>
+        </div>
+    </dialog>
+
     <!-- Modal de Resultado Final -->
     <dialog id="modal-resultado" aria-labelledby="modal-resultado-titulo">
         <article class="modal-resultado-conteudo">
@@ -68,6 +80,7 @@
     </dialog>
 
     <script src="../includes/timer_pontuacao.js"></script>
+    <script src="../includes/dica-overlay.js"></script>
     <script src="jogo_1.js"></script>
 </body>
 

@@ -95,8 +95,6 @@ try {
         'email'     => $email,
         'foto_url'  => null,
     ];
-    $_SESSION['logado_em'] = time();
-
     http_response_code(201);
     echo json_encode([
         'ok'      => true,

@@ -26,7 +26,7 @@ $input = json_decode(file_get_contents('php://input'), true) ?? [];
 $fotoNome = trim($input['foto'] ?? '');
 
 // Sanitização e validação rígida do nome do arquivo
-if (!preg_match('/^foto([1-9])\.webp$/i', $fotoNome, $matches)) {
+if (!preg_match('/^foto([0-9]+)\.webp$/i', $fotoNome, $matches)) {
     http_response_code(400);
     echo json_encode(['ok' => false, 'erro' => 'Avatar inválido selecionado.']);
     exit;

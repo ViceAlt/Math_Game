@@ -22,7 +22,10 @@ $logado = $usuario !== null;
     <?php require __DIR__ . '/../includes/navbar.php'; ?>
 
     <main class="main" id="main-content">
-        <h1>Configurações</h1>
+        <header class="cabecalho-pagina">
+            <h1 class="titulo-pagina">Configurações</h1>
+            <p class="descricao-pagina">Personalize a aparência e os recursos de acessibilidade da plataforma.</p>
+        </header>
 
         <section aria-labelledby="titulo-aparencia">
             <h2 id="titulo-aparencia">Aparência</h2>
@@ -114,9 +117,9 @@ $logado = $usuario !== null;
                     <span class="tonalidade-nome">Ocean</span>
                 </button>
 
-                <!-- Earth (Âmbar + Terracota) -->
+                <!-- Amethyst (Violeta intenso + Lilás suave) -->
                 <button type="button" class="tonalidade-card" id="ton-earth"
-                        role="radio" aria-checked="false" aria-label="Tonalidade Earth"
+                        role="radio" aria-checked="false" aria-label="Tonalidade Amethyst"
                         onclick="selecionarTonalidade('earth')">
                     <div class="mini-page mp-earth">
                         <div class="mp-topbar">
@@ -136,30 +139,16 @@ $logado = $usuario !== null;
                             <div class="mp-btn-secondary"></div>
                         </div>
                     </div>
-                    <span class="tonalidade-nome">Earth</span>
+                    <span class="tonalidade-nome">Amethyst</span>
                 </button>
 
-                <!-- Berry (Cereja + Rosa quente) -->
+                <!-- Berry (Cereja vibrante + Rubi) -->
                 <button type="button" class="tonalidade-card" id="ton-berry"
                         role="radio" aria-checked="false" aria-label="Tonalidade Berry"
                         onclick="selecionarTonalidade('berry')">
                     <div class="mini-page mp-berry">
-                        <div class="mp-topbar">
-                            <div class="mp-brand"></div>
-                            <div class="mp-nav-item"></div>
-                            <div class="mp-nav-item mp-nav-active"></div>
-                            <div class="mp-nav-item"></div>
-                            <div class="mp-avatar"></div>
-                        </div>
-                        <div class="mp-content">
-                            <div class="mp-header"></div>
-                            <div class="mp-cards">
-                                <div class="mp-card"></div>
-                                <div class="mp-card"></div>
-                            </div>
-                            <div class="mp-btn-primary"></div>
-                            <div class="mp-btn-secondary"></div>
-                        </div>
+                        <div class="mp-topbar"><div class="mp-brand"></div><div class="mp-nav-item"></div><div class="mp-nav-item mp-nav-active"></div><div class="mp-nav-item"></div><div class="mp-avatar"></div></div>
+                        <div class="mp-content"><div class="mp-header"></div><div class="mp-cards"><div class="mp-card"></div><div class="mp-card"></div></div><div class="mp-btn-primary"></div><div class="mp-btn-secondary"></div></div>
                     </div>
                     <span class="tonalidade-nome">Berry</span>
                 </button>
@@ -169,47 +158,19 @@ $logado = $usuario !== null;
                         role="radio" aria-checked="false" aria-label="Tonalidade Crimson"
                         onclick="selecionarTonalidade('crimson')">
                     <div class="mini-page mp-crimson">
-                        <div class="mp-topbar">
-                            <div class="mp-brand"></div>
-                            <div class="mp-nav-item"></div>
-                            <div class="mp-nav-item mp-nav-active"></div>
-                            <div class="mp-nav-item"></div>
-                            <div class="mp-avatar"></div>
-                        </div>
-                        <div class="mp-content">
-                            <div class="mp-header"></div>
-                            <div class="mp-cards">
-                                <div class="mp-card"></div>
-                                <div class="mp-card"></div>
-                            </div>
-                            <div class="mp-btn-primary"></div>
-                            <div class="mp-btn-secondary"></div>
-                        </div>
+                        <div class="mp-topbar"><div class="mp-brand"></div><div class="mp-nav-item"></div><div class="mp-nav-item mp-nav-active"></div><div class="mp-nav-item"></div><div class="mp-avatar"></div></div>
+                        <div class="mp-content"><div class="mp-header"></div><div class="mp-cards"><div class="mp-card"></div><div class="mp-card"></div></div><div class="mp-btn-primary"></div><div class="mp-btn-secondary"></div></div>
                     </div>
                     <span class="tonalidade-nome">Crimson</span>
                 </button>
 
-                <!-- Arctic (Azul Petróleo + Ciano Gelo) -->
+                <!-- Arctic (Azul petróleo + Ciano gelo) -->
                 <button type="button" class="tonalidade-card" id="ton-arctic"
                         role="radio" aria-checked="false" aria-label="Tonalidade Arctic"
                         onclick="selecionarTonalidade('arctic')">
                     <div class="mini-page mp-arctic">
-                        <div class="mp-topbar">
-                            <div class="mp-brand"></div>
-                            <div class="mp-nav-item"></div>
-                            <div class="mp-nav-item mp-nav-active"></div>
-                            <div class="mp-nav-item"></div>
-                            <div class="mp-avatar"></div>
-                        </div>
-                        <div class="mp-content">
-                            <div class="mp-header"></div>
-                            <div class="mp-cards">
-                                <div class="mp-card"></div>
-                                <div class="mp-card"></div>
-                            </div>
-                            <div class="mp-btn-primary"></div>
-                            <div class="mp-btn-secondary"></div>
-                        </div>
+                        <div class="mp-topbar"><div class="mp-brand"></div><div class="mp-nav-item"></div><div class="mp-nav-item mp-nav-active"></div><div class="mp-nav-item"></div><div class="mp-avatar"></div></div>
+                        <div class="mp-content"><div class="mp-header"></div><div class="mp-cards"><div class="mp-card"></div><div class="mp-card"></div></div><div class="mp-btn-primary"></div><div class="mp-btn-secondary"></div></div>
                     </div>
                     <span class="tonalidade-nome">Arctic</span>
                 </button>
@@ -218,7 +179,7 @@ $logado = $usuario !== null;
         </section>
 
         <section aria-labelledby="titulo-daltonismo">
-            <h2 id="titulo-daltonismo">Modo de Daltonismo</h2>
+            <h2 id="titulo-daltonismo">Acessibilidades visuais</h2>
             <div class="config-item" role="group" aria-labelledby="titulo-daltonismo">
                 <label><input type="radio" name="daltonismo" id="dal-nenhum" value="nenhum"
                               onchange="selecionarDaltonismo('nenhum')"> Nenhum (padrão)</label>
@@ -228,6 +189,8 @@ $logado = $usuario !== null;
                               onchange="selecionarDaltonismo('deuteranopia')"> Deuteranopia (dificuldade com verde)</label>
                 <label><input type="radio" name="daltonismo" id="dal-tritanopia" value="tritanopia"
                               onchange="selecionarDaltonismo('tritanopia')"> Tritanopia (dificuldade com azul)</label>
+                <label><input type="radio" name="daltonismo" id="dal-alto-contraste" value="alto-contraste"
+                              onchange="selecionarDaltonismo('alto-contraste')"> Alto contraste</label>
             </div>
         </section>
     </main>

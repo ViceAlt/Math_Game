@@ -21,8 +21,35 @@
     const CLASSES_DALTONISMO = [
         'daltonismo-protanopia',
         'daltonismo-deuteranopia',
-        'daltonismo-tritanopia'
+        'daltonismo-tritanopia',
+        'daltonismo-alto-contraste'
     ];
+
+    const ARQUIVOS_SOM = {
+        button: 'button.mp3',
+        correct: 'correct.wav',
+        wrong: 'wrong.wav',
+        '1star': '1star.wav',
+        '2star': '2star.mp3',
+        '3star': '3star.wav'
+    };
+    const URL_SONS = new URL('sounds/', document.currentScript.src);
+
+    window.reproduzirEfeitoSonoro = function (nome) {
+        const arquivo = ARQUIVOS_SOM[nome];
+        if (!arquivo) return;
+
+        const audio = new Audio(new URL(arquivo, URL_SONS).href);
+        audio.volume = nome === 'button' ? 0.45 : 0.7;
+        audio.play().catch(() => {});
+    };
+
+    document.addEventListener('click', (event) => {
+        const botao = event.target.closest('button');
+        if (botao && !botao.disabled) {
+            window.reproduzirEfeitoSonoro('button');
+        }
+    }, true);
 
     function aplicarPreferenciasVisuais() {
         try {
@@ -50,8 +77,9 @@
                 }
 
                 // 3. Daltonismo
+                const modoDaltonismoValido = daltonismo && CLASSES_DALTONISMO.includes(`daltonismo-${daltonismo}`);
                 CLASSES_DALTONISMO.forEach(cls => el.classList.remove(cls));
-                if (daltonismo && daltonismo !== 'nenhum') {
+                if (modoDaltonismoValido) {
                     el.classList.add(`daltonismo-${daltonismo}`);
                 }
             });

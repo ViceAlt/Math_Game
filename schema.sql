@@ -93,12 +93,12 @@ CREATE TABLE IF NOT EXISTS progresso_usuario (
 
 -- ------------------------------------------------------------
 -- Tabela: tentativas_acesso
--- Registra tentativas para proteção de rate limit (login e recuperação)
+-- Registra tentativas para proteção de rate limit do login
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS tentativas_acesso (
     id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    tipo       VARCHAR(30)  NOT NULL COMMENT 'login | recuperacao | recuperacao_ip',
-    chave      VARCHAR(190) NOT NULL COMMENT 'email ou IP (em minúsculas)',
+    tipo       VARCHAR(30)  NOT NULL COMMENT 'login',
+    chave      VARCHAR(190) NOT NULL COMMENT 'identificador de login e IP',
     criado_em  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_tentativas (tipo, chave, criado_em)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

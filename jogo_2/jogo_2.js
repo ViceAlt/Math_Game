@@ -58,6 +58,7 @@ function iniciarJogo() {
     rodadaAtual = 0;
     pontuacao = 0;
     acertosTotais = 0;
+    dicasUsadasJogo2 = 0;
     jogoAtivo = true;
     totalRodadas = CONFIG_DIFICULDADE[params.dificuldade]?.rodadas || 3;
 
@@ -408,6 +409,7 @@ async function verificarResposta() {
             const barra = document.getElementById('barra-progresso');
 
             if (res.acertou) {
+                window.reproduzirEfeitoSonoro?.('correct');
                 acertosTotais++;
                 const bonusTempo = timerPontuacaoQuestao.multiplicador();
                 pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1) * bonusTempo);
@@ -416,6 +418,7 @@ async function verificarResposta() {
                     barra.classList.add('acerto');
                 }
             } else {
+                window.reproduzirEfeitoSonoro?.('wrong');
                 if (barra) {
                     barra.classList.remove('acerto');
                     barra.classList.add('erro');
@@ -469,7 +472,7 @@ function aplicarFeedbackBarras(detalhes) {
 // ─── Auxiliares e Encerramento do Jogo ────────────────────────────────────────
 
 let dicaIndiceJogo2 = 0;
-let dicaTimerJogo2 = null;
+let dicasUsadasJogo2 = 0;
 
 function solicitarDica() {
     if (!questaoAtual) return;
@@ -489,25 +492,11 @@ function solicitarDica() {
 const mostrarDica = solicitarDica;
 
 function exibirDica(msg) {
-    const el = document.getElementById('dica-flutuante');
-    const texto = document.getElementById('dica-texto');
-    if (el && texto) {
-        texto.textContent = msg;
-        el.style.display = 'flex';
-        if (dicaTimerJogo2) clearTimeout(dicaTimerJogo2);
-        dicaTimerJogo2 = setTimeout(() => {
-            el.style.display = 'none';
-        }, 5500);
-    }
+    if (window.abrirDicaOverlay(msg)) dicasUsadasJogo2++;
 }
 
 function ocultarDica() {
-    const el = document.getElementById('dica-flutuante');
-    if (el) el.style.display = 'none';
-    if (dicaTimerJogo2) {
-        clearTimeout(dicaTimerJogo2);
-        dicaTimerJogo2 = null;
-    }
+    window.fecharDicaOverlay();
 }
 
 function atualizarBarraDeProgresso(rodada) {
@@ -520,7 +509,8 @@ function atualizarBarraDeProgresso(rodada) {
 
 function finalizarJogo() {
     jogoAtivo = false;
-    const estrelas = calcularEstrelas(acertosTotais, totalRodadas);
+    const estrelas = Math.max(0, calcularEstrelas(acertosTotais, totalRodadas) - dicasUsadasJogo2);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
 
     exibirResultado(estrelas);
     verificarSessaoEGravar(estrelas);

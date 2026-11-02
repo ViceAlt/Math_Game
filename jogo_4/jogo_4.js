@@ -78,6 +78,7 @@ async function carregarPartida() {
             questaoAtualIndex = 0;
             pontuacao = 0;
             acertos = 0;
+            dicasUsadasJogo4 = 0;
             jogoAtivo = true;
             atualizarBarraProgresso(0);
             iniciarQuestao();
@@ -286,6 +287,7 @@ function confirmarResposta() {
     const barra = document.getElementById('barra-progresso');
 
     if (todosCorretos) {
+        window.reproduzirEfeitoSonoro?.('correct');
         // Acertou de primeira
         acertos++;
         const mult = CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1;
@@ -308,6 +310,7 @@ function confirmarResposta() {
         }, 800);
 
     } else {
+        window.reproduzirEfeitoSonoro?.('wrong');
         // Errou: campos errados piscam em vermelho e trocam automaticamente para a opção correta
         if (barra) {
             barra.classList.remove('acerto');
@@ -367,7 +370,7 @@ function atualizarBarraProgresso(concluidas) {
 
 // ─── Dicas Flutuantes ────────────────────────────────────────────────────────
 let dicaIndiceJogo4 = 0;
-let dicaTimerJogo4 = null;
+let dicasUsadasJogo4 = 0;
 
 function solicitarDica() {
     if (!questaoAtual) return;
@@ -387,32 +390,19 @@ function solicitarDica() {
 const mostrarDica = solicitarDica;
 
 function exibirDica(msg) {
-    const el = document.getElementById('dica-flutuante');
-    const texto = document.getElementById('dica-texto');
-    if (el && texto) {
-        texto.textContent = msg;
-        el.style.display = 'flex';
-        if (dicaTimerJogo4) clearTimeout(dicaTimerJogo4);
-        dicaTimerJogo4 = setTimeout(() => {
-            el.style.display = 'none';
-        }, 5500);
-    }
+    if (window.abrirDicaOverlay(msg)) dicasUsadasJogo4++;
 }
 
 function ocultarDica() {
-    const el = document.getElementById('dica-flutuante');
-    if (el) el.style.display = 'none';
-    if (dicaTimerJogo4) {
-        clearTimeout(dicaTimerJogo4);
-        dicaTimerJogo4 = null;
-    }
+    window.fecharDicaOverlay();
 }
 
 // ─── Finalização do Jogo e Progresso ──────────────────────────────────────────
 function finalizarJogo() {
     jogoAtivo = false;
     const total = questoesPartida.length;
-    const estrelas = calcularEstrelas(acertos, total);
+    const estrelas = Math.max(0, calcularEstrelas(acertos, total) - dicasUsadasJogo4);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
 
     exibirResultado(estrelas, total);
     verificarSessaoEGravar(estrelas);

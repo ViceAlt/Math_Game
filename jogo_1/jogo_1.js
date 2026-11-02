@@ -107,6 +107,7 @@ function iniciarJogo() {
     rodadaAtual = 0;
     pontuacao = 0;
     acertos = 0;
+    dicasUsadasJogo1 = 0;
     jogoAtivo = true;
     totalRodadas = CONFIG_DIFICULDADE[params.dificuldade]?.rodadas || 3;
     filaFases = gerarFilaDeFases(params.dificuldade);
@@ -180,6 +181,7 @@ function onDecay() {
     const respostaCorreta = calcularFatiasSelecionadas();
     const fatiasSelecionadas = contarFatiasComidas();
     const acertou = (fatiasSelecionadas === respostaCorreta);
+    window.reproduzirEfeitoSonoro?.(acertou ? 'correct' : 'wrong');
 
     const barra = document.getElementById('barra-progresso');
 
@@ -252,7 +254,8 @@ function contarFatiasComidas() {
 function finalizarJogo() {
     jogoAtivo = false;
 
-    const estrelas = calcularEstrelas(acertos, totalRodadas);
+    const estrelas = Math.max(0, calcularEstrelas(acertos, totalRodadas) - dicasUsadasJogo1);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
 
     exibirResultado(estrelas);
 
@@ -320,7 +323,7 @@ function exibirResultado(estrelas) {
 
 // ─── Dicas Flutuantes ────────────────────────────────────────────────────────
 let dicaIndiceJogo1 = 0;
-let dicaTimerJogo1 = null;
+let dicasUsadasJogo1 = 0;
 
 function solicitarDica() {
     if (!currentTarget) return;
@@ -343,25 +346,11 @@ function solicitarDica() {
 }
 
 function exibirDica(msg) {
-    const el = document.getElementById('dica-flutuante');
-    const texto = document.getElementById('dica-texto');
-    if (el && texto) {
-        texto.textContent = msg;
-        el.style.display = 'flex';
-        if (dicaTimerJogo1) clearTimeout(dicaTimerJogo1);
-        dicaTimerJogo1 = setTimeout(() => {
-            el.style.display = 'none';
-        }, 5500);
-    }
+    if (window.abrirDicaOverlay(msg)) dicasUsadasJogo1++;
 }
 
 function ocultarDica() {
-    const el = document.getElementById('dica-flutuante');
-    if (el) el.style.display = 'none';
-    if (dicaTimerJogo1) {
-        clearTimeout(dicaTimerJogo1);
-        dicaTimerJogo1 = null;
-    }
+    window.fecharDicaOverlay();
 }
 
 // ─── Gravação de Progresso (Trilha) ──────────────────────────────────────────

@@ -47,7 +47,7 @@ try {
     $fotoAtualNome = 'foto1.webp';
     if (!empty($fotoUrlDb)) {
         $basename = basename($fotoUrlDb);
-        if (preg_match('/^foto[1-9]\.webp$/i', $basename)) {
+        if (preg_match('/^foto[0-9]+\.webp$/i', $basename)) {
             $fotoAtualNome = strtolower($basename);
         }
     }
@@ -73,29 +73,36 @@ try {
     // Saldo disponível como moeda de jogo
     $saldoEstrelas = max(0, $totalEstrelasConquistadas - $totalGasto);
 
-    // 5. Escaneia a pasta de fotos (foto1.webp até foto9.webp)
+    // 5. Escaneia automaticamente todos os avatares fotoN.webp da pasta
     $pastaFotos = __DIR__ . '/../../fotos';
     $listaFotos = [];
+    $arquivosFotos = glob($pastaFotos . '/foto[0-9]*.webp') ?: [];
 
-    for ($i = 1; $i <= 9; $i++) {
-        $nomeArquivo = "foto{$i}.webp";
-        $caminhoFisico = $pastaFotos . '/' . $nomeArquivo;
+    $arquivosFotos = array_filter($arquivosFotos, static function ($caminho) {
+        return is_file($caminho) && preg_match('/^foto[0-9]+\.webp$/i', basename($caminho));
+    });
 
-        $existe = file_exists($caminhoFisico);
-        $isPadrao = ($i === 1);
+    usort($arquivosFotos, static function ($a, $b) {
+        return strnatcasecmp(basename($a), basename($b));
+    });
+
+    foreach ($arquivosFotos as $caminhoFisico) {
+        $nomeArquivo = strtolower(basename($caminhoFisico));
+        preg_match('/^foto([0-9]+)\.webp$/i', $nomeArquivo, $matches);
+        $numeroFoto = isset($matches[1]) ? (int) $matches[1] : 0;
+        $isPadrao = ($numeroFoto === 1);
         $desbloqueada = $isPadrao || !empty($fotosDesbloqueadas[$nomeArquivo]);
-        $equipada = ($nomeArquivo === $fotoAtualNome);
 
         $listaFotos[] = [
             'id'           => $nomeArquivo,
-            'numero'       => $i,
-            'titulo'       => $isPadrao ? 'Foto Padrão' : "Avatar #{$i}",
-            'url'          => '../fotos/' . $nomeArquivo,
+            'numero'       => $numeroFoto,
+            'titulo'       => $isPadrao ? 'Foto Padrão' : "Avatar #{$numeroFoto}",
+            'url'          => '../fotos/' . rawurlencode($nomeArquivo),
             'preco'        => $isPadrao ? 0 : 10,
             'padrao'       => $isPadrao,
             'desbloqueada' => $desbloqueada,
-            'equipada'     => $equipada,
-            'disponivel'   => $existe
+            'equipada'     => ($nomeArquivo === $fotoAtualNome),
+            'disponivel'   => true
         ];
     }
 

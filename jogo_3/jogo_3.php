@@ -16,6 +16,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     <meta name="description" content="Formas Geométricas e Fórmulas - Mantham">
     <title>Formas e Geometria | Mantham</title>
     <link rel="stylesheet" href="../tema.css">
+    <link rel="stylesheet" href="../includes/dica-overlay.css">
     <link rel="stylesheet" href="jogo_3.css">
     <script src="../tema.js"></script>
 </head>
@@ -29,14 +30,24 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
         </div>
     </header>
 
+    <header class="cabecalho-pagina cabecalho-pagina-jogo">
+        <h1 class="titulo-pagina">Formas e Geometria</h1>
+        <p class="descricao-pagina">Desenhe figuras e explore conceitos de perímetro, área e propriedades geométricas.</p>
+    </header>
+
     <!-- Main game layout -->
     <main class="game-layout">
         <!-- Área de Desenho da Forma (SVG) -->
         <section class="mesa-desenho">
-            <!-- Dica flutuante -->
-            <div class="dica-flutuante" id="dica-flutuante" role="status" aria-live="polite" style="display: none;">
-                <span class="dica-texto" id="dica-texto"></span>
-            </div>
+            <dialog class="dica-overlay" id="dica-flutuante" aria-label="Dica do jogo" aria-describedby="dica-texto">
+                <div class="dica-composicao">
+                    <img class="dica-personagem" id="dica-personagem" src="" alt="" aria-hidden="true">
+                    <section class="dica-balao">
+                        <p class="dica-texto" id="dica-texto"></p>
+                        <button type="button" class="confirmar dica-entendi" onclick="ocultarDica()">Entendi</button>
+                    </section>
+                </div>
+            </dialog>
             <!-- Barra de ferramentas do plano de desenho -->
             <div class="desenho-toolbar">
                 <div class="info-forma-badge" id="infoFormaBadge">
@@ -140,6 +151,7 @@ if ($ano !== null && $fase !== null && !validarAcessoFaseServidor($ano, $fase)) 
     </dialog>
 
     <script src="../includes/timer_pontuacao.js"></script>
+    <script src="../includes/dica-overlay.js"></script>
     <script src="jogo_3.js"></script>
 </body>
 

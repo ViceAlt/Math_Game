@@ -246,18 +246,18 @@ body.tema-escuro .tonalidade-ocean .top-navbar-nav a[aria-current="page"] .top-n
 /* Earth (Âmbar Dourado + Terracota) */
 body.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
 html.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
-    background-color: #fbf5e8;
-    color: #d4a03c;
-    border-color: #d4a03c;
+    background-color: #f3e8ff;
+    color: #8b5cf6;
+    border-color: #8b5cf6;
     box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
 body.tema-escuro.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
 html.tema-escuro.tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
 body.tema-escuro .tonalidade-earth .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
-    background-color: rgba(212, 160, 60, 0.2);
-    color: #e5b352;
-    border-color: #e5b352;
+    background-color: rgba(139, 92, 246, 0.2);
+    color: #c4b5fd;
+    border-color: #c4b5fd;
     box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 
@@ -312,6 +312,24 @@ body.tema-escuro .tonalidade-arctic .top-navbar-nav a[aria-current="page"] .top-
     background-color: rgba(6, 182, 212, 0.2);
     color: #22d3ee;
     border-color: #22d3ee;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
+}
+
+/* Lilás (Violeta intenso + Lilás suave) */
+body.tonalidade-lilas .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tonalidade-lilas .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: #fdebf2;
+    color: #e63981;
+    border-color: #e63981;
+    box-shadow: 0 3px 0 var(--duo-blue-shadow);
+}
+
+body.tema-escuro.tonalidade-lilas .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+html.tema-escuro.tonalidade-lilas .top-navbar-nav a[aria-current="page"] .top-navbar-btn,
+body.tema-escuro .tonalidade-lilas .top-navbar-nav a[aria-current="page"] .top-navbar-btn {
+    background-color: rgba(230, 57, 129, 0.2);
+    color: #f472b6;
+    border-color: #f472b6;
     box-shadow: 0 3px 0 var(--duo-blue-shadow);
 }
 

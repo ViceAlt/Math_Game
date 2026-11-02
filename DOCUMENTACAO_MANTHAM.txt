@@ -1,0 +1,831 @@
+DOCUMENTAÇÃO COMPLETA DO PROJETO MANTHAM / MATH GAME
+Data da documentação: 27/10/2026
+
+============================================================
+1. IDENTIDADE DO PROJETO
+============================================================
+
+Mantham (Math Game) é uma plataforma educacional web voltada ao Ensino Fundamental II, principalmente aos alunos do 6º ao 9º ano. O objetivo é ensinar matemática por meio de jogos, trilhas progressivas, pontuação, estrelas, desbloqueio de fases, avatar e recompensas.
+
+Experiência proposta:
+- Aprendizado visual e progressivo.
+- Conteúdo dividido por anos letivos.
+- Jogos matemáticos com diferentes níveis de dificuldade.
+- Progresso salvo para usuários autenticados.
+- Modo livre para prática sem vínculo com a trilha.
+- Personalização visual da plataforma.
+- Recursos de acessibilidade.
+- Perfil com estatísticas e diagnóstico do desempenho.
+
+O projeto recebeu o nome comercial Mantham, enquanto Math_Game é usado como nome da estrutura do diretório, banco de dados e parte dos arquivos técnicos.
+
+============================================================
+2. TECNOLOGIAS UTILIZADAS
+============================================================
+
+Front-end:
+- HTML5.
+- CSS3 com Flexbox, Grid, variáveis customizadas, pseudo-elementos e responsividade.
+- JavaScript Vanilla.
+- SVG para gráficos, mapas, ícones e elementos visuais.
+- Fetch API, async/await e JSON.
+- LocalStorage para algumas preferências locais e caches.
+- SessionStorage para dados temporários específicos de navegação.
+- ARIA e navegação por teclado em controles importantes.
+
+Back-end:
+- PHP tradicional sem framework completo.
+- Sessões PHP.
+- PDO para acesso ao MySQL/MariaDB.
+- Consultas preparadas para evitar SQL Injection.
+- APIs PHP no formato JSON.
+- Password Hash do PHP, com bcrypt.
+- PHPMailer disponível na pasta vendor para funcionalidades relacionadas a mensagens eletrônicas.
+
+Infraestrutura:
+- Servidor Apache com XAMPP ou ambiente PHP compatível.
+- MySQL/MariaDB.
+- Windows, PHP e Apache no ambiente local.
+
+============================================================
+3. ARQUITETURA GERAL
+============================================================
+
+A aplicação segue uma arquitetura simples baseada em páginas PHP, módulos JavaScript e endpoints JSON.
+
+Estrutura lógica:
+
+1. Uma página PHP verifica a sessão.
+2. O PHP monta o HTML inicial.
+3. O tema central é carregado por tema.js.
+4. O JavaScript específico da página busca dados ou inicia interações.
+5. Operações sensíveis são enviadas para api/*.php.
+6. Os endpoints PHP validam os dados, acessam MySQL e retornam JSON.
+7. JavaScript atualiza a interface sem recarregar toda a página.
+
+Fluxo típico:
+
+Usuário -> Página PHP -> JavaScript -> API PHP -> PDO -> Banco MySQL -> JSON -> Atualização da interface
+
+Características da organização:
+- Cada jogo tem sua própria pasta.
+- Recursos compartilhados ficam em includes/.
+- APIs de autenticação ficam em api/auth/.
+- APIs de progresso ficam em api/progresso/.
+- APIs da loja de avatares ficam em api/avatar/.
+- O estilo compartilhado fica em tema.css.
+- A aplicação de preferências compartilhadas fica em tema.js.
+
+============================================================
+4. FLUXO PRINCIPAL DO USUÁRIO
+============================================================
+
+1. O usuário entra em index.php.
+2. A página apresenta o projeto e os conteúdos dos 6º ao 9º anos.
+3. O visitante pode:
+   - Criar conta.
+   - Entrar.
+   - Acessar a página de jogos.
+   - Entrar em modo visitante, dependendo da página.
+4. Após o login, o usuário é identificado pela sessão.
+5. No dashboard Home, são exibidos:
+   - Modo livre.
+   - Último jogo acessado.
+   - Trilha atual.
+   - Estatísticas do perfil.
+6. O usuário pode escolher uma trilha por ano letivo.
+7. Cada fase ativa um jogo específico.
+8. Ao concluir, estrelas e pontuação são calculadas.
+9. O progresso é enviado ao banco quando o usuário está autenticado.
+10. A próxima fase ou próximo ano pode ser desbloqueado.
+11. O perfil apresenta evolução, estrelas, patentes e avatares.
+12. Configurações permite personalizar tema, tonalidade e acessibilidade.
+
+============================================================
+5. PÁGINAS PRINCIPAIS
+============================================================
+
+index.php
+- Página pública de apresentação.
+- Apresenta logo, proposta, hero, anos letivos e chamada para cadastro.
+- Exibe avatar e nome quando o usuário está logado.
+- Mostra botão de entrar para visitante.
+- Usa index.css e index.js.
+
+home/home.php
+- Dashboard principal do usuário logado.
+- Card para modo livre.
+- Último jogo acessado.
+- Trilhas recentes.
+- Resumo de estrelas, fases concluídas e informação da conta.
+- Visitantes recebem uma área simplificada para jogar ou criar conta.
+- A lógica fica em home/home.js e os estilos em home/home.css.
+
+login/login.php
+- Página de autenticação por e-mail ou nome de usuário, conforme compatibilidade da API.
+- Validação visual no navegador.
+- Envio dos dados para api/auth/login.php.
+- Suporte a sessão persistente e redirecionamento.
+
+cadastro/cadastro.php
+- Cadastro de nova conta.
+- Coleta nome de usuário, e-mail e senha.
+- Validação de nome, e-mail e senha.
+- Envia dados para api/auth/register.php.
+- Gera ou reutiliza token CSRF.
+
+jogos/jogos.php
+- Catálogo dos cinco jogos.
+- Permite escolher entre Fácil, Médio e Experiente.
+- Carrega recordes locais.
+- O modo livre não salva automaticamente o progresso da trilha.
+
+conteudos/conteudos.php
+- Apresenta os mundos e trilhas dos anos 6º ao 9º.
+- Cada ano possui 20 fases, totalizando 80 fases.
+- Usa mapa visual com nós SVG ou elementos gráficos.
+- Mostra fases bloqueadas, atuais, concluídas e perfeitas.
+- Abre diálogo ou modal de fase com dificuldade, recorde, estrelas e instruções.
+
+perfil/perfil.php
+- Área protegida de identidade e desempenho.
+- Exibe patentes, pontuação, estrelas, fases concluídas, fases perfeitas e atividades.
+- Apresenta estatísticas por jogo e mundo.
+- Contém diagnóstico pedagógico.
+- Contém loja de avatares e opção para equipar fotos.
+- Permite logout.
+- Utiliza perfil/perfil.js e perfil/perfil.css.
+
+configuracoes/configuracoes.php
+- Configura tema claro ou escuro.
+- Configura tonalidades.
+- Configura modo de protanopia, deuteranopia, tritanopia ou alto contraste.
+- Carrega preferências por tema.js/configuracoes.js.
+
+configuracoes/configuracoes.php também pode abrir ou utilizar recursos compartilhados da barra de navegação e modal de perfil.
+
+============================================================
+6. OS CINCO JOGOS
+============================================================
+
+JOGO 1 — FRAÇÕES COM PIZZA
+Arquivos: jogo_1/jogo_1.php, jogo_1/jogo_1.js, jogo_1/jogo_1.css, jogo_1/jogo_1.html.
+
+Funcionalidade:
+- Apresenta uma fração por questão.
+- O aluno seleciona fatias de pizza para montar essa fração.
+- Suporta diferentes divisões e dificuldade.
+- Permite desfazer a seleção.
+- Compara fração selecionada com o valor solicitado.
+- Calcula pontuação, tempo, acertos e estrelas.
+- Usa representação visual para facilitar compreensão do numerador e denominador.
+
+Possíveis conceitos apresentados:
+- Fração própria ou imprópria, conforme a dificuldade.
+- Numerador e denominador.
+- Comparação visual de partes e total.
+
+JOGO 2 — GRÁFICO DE BARRAS
+Arquivos: jogo_2/jogo_2.php, jogo_2/jogo_2.js, jogo_2/gerar_questao.php, jogo_2/verificar.php.
+
+Funcionalidade:
+- Gera perguntas com categorias e valores.
+- Desenha gráfico de barras em SVG ou elementos DOM.
+- Permite ajustar ou selecionar alturas das barras.
+- gerar_questao.php cria os dados da questão.
+- verificar.php compara a resposta com um valor armazenado ou gabarito.
+- Evita apenas tratar o cálculo do lado do navegador.
+
+Possíveis conceitos:
+- Leitura e interpretação de gráficos.
+- Frequência, quantidade e comparação.
+- Escala de 0 a 50 em intervalos controlados.
+
+JOGO 3 — GEOMETRIA E FORMAS
+Arquivos: jogo_3/jogo_3.php, jogo_3/jogo_3.js, jogo_3/gerar_questao.php, jogo_3/jogo_3.css.
+
+Funcionalidade:
+- Exibe plano SVG para desenho de polígonos.
+- Usa Pointer Events para capturar toque ou clique.
+- Permite aproximar vértices próximos por tolerância.
+- Permite limpar e desfazer pontos.
+- Fecha o desenho para formar uma figura.
+- Valida a forma e solicita respostas sobre perímetro ou área.
+- As formas podem incluir triângulo, quadrado, retângulo, losango, paralelogramo, trapézio, pentágono e hexágono.
+
+Possíveis conceitos:
+- Polígonos.
+- Lados e vértices.
+- Perímetro.
+- Área.
+- Coordenadas e posição.
+
+JOGO 4 — SUCESSORES E ANTECESSORES
+Arquivos: jogo_4/jogo_4.php, jogo_4/jogo_4.js, jogo_4/gerar_questao.php, jogo_4/jogo_4.css.
+
+Funcionalidade:
+- Apresenta números dentro de frases ou sequências.
+- Solicita o sucessor ou antecessor.
+- Nas dificuldades maiores pode trabalhar maior que, menor que e expressões.
+- Pode incluir números negativos ou decimais de 0,1.
+- Mostra opções em campos ou popovers acessíveis.
+- Confere o resultado enviado pelo usuário.
+
+Possíveis conceitos:
+- Reta numérica.
+- Ordem dos números.
+- Sucessor.
+- Antecessor.
+- Operações simples em sequência.
+
+JOGO 5 — BALANÇA DE EQUILÍBRIO
+Arquivos: jogo_5/jogo_5.php, jogo_5/jogo_5.js, jogo_5/jogo_5.css, jogo_5/equacoes.json, jogo_5/verificar_equacoes.js, utils/equacaoValidator.js.
+
+Funcionalidade:
+- Representa uma gangorra ou balança.
+- Usa caixas x, pesos positivos e blocos ou valores negativos.
+- Permite operar ambos os lados da igualdade.
+- Mantém o princípio visual do equilíbrio.
+- Permite desfazer operações.
+- Verifica se os pesos foram manipulados corretamente.
+- Utiliza dados de equacoes.json.
+- Pode ser combinado com verificação JavaScript e PHP.
+
+Possíveis conceitos:
+- Equação de primeiro grau.
+- Incógnita.
+- Operações inversas.
+- Soma, subtração e multiplicação por meios visuais.
+- Equivalência entre os membros da igualdade.
+
+============================================================
+7. PONTUAÇÃO, ESTRELAS E DESEMPENHO
+============================================================
+
+Os jogos produzem pontuação, acertos, erros e tempo de jogo. O sistema transforma isso em estrelas, normalmente de 0 a 3.
+
+Conexão entre resultado e trilha:
+- Estrelas iguais ou maiores que 1 podem desbloquear a próxima fase.
+- Pontuação máxima é preservada.
+- Estrelas nunca são reduzidas por um novo resultado inferior.
+- Vezes jogadas são incrementadas.
+- histórico_acessos registra a atividade.
+- Uma fase 20 concluída pode desbloquear o primeiro item do próximo ano.
+
+O modo livre:
+- Mantém recorde local em LocalStorage.
+- Não altera o desbloqueio da trilha automaticamente.
+- Permite praticar sem compromisso com o progresso permanente.
+
+O API de progresso recebe campos como:
+- ano.
+- fase.
+- fase_id.
+- jogo_id.
+- pontuação.
+- estrelas.
+- tipo de acesso.
+- título da fase.
+
+Arquivo principal: api/progresso/salvar.php.
+
+============================================================
+8. TRILHA DE 20 FASES POR ANO
+============================================================
+
+Cada ano possui 20 fases, formando 80 fases no banco:
+
+6º ano — Floresta dos Números:
+- Predominância dos jogos 4 e 1.
+- Trabalha sucessores, antecessores, frações iniciais e operações básicas.
+
+7º ano — Deserto das Frações & Estatística:
+- Alterna jogos 1 e 2.
+- Trabalha frações e interpretação gráfica.
+
+8º ano — Galáxia da Geometria:
+- Predominância dos jogos 3 e 2.
+- Trabalha formas, área, perímetro e gráficos.
+
+9º ano — Cidadela dos Mestres:
+- Mistura todos os quatro jogos principais em progressão gradual.
+- Representa uma etapa mais avançada da trilha.
+
+Estado das fases:
+- Bloqueada.
+- Atual/disponível.
+- Concluída.
+- Concluída com resultado perfeito, quando aplicável.
+
+A biblioteca includes/validador_fase.php ajuda a validar se a fase solicitada corresponde ao contexto correto do usuário.
+
+============================================================
+9. AUTENTICAÇÃO
+============================================================
+
+O sistema usa:
+- Senha armazenada por hash bcrypt.
+- Prepared statements PDO.
+- Sessão PHP.
+- Token CSRF.
+- Rate limiting de tentativas de login.
+- Cookies persistentes seguros.
+- Regeneração de ID da sessão.
+- Logout e revogação de tokens.
+
+Arquivos principais:
+- api/auth/register.php — criação de conta.
+- api/auth/login.php — autenticação.
+- api/auth/logout.php — encerramento da sessão.
+- api/auth/session.php — consulta da sessão atual.
+- includes/sessao.php — inicialização, restauração e proteção de sessão.
+- includes/csrf.php — geração e validação de token CSRF.
+- includes/senha.php — hashing e verificação de senha.
+- includes/tentativas_acesso.php — controle de tentativas excessivas.
+
+O login persistente usa seletor e validador separados. O token persistente é armazenado em cookie; a parte hash do validador fica associada ao banco. O login gera cookie HttpOnly, SameSite=Lax e Secure quando o ambiente usa HTTPS.
+
+============================================================
+10. BANCO DE DADOS
+============================================================
+
+Arquivo principal: schema.sql.
+
+Banco definido: math_game.
+Charset: utf8mb4.
+Collation: utf8mb4_unicode_ci.
+
+PRINCIPAIS TABELAS
+
+usuarios
+- id.
+- username.
+- email.
+- senha_hash.
+- foto_url.
+- criado_em.
+
+login_persistente
+- Armazena tokens persistentes de login.
+- usuario_id.
+- seletor.
+- validador_hash.
+- criado_em e expira_em.
+
+jogos
+- Catálogo dos jogos.
+- nome.
+- pasta_path.
+
+fases
+- Relaciona ano letivo, número da fase e jogo.
+- Restrição única por ano e número da fase.
+
+progresso_usuario
+- Progresso individual por fase.
+- pontuacao_max.
+- estrelas.
+- desbloqueado.
+- vezes_jogadas.
+- ultimo_acesso.
+- Mantém pontuação máxima e estrelas máximas.
+
+historico_acessos
+- histórico de jogos livres e trilhas.
+- tipo.
+- ano letivo.
+- fase_id.
+- jogo_id.
+- título da fase.
+- estrelas.
+- data de acesso.
+
+tentativas_acesso
+- Tentativas de login por chave e IP.
+- Suporta o rate limiting.
+
+usuarios_avatares
+- Avatares adquiridos pelo usuário.
+- foto_nome.
+- preco_pago.
+- comprado_em.
+- Relação com usuarios por chave estrangeira.
+
+Migrações:
+- migrations/001_recuperacao_senha.sql
+- migrations/002_trilha_20_fases.sql
+- migrations/003_balanca_equilibrio.sql
+- migrations/004_loja_avatares.sql
+- migrations/005_login_persistente.sql
+- migrations/006_remover_recuperacao_senha.sql
+
+============================================================
+11. CONEXÃO PHP E CONFIGURAÇÕES
+============================================================
+
+config.php
+- Centraliza constantes de aplicação.
+- Pode definir ambiente, caminho base e parâmetros gerais.
+
+conexao.php
+- Cria uma instância PDO única durante a execução.
+- Usa ATTR_ERRMODE_EXCEPTION.
+- Usa FETCH_ASSOC por padrão.
+- Desativa emulação de prepared statements.
+
+Durante uma apresentação, não mostrar credenciais reais de banco ou arquivos .env. Explique que credenciais devem permanecer em arquivo de configuração protegido e não serem exibidas na tela ou enviada ao navegador.
+
+============================================================
+12. PERFIL, PATENTES E AVATARES
+============================================================
+
+O perfil calcula informações como:
+- Patente atual.
+- Pontuação total.
+- Total de estrelas.
+- Saldo disponível.
+- Fases concluídas.
+- Fases perfeitas.
+- Desempenho por jogo.
+- Avatares adquiridos.
+
+Regra de moeda:
+- Estrelas conquistadas nas fases podem ser usadas para comprar avatares.
+- O custo atual padrão de cada avatar é 10 estrelas.
+- Foto 1 é o avatar padrão gratuito.
+
+Fotos:
+- Arquivos ficam em fotos/.
+- A API dados.php varre a pasta automaticamente.
+- São considerados arquivos fotoN.webp.
+- novos arquivos aparecem conforme novos números e o WebP está disponível.
+- comprar.php valida o arquivo enviado e permite a compra.
+- equipar.php verifica posse ou padrão gratuito antes de salvar.
+
+Endpoints:
+- api/avatar/dados.php — lista avatares, saldo, compras e avatar atual.
+- api/avatar/comprar.php — compra.
+- api/avatar/equipar.php — equipe uma foto já desbloqueada.
+
+============================================================
+13. TEMAS, TONALIDADES E ACESSIBILIDADE
+============================================================
+
+tema.css
+- Define tokens de cores, tipografia, sombras, bordas e temas.
+- Centraliza boa parte do estilo visual global.
+
+tema.js
+- Aplica tema claro/escuro.
+- Aplica tonalidade.
+- Aplica modo de daltonismo.
+- Monitora mudanças de LocalStorage entre abas.
+- Evita que uma preferência antiga seja aplicada incorretamente.
+
+Tonalidades disponíveis:
+- Padrão.
+- Sunset.
+- Ocean.
+- Earth, exibido como Amethyst na interface.
+- Berry.
+- Crimson.
+- Arctic.
+
+Tema escuro:
+- Troca tokens neutros para fundos escuros e textos claros.
+- Ajusta bordas, sombras, sombras elevadas e fundos de cards.
+- Deve ser combinado com regras específicas quando necessário.
+
+Modos de daltonismo:
+- Nenhum.
+- Protanopia.
+- Deuteranopia.
+- Tritanopia.
+- Alto contraste.
+
+Observação técnica para apresentação:
+Os modos de filtro atualizam classes nos elementos html e body. Os ajustes reais são definidos em tema.css e tema.js. O modo de alto contraste usa pares de cores fixos para impedir combinações branco/amarelo ou texto preto sobre fundo escuro, com fundo escuro predominante, texto branco, botões claros com texto escuro e estados de erro com contraste alto.
+
+Atonalidade Amethyst mantém o identificador técnico earth para preservar compatibilidade com o armazenamento existente.
+
+============================================================
+14. SEGURANÇA
+============================================================
+
+Medidas implementadas:
+- Password Hash do PHP.
+- Prepared statements PDO.
+- CSRF em login e outros formulários sensíveis.
+- Sessões com cookie HttpOnly.
+- SameSite Lax.
+- Secure em HTTPS.
+- Regeneração de ID de sessão.
+- Saída JSON com header de Content-Type.
+- Validação de método HTTP.
+- Validação de usuário autenticado.
+- Validação de nomes de arquivo enviados para avatares.
+- Limite de tentativas de login.
+- Token persistente com hash armazenado no banco.
+
+Boas práticas de demonstração:
+- Não abrir o código de conexão com senha na tela.
+- Não mostrar dados reais de usuários.
+- Não executar SQL diretamente sem necessidade.
+- Usar dados de teste.
+- Usar HTTPS ou ambiente local controlado.
+
+============================================================
+15. INCLUDES COMPARTILHADOS
+============================================================
+
+includes/sessao.php
+- Inicia sessão.
+- Restaura login persistente.
+- Cria e revoga tokens.
+- Configura cookies seguros.
+
+includes/csrf.php
+- Cria, obtém, valida e regenera tokens CSRF.
+
+includes/senha.php
+- Cria hashes e verifica senhas.
+
+includes/tentativas_acesso.php
+- Conta e limpa tentativas de login.
+
+includes/navbar.php / navbar.css
+- Barra de navegação comum.
+- Links de páginas, perfil, tema e navegação responsiva.
+
+includes/modal_perfil.php / modal-perfil.js / modal-perfil.css
+- Modal de perfil usado por páginas públicas ou sem área completa de perfil.
+
+includes/icones.php / icones.js
+- Ícones SVG reutilizáveis e mecanismos auxiliares.
+
+includes/timer_pontuacao.js
+- Controle de tempo usado nos jogos.
+
+includes/validador_fase.php
+- Valida contexto de fase e protegê o acesso ao conteúdo da trilha.
+
+includes/modal_perfil.php
+- Encapsula elementos visuais de perfil compartilhados.
+
+============================================================
+16. JAVASCRIPT PRINCIPAL
+============================================================
+
+index.js
+- Efeitos da página inicial.
+- Scroll reveal ou animações.
+- Interações da apresentação.
+
+tema.js
+- Carrega preferências visuais antes da renderização visual completa.
+
+jogos.js
+- Dificuldade escolhida.
+- Redirecionamento para o jogo correto.
+- Recordes locais.
+
+conteudos.js
+- Trilhas e fases.
+- Modal de fase.
+- Estado de desbloqueio.
+- Navegação entre anos.
+
+perfil.js
+- Busca dados da API.
+- Calcula estatísticas.
+- Carrossel de avatares.
+- Compra/equipagem.
+- Respostas do servidor.
+
+home.js
+- Carrega resumo de progresso.
+- Obtém último jogo acessado.
+- Atualiza cards.
+
+configuracoes.js
+- Persiste tema, tonalidade e daltonismo.
+- Aplica classes de acessibilidade.
+- Atualiza controle radio da tonalidade.
+
+Cada jogo possui JavaScript próprio para:
+- Gerar ou receber perguntas.
+- Capturar respostas.
+- Calcular pontuação.
+- Enviar progresso.
+- Controlar timer.
+- Exibir feedback.
+- Usar sessões ou APIs PHP.
+
+============================================================
+17. ARQUIVOS DE SUPORTE
+============================================================
+
+cron/limpar_tokens.php
+- Rotina para remover tokens persistentes expirados.
+
+sql/tentativas_acesso.sql
+- Estrutura auxiliar para controle de tentativas de acesso.
+
+fonts/
+- Fontes usadas pela interface, inclusive logo.
+
+icons/
+- Ícones da interface e do projeto.
+
+fotos/
+- Avatares disponíveis para compra ou equipamento.
+
+vendor/
+- Dependências PHP geradas pelo Composer, incluindo PHPMailer.
+
+test_api.php
+- Arquivo auxiliar de teste da API ou de recursos PHP.
+
+jogo_5/test_equacoes.php
+- Teste específico da lógica de equações.
+
+============================================================
+18. ROTEIRO PARA APRESENTAÇÃO DO SISTEMA
+============================================================
+
+Sugestão de apresentação em 10 minutos:
+
+1. Apresentação de 30 segundos:
+   "O Mantham é uma plataforma gamificada para prática de matemática do 6º ao 9º ano."
+
+2. Página inicial, de 1 minuto:
+   Mostrar proposta, anos escolares, cadastro e login.
+
+3. Cadastro/login, de 1 minuto:
+   Criar conta ou entrar com usuário de teste. Explicar que o PHP verifica a sessão e protege os dados.
+
+4. Home, de 1 minuto:
+   Mostrar dashboard, último jogo, trilha atual e dados acumulados.
+
+5. Trilhas, de 2 minutos:
+   Mostrar 20 fases de um ano. Explicar desbloqueio, estrelas, fases bloqueadas e fases perfeitas.
+
+6. Jogo, de 2 minutos:
+   Abrir um jogo. Demonstrar dificuldade, feedback, pontuação e conclusão da fase.
+
+7. Progresso, de 1 minuto:
+   Mostrar como o resultado é enviado à API e salvo em progresso_usuario.
+
+8. Perfil e avatares, de 1 minuto:
+   Mostrar estatísticas, loja e troca automática de avatar.
+
+9. Acessibilidade, de 30 segundos:
+   Demonstrar tema escuro, tonalidades e alto contraste.
+
+10. Encerramento, de 30 segundos:
+    Falar sobre valor educacional, arquitetura e próximos passos.
+
+============================================================
+19. ROTEIRO PARA APRESENTAR O CÓDIGO
+============================================================
+
+Sugestão de ordem de arquivos:
+
+PRIMEIRA PARTE — Entrada e interface
+1. index.php.
+2. home/home.php.
+3. tema.css.
+4. tema.js.
+
+SEGUNDA PARTE — Autenticação
+1. includes/sessao.php.
+2. includes/csrf.php.
+3. api/auth/register.php.
+4. api/auth/login.php.
+5. api/auth/logout.php.
+
+TERCEIRA PARTE — Banco
+1. schema.sql.
+2. conexao.php.
+3. migrations/002_trilha_20_fases.sql.
+
+QUARTA PARTE — Trilha
+1. conteudos/conteudos.php.
+2. conteudos/conteudos.js.
+3. api/progresso/obter.php.
+4. api/progresso/salvar.php.
+
+QUINTA PARTE — Jogos
+1. jogos/jogos.php.
+2. jogo_1/jogo_1.js.
+3. jogo_2/gerar_questao.php.
+4. jogo_3/jogo_3.js.
+5. jogo_4/jogo_4.js.
+6. jogo_5/equacoes.json.
+7. utils/equacaoValidator.js.
+
+SEXTA PARTE — Perfil e avatares
+1. perfil/perfil.php.
+2. perfil/perfil.js.
+3. api/avatar/dados.php.
+4. api/avatar/comprar.php.
+5. api/avatar/equipar.php.
+
+SÉTIMA PARTE — Segurança e acessibilidade
+1. includes/sessao.php.
+2. includes/csrf.php.
+3. configuracoes/configuracoes.php.
+4. configuracoes/configuracoes.js.
+5. tema.css.
+
+============================================================
+20. FRASES ÚTEIS PARA APRESENTAR
+============================================================
+
+Sobre o projeto:
+"O Mantham transforma exercícios de matemática em uma jornada com fases, jogos, estrelas e feedback visual."
+
+Sobre a arquitetura:
+"O front-end é feito com HTML, CSS e JavaScript. As operações sensíveis são feitas por APIs PHP e o banco MySQL é acessado pelo PDO."
+
+Sobre segurança:
+"Senhas são protegidas por hash, consultas sensíveis usam PDO Prepared Statements e a sessão utiliza token CSRF e cookies seguros."
+
+Sobre os jogos:
+"Cada jogo é independente, mas todos podem enviar o resultado para o mesmo sistema central de progresso."
+
+Sobre as trilhas:
+"Cada ano possui 20 fases. Concluir uma fase libera a próxima e encerrar uma trilha pode liberar o próximo ano."
+
+Sobre o perfil:
+"O perfil agrega desempenho, estrelas, fases concluídas, recordes e diagnóstico pedagógico."
+
+Sobre avatares:
+"Novas fotos são detectadas automaticamente pela API e podem ser adquiridas com estrelas conquistadas nos jogos."
+
+Sobre acessibilidade:
+"A plataforma oferece tema escuro, tonalidades de cor, modos para diferentes tipos de daltonismo e alto contraste."
+
+============================================================
+21. PROBLEMAS CONHECIDOS OU ITENS PARA VERIFICAR ANTES DA APRESENTAÇÃO
+============================================================
+
+- Cadastrar pelo menos um usuário de demonstração.
+- Confirmar que MySQL está ativo.
+- Confirmar que todas as migrações foram aplicadas.
+- Confirmar que as 80 fases estão cadastradas.
+- Confirmar que foto1.webp existe na pasta fotos.
+- Confirmar que fotos novas seguem o padrão fotoN.webp.
+- Testar os cinco jogos antes da apresentação.
+- Testar cadastro, login e logout.
+- Testar salvar progresso para usuário autenticado.
+- Testar modo visitante.
+- Testar compra e equipamento de avatar.
+- Testar tema claro, tema escuro, Amethyst, demais tonalidades e alto contraste.
+- Fechar ou limpar dados de teste antes da apresentação pública.
+- Não mostrar senha ou credenciais reais do banco.
+- Não mostrar e-mails reais ou dados pessoais de usuários.
+- Fazer cópia de segurança da base antes de alterações finais.
+
+============================================================
+22. CHECKLIST IMEDIATO ANTES DA APRESENTAÇÃO
+============================================================
+
+[ ] Apache/XAMPP ativo.
+[ ] MySQL ativo.
+[ ] Banco math_game conectado.
+[ ] Página inicial abre corretamente.
+[ ] Cadastro funciona.
+[ ] Login funciona.
+[ ] Logout funciona.
+[ ] Home mostra dados do usuário de teste.
+[ ] Conteúdos mostra 20 fases por ano.
+[ ] Pelo menos uma fase está desbloqueada.
+[ ] Os cinco jogos abrem.
+[ ] Pontuação e estrelas podem ser concluídas.
+[ ] Progresso é salvo no banco.
+[ ] Perfil apresenta estatísticas.
+[ ] Loja de avatares aparece corretamente.
+[ ] Tema escuro funciona.
+[ ] Modo alto contraste funciona.
+[ ] Nenhuma senha ou credencial está visível na tela.
+[ ] Navegação por celular foi verificada.
+
+============================================================
+23. RESUMO FINAL
+============================================================
+
+O Mantham é um projeto completo de plataforma educacional gamificada. Ele combina design visual, PHP, JavaScript, MySQL, progressão pedagógica, segurança, acessibilidade e personalização. Para apresentação técnica, o ideal é dividir a explicação em:
+
+1. Objetivo educacional.
+2. Interface e navegação.
+3. Trilha gamificada.
+4. Jogos e mecânicas.
+5. Banco de dados.
+6. PHP e APIs.
+7. JavaScript.
+8. Segurança.
+9. Acessibilidade.
+10. Demonstração ao vivo.
+
+Esse arquivo pode ser usado como roteiro de demonstração, referência técnica e revisão rápida de código antes da apresentação.
