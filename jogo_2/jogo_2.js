@@ -409,6 +409,7 @@ async function verificarResposta() {
             const barra = document.getElementById('barra-progresso');
 
             if (res.acertou) {
+                window.reproduzirEfeitoSonoro?.('correct');
                 acertosTotais++;
                 const bonusTempo = timerPontuacaoQuestao.multiplicador();
                 pontuacao += Math.round(100 * (CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1) * bonusTempo);
@@ -417,6 +418,7 @@ async function verificarResposta() {
                     barra.classList.add('acerto');
                 }
             } else {
+                window.reproduzirEfeitoSonoro?.('wrong');
                 if (barra) {
                     barra.classList.remove('acerto');
                     barra.classList.add('erro');
@@ -508,6 +510,7 @@ function atualizarBarraDeProgresso(rodada) {
 function finalizarJogo() {
     jogoAtivo = false;
     const estrelas = Math.max(0, calcularEstrelas(acertosTotais, totalRodadas) - dicasUsadasJogo2);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
 
     exibirResultado(estrelas);
     verificarSessaoEGravar(estrelas);

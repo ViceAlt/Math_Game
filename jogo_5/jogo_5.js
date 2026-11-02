@@ -1205,6 +1205,7 @@ function confirmarResposta() {
     const botaoSelecionado = document.querySelector('.btn-alternativa.selecionada');
 
     if (respostaSelecionada === respostaCorretaAtual) {
+        window.reproduzirEfeitoSonoro?.('correct');
         // Resposta Correta!
         if (botaoSelecionado) botaoSelecionado.classList.add('correta');
         if (btnConfirmar) {
@@ -1223,6 +1224,7 @@ function confirmarResposta() {
             carregarNovaRodada();
         }, 900);
     } else {
+        window.reproduzirEfeitoSonoro?.('wrong');
         // Revela a alternativa certa e a equação antes de avançar sem nova tentativa.
         if (botaoSelecionado) botaoSelecionado.classList.add('incorreta');
         if (btnConfirmar) {
@@ -1319,6 +1321,7 @@ function finalizarJogo() {
     }
 
     estrelas = Math.max(0, estrelas - dicasUsadasJogo5);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
     exibirModalResultado(estrelas);
     gravarResultado(estrelas);
 }

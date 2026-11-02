@@ -181,6 +181,7 @@ function onDecay() {
     const respostaCorreta = calcularFatiasSelecionadas();
     const fatiasSelecionadas = contarFatiasComidas();
     const acertou = (fatiasSelecionadas === respostaCorreta);
+    window.reproduzirEfeitoSonoro?.(acertou ? 'correct' : 'wrong');
 
     const barra = document.getElementById('barra-progresso');
 
@@ -254,6 +255,7 @@ function finalizarJogo() {
     jogoAtivo = false;
 
     const estrelas = Math.max(0, calcularEstrelas(acertos, totalRodadas) - dicasUsadasJogo1);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
 
     exibirResultado(estrelas);
 

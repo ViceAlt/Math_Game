@@ -684,6 +684,7 @@ function confirmarForma() {
     const elMsg = document.getElementById('mensagemValidacao');
 
     if (!vertices) {
+        window.reproduzirEfeitoSonoro?.('wrong');
         elMsg.textContent = 'O polígono não está completamente fechado. Conecte as pontas!';
         elMsg.className = 'mensagem-validacao erro';
         elMsg.style.display = 'flex';
@@ -693,6 +694,7 @@ function confirmarForma() {
     const resultado = validarFormaGeometrica(questaoAtual.id, vertices, questaoAtual.retangulo);
 
     if (!resultado.valido) {
+        window.reproduzirEfeitoSonoro?.('wrong');
         elMsg.textContent = resultado.mensagem || 'A forma desenhada não corresponde à forma pedida.';
         elMsg.className = 'mensagem-validacao erro';
         elMsg.style.display = 'flex';
@@ -700,6 +702,7 @@ function confirmarForma() {
     }
 
     // Forma aprovada com sucesso! Avança para a Etapa 2
+    window.reproduzirEfeitoSonoro?.('correct');
     elMsg.textContent = `Excelente! Você criou um ${questaoAtual.nome} perfeito!`;
     elMsg.className = 'mensagem-validacao sucesso';
     elMsg.style.display = 'flex';
@@ -786,6 +789,7 @@ function confirmarRespostaPergunta() {
     });
 
     if (acertou) {
+        window.reproduzirEfeitoSonoro?.('correct');
         acertos++;
         const mult = CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1;
         const bonusTempo = timerPontuacaoQuestao.multiplicador();
@@ -798,6 +802,7 @@ function confirmarRespostaPergunta() {
             barra.classList.add('acerto');
         }
     } else {
+        window.reproduzirEfeitoSonoro?.('wrong');
         elMsg.textContent = 'Ops, resposta incorreta! Observe a alternativa correta destacada em verde.';
         elMsg.className = 'mensagem-validacao erro';
         elMsg.style.display = 'flex';
@@ -919,6 +924,7 @@ function finalizarJogo() {
     jogoAtivo = false;
     const total = questoesPartida.length;
     const estrelas = Math.max(0, calcularEstrelas(acertos, total) - dicasUsadasJogo3);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
 
     exibirResultado(estrelas, total);
     verificarSessaoEGravar(estrelas);

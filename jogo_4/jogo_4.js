@@ -287,6 +287,7 @@ function confirmarResposta() {
     const barra = document.getElementById('barra-progresso');
 
     if (todosCorretos) {
+        window.reproduzirEfeitoSonoro?.('correct');
         // Acertou de primeira
         acertos++;
         const mult = CONFIG_DIFICULDADE[params.dificuldade]?.multiplicador || 1;
@@ -309,6 +310,7 @@ function confirmarResposta() {
         }, 800);
 
     } else {
+        window.reproduzirEfeitoSonoro?.('wrong');
         // Errou: campos errados piscam em vermelho e trocam automaticamente para a opção correta
         if (barra) {
             barra.classList.remove('acerto');
@@ -400,6 +402,7 @@ function finalizarJogo() {
     jogoAtivo = false;
     const total = questoesPartida.length;
     const estrelas = Math.max(0, calcularEstrelas(acertos, total) - dicasUsadasJogo4);
+    window.reproduzirEfeitoSonoro?.(`${estrelas}star`);
 
     exibirResultado(estrelas, total);
     verificarSessaoEGravar(estrelas);

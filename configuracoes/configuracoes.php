@@ -179,7 +179,7 @@ $logado = $usuario !== null;
         </section>
 
         <section aria-labelledby="titulo-daltonismo">
-            <h2 id="titulo-daltonismo">Modo de Daltonismo</h2>
+            <h2 id="titulo-daltonismo">Acessibilidades visuais</h2>
             <div class="config-item" role="group" aria-labelledby="titulo-daltonismo">
                 <label><input type="radio" name="daltonismo" id="dal-nenhum" value="nenhum"
                               onchange="selecionarDaltonismo('nenhum')"> Nenhum (padrão)</label>
